@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/prototypeRat.png" type="Texture" id=1]
+
+[node name="Player" type="Node2D"]
+
+[node name="AnimatedSprite" type="Sprite" parent="."]
+position = Vector2( 0, -12 )
+texture = ExtResource( 1 )
