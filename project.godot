@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "BaseScene",
 "language": "GDScript",
 "path": "res://Scenes/BaseScene.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "PlayerRat",
+"language": "GDScript",
+"path": "res://Actors/Rat.gd"
 } ]
 _global_script_class_icons={
-"BaseScene": ""
+"BaseScene": "",
+"PlayerRat": ""
 }
 
 [application]
