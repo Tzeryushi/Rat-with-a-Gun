@@ -1,6 +1,6 @@
 class_name PlayerRat
 
-extends KinematicBody2D
+extends Actor
 
 export var acceleration : float = 500.0
 export var max_speed : float = 100.0
@@ -20,23 +20,6 @@ var time_since_grounded : float = 0.0 #fall state checks this to see if coyote t
 
 #we do not define functionality in classes as it further erodes the ability to
 #augment the player with Effects nodes, or at best makes code more obtuse
-
-func _ready() -> void:
-	#inject player ref to states
-	pass
-	
-func _unhandled_input(event) -> void:
-	#send input to states
-	pass
-
-func _physics_process(delta) -> void:
-	#send request to states, handled here
-	pass
-
-func _process(delta) -> void:
-	#will send request to states, handled here in class
-	pass
-
 
 #player functions
 func jump(delta:float) -> void:

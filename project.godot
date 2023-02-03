@@ -9,18 +9,30 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Actor",
+"language": "GDScript",
+"path": "res://Assets/Actors/Actor.gd"
+}, {
 "base": "Node2D",
 "class": "BaseScene",
 "language": "GDScript",
 "path": "res://Scenes/BaseScene.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "Node",
+"class": "BaseState",
+"language": "GDScript",
+"path": "res://Assets/Actors/BaseState.gd"
+}, {
+"base": "Actor",
 "class": "PlayerRat",
 "language": "GDScript",
-"path": "res://Actors/Rat.gd"
+"path": "res://Assets/Actors/Player/Rat.gd"
 } ]
 _global_script_class_icons={
+"Actor": "",
 "BaseScene": "",
+"BaseState": "",
 "PlayerRat": ""
 }
 
