@@ -1,11 +1,14 @@
-class_name BaseState
-extends Node
+class_name PlayerState
+extends BaseState
 
-#States should return null if they do not change!
-#This is some moderate coupling, but it allows state managers to know whether to change or not
+export var animation_type : String #this is used when entering a state
+
+var actor: PlayerRat
 
 func on_enter() -> void:
 	#execute when state is entered
+	#this will be overwritten by inheritors, will need to be referenced if needed
+	actor.animations.play(animation_type)
 	pass
 
 func on_exit() -> void:

@@ -1,4 +1,4 @@
-class_name PlayerMoveState
+class_name PlayerIdleState
 extends PlayerState
 
 #references to possible states
@@ -10,16 +10,15 @@ extends PlayerState
 #shoot
 
 export var g_dash_node : NodePath
-#export var a_dash_node : NodePath
 export var jump_node : NodePath
 export var fall_node : NodePath
-export var idle_node : NodePath
+export var move_node : NodePath
 export var shoot_node: NodePath
 
 onready var g_dash_state : BaseState = get_node(g_dash_node)
 onready var jump_state : BaseState = get_node(jump_node)
 onready var fall_state : BaseState = get_node(fall_node)
-onready var idle_state : BaseState = get_node(idle_node)
+onready var move_state : BaseState = get_node(move_node)
 onready var shoot_state : BaseState = get_node(shoot_node)
 
 #implementation can scale over time
@@ -29,20 +28,20 @@ func on_enter() -> void:
 	.on_enter()
 
 func input(_event:InputEvent) -> BaseState:
-	#cycle to jump or dash
-	if Input.is_action_just_pressed("jump"): return jump_state
+	#cycle to other states
+	if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
+		return move_state
+	elif Input.is_action_just_pressed("jump"): return jump_state
 	elif Input.is_action_just_pressed("dash"): return g_dash_state
-	
-	#in unhandled case
+	elif Input.is_action_just_pressed("shoot"): return shoot_state
 	return null
 
 func physics_process(_delta:float) -> BaseState:
-	#check if player is still grounded, switch to fall_state if not
-	#TODO: Get floor calc
+	
+	actor.idle(_delta)
+	
+	#check if grounded, fall if not
 	if !actor.is_grounded():
 		return fall_state
 	
-	#send directional data to be handled in player class
-	var direction = sign(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
-	actor.move(direction, _delta)
 	return null
