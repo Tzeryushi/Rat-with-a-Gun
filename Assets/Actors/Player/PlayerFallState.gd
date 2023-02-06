@@ -27,7 +27,7 @@ func input(_event:InputEvent) -> BaseState:
 func physics_process(_delta:float) -> BaseState:	
 	actor.fall(_delta)
 	#send directional data to be handled in player class
-	var direction = sign(Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
+	var direction = get_move_direction()
 	actor.move(direction, _delta)
 	
 	#check if player is grounded, switch state accordingly

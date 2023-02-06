@@ -9,9 +9,10 @@ var current_state : BaseState
 
 func swap_state(new_state:BaseState) -> void:
 	#swaps in new state, unless it is the same state
-	assert(current_state == new_state, "ERROR: Actor state swapped to itself!") #this shouldn't ever happen
 	#cycle out of state as long as it exists
 	if current_state:
+		if current_state == new_state:
+			assert(current_state == new_state, "ERROR: Actor state swapped to itself!") #this shouldn't ever happen
 		current_state.on_exit()
 	current_state = new_state
 	current_state.on_enter()

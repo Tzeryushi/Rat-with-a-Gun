@@ -43,6 +43,9 @@ func physics_process(_delta:float) -> BaseState:
 		return fall_state
 	
 	#send directional data to be handled in player class
-	var direction = sign(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
+	var direction = get_move_direction()
 	actor.move(direction, _delta)
+	if direction == 0 :
+		return idle_state
+	
 	return null

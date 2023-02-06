@@ -20,6 +20,7 @@ func on_enter() -> void:
 	.on_enter()
 	#reset jump button held flag
 	actor.jump_held = true
+	actor.jump()
 	#where should we call the jump?
 
 func input(_event:InputEvent) -> BaseState:
@@ -35,15 +36,15 @@ func physics_process(_delta:float) -> BaseState:
 	#check if player is still grounded, switch to fall_state if not
 	#TODO: Get floor calc
 	
-	actor.jump(_delta)
+	actor.jump_process(_delta)
 	#send directional data to be handled in player class
-	var direction = sign(Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
+	var direction = get_move_direction()
 	actor.move(direction, _delta)
 	
 	#TODO: check if player is grounded, switch state accordingly
 	if actor.is_grounded():
 		if direction == 0:
-			return move_state
-		return idle_state
+			return idle_state
+		return move_state
 	
 	return null
