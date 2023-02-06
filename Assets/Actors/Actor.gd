@@ -11,14 +11,14 @@ func _ready() -> void:
 	#inject actor ref to states
 	pass
 	
-func _unhandled_input(event) -> void:
+func _unhandled_input(_event) -> void:
 	#send input to states
 	pass
 
-func _physics_process(delta) -> void:
+func _physics_process(_delta) -> void:
 	#send request to states, handled in inheriting actors
 	pass
 
-func _process(delta) -> void:
+func _process(_delta) -> void:
 	#will send request to states, handled in inheriting actors
 	pass

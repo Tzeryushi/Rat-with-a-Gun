@@ -20,19 +20,22 @@ func on_enter() -> void:
 
 func input(_event:InputEvent) -> BaseState:
 	#cycle to other states
-	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
-		return move_state
-	elif Input.is_action_just_pressed("jump"): return jump_state
+	if Input.is_action_just_pressed("jump"): return jump_state
 	elif Input.is_action_just_pressed("dash"): return g_dash_state
 	elif Input.is_action_just_pressed("shoot"): return shoot_state
 	return null
 
 func physics_process(_delta:float) -> BaseState:
-	
+	#idle veers down leftover momentum from movement, usually
 	actor.idle(_delta)
-	
+	#actor.fall(_delta)
 	#check if grounded, fall if not
 	if !actor.is_grounded():
 		return fall_state
 	
+	return null
+
+func process(_delta:float) -> BaseState:
+	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
+		return move_state
 	return null

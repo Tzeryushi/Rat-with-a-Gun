@@ -23,6 +23,10 @@ func on_enter() -> void:
 	actor.jump()
 	#where should we call the jump?
 
+func on_exit() -> void:
+	.on_exit()
+	actor.jump_held = false
+
 func input(_event:InputEvent) -> BaseState:
 	#cycle to aerial dash
 	if Input.is_action_just_pressed("dash"): return a_dash_state
@@ -40,6 +44,9 @@ func physics_process(_delta:float) -> BaseState:
 	#send directional data to be handled in player class
 	var direction = get_move_direction()
 	actor.move(direction, _delta)
+	
+	if actor.velocity.y >= 0:
+		return fall_state
 	
 	#TODO: check if player is grounded, switch state accordingly
 	if actor.is_grounded():

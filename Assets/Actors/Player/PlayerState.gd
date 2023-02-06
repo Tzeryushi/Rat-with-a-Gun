@@ -33,14 +33,15 @@ func physics_process(_delta:float) -> BaseState:
 	return null
 
 func get_move_direction() -> int:
+	#gets a direction from input
+	#the last direction pressed gets priority
 	var value = sign(Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
 	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_right"):
+		#code here cannot be collapsed due to priority rules
 		if Input.is_action_just_pressed("move_left"):
 			value = -1
-			move_last = -1
 		elif Input.is_action_just_pressed("move_right"):
 			value = 1
-			move_last = 1
 		elif move_last == -1:
 			value = -1
 		elif move_last == 1:
