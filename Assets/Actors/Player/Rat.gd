@@ -4,8 +4,9 @@ extends Actor
 
 export var acceleration : float = 500.0
 export var max_speed : float = 100.0
-export var jump_power : float = -350.0
-export var gravity : float = 800.0
+export var jump_power : float = -430.0
+export var jump_cancel_power: float = 2500
+export var gravity : float = 1000.0
 export var terminal_velo : float = 300.0
 export var dash_multiplier : float = 3.0
 export var dash_time : float = 0.5
@@ -52,7 +53,10 @@ func jump() -> void:
 func jump_process(_delta:float) -> void:
 	#quickly decreases upwards velocity until it is 0
 	#velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
-	velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
+	if !jump_held:
+		velocity.y = move_toward(velocity.y, 0, jump_cancel_power*_delta)
+	else:
+		velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
 	global_position.y += (velocity.y*_delta)
 	pass
 
