@@ -28,7 +28,7 @@ func input(_event:InputEvent) -> BaseState:
 func physics_process(_delta:float) -> BaseState:
 	#idle veers down leftover momentum from movement, usually
 	actor.idle(_delta)
-	#actor.fall(_delta)
+	actor.fall(_delta)
 	#check if grounded, fall if not
 	if !actor.is_grounded():
 		return fall_state

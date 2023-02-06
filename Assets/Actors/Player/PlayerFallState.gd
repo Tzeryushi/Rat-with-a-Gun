@@ -34,7 +34,7 @@ func physics_process(_delta:float) -> BaseState:
 	#can switch to move or idle
 	if actor.is_grounded():
 		if direction == 0:
-			return move_state
-		return idle_state
+			return idle_state
+		return move_state
 	
 	return null

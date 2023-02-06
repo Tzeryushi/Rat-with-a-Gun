@@ -45,7 +45,7 @@ func physics_process(_delta:float) -> BaseState:
 	#send directional data to be handled in player class
 	var direction = get_move_direction()
 	actor.move(direction, _delta)
-	#actor.fall(_delta)
+	actor.fall(_delta)
 	if direction == 0 :
 		return idle_state
 	

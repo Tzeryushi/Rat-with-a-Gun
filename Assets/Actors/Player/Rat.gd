@@ -3,8 +3,8 @@ class_name PlayerRat
 extends Actor
 
 export var acceleration : float = 500.0
-export var max_speed : float = 100.0
-export var jump_power : float = -430.0
+export var max_speed : float = 150.0
+export var jump_power : float = 430.0
 export var jump_cancel_power: float = 2500
 export var gravity : float = 1000.0
 export var terminal_velo : float = 300.0
@@ -40,15 +40,14 @@ func _process(_delta) -> void:
 	
 func _physics_process(_delta):
 	state_manager.physics_process(_delta)
-	if global_position.y >= 304:
-		global_position.y = 304
+	#if global_position.y >= 304:
+	#	global_position.y = 304
 	
 #player functions
 func jump() -> void:
 	#simple jump, is called on multiple frames
 	#velocity applied until max is reached
-	velocity.y = jump_power
-	pass
+	velocity.y = -jump_power
 
 func jump_process(_delta:float) -> void:
 	#quickly decreases upwards velocity until it is 0
@@ -57,13 +56,15 @@ func jump_process(_delta:float) -> void:
 		velocity.y = move_toward(velocity.y, 0, jump_cancel_power*_delta)
 	else:
 		velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
-	global_position.y += (velocity.y*_delta)
+	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
+	#global_position.y += (velocity.y*_delta)
 	pass
 
 func fall(_delta:float) -> void:
 	#accelerates downwards, no jumps allowed unless there is coyote time
 	velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
-	global_position.y += (velocity.y*_delta)
+	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
+	#global_position.y += (velocity.y*_delta)
 	pass
 	
 func move(_direction, _delta:float) -> void:
@@ -72,8 +73,14 @@ func move(_direction, _delta:float) -> void:
 		animations.flip_h = false
 	if _direction > 0:
 		animations.flip_h = true
-	velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta)
-	global_position.x += velocity.x*_delta
+	if is_grounded() and sign(_direction)!=sign(velocity.x):
+		#simulated friction for grounded movement
+		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2*_delta)
+	else:
+		#less reverse movement in air
+		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta)
+	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
+	#global_position.x += velocity.x*_delta
 
 func dash(_direction, _delta:float) -> void:
 	#dashes in direction, will continue to do so until dash_completed is up
@@ -87,12 +94,14 @@ func shoot(_delta:float) -> void:
 func idle(_delta:float) -> void:
 	#anything that needs to happen when idle
 	velocity.x = move_toward(velocity.x, max_speed*0, acceleration*_delta)
-	global_position.x += velocity.x*_delta
+	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
+	#global_position.x += velocity.x*_delta
 	pass
 
 func is_grounded() -> bool:
 	#TODO: grounded check
-	if global_position.y >= 304:
+	#if global_position.y >= 304:
+	if is_on_floor():
 		return true
 	return false
 
