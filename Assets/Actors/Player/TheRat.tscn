@@ -207,6 +207,7 @@ shoot_node = NodePath("../PlayerShootState")
 script = ExtResource( 6 )
 animation_type = "fall"
 a_dash_node = NodePath("../PlayerADashState")
+jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
