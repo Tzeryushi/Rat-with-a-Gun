@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Assets/Actors/Player/rat and bat spritesheet calciumtrice.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Actors/Player/Rat.gd" type="Script" id=2]
@@ -10,10 +10,11 @@
 [ext_resource path="res://Assets/Actors/Player/PlayerShootState.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Actors/Player/PlayerGDashState.gd" type="Script" id=9]
 [ext_resource path="res://Assets/Actors/Player/PlayerADashState.gd" type="Script" id=10]
+[ext_resource path="res://Assets/Guns/ProtoGun.gd" type="Script" id=11]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 5.00001
-height = 3.99998
+radius = 4.00001
+height = 1.99998
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -167,9 +168,10 @@ animations = [ {
 script = ExtResource( 2 )
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
+first_gun = NodePath("ProtoGun")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -5 )
+position = Vector2( 0, -4 )
 rotation = 1.57079
 shape = SubResource( 1 )
 
@@ -246,3 +248,7 @@ jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
+
+[node name="ProtoGun" type="Node2D" parent="."]
+script = ExtResource( 11 )
+_knockback = 400.0

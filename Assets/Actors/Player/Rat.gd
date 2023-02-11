@@ -2,9 +2,11 @@ class_name PlayerRat
 
 extends Actor
 
+export var first_gun : NodePath
+
 export var acceleration : float = 500.0
 export var max_speed : float = 150.0
-export var jump_power : float = 405.0
+export var jump_power : float = 300.0
 export var jump_cancel_power: float = 2500
 export var jump_gravity : float = 680.0
 export var gravity : float = 1000.0
@@ -13,6 +15,8 @@ export var dash_multiplier : float = 3.0
 export var dash_time : float = 0.5
 export var jump_buffer_tolerance : float = 0.1
 export var coyote_time_tolerance : float = 0.15
+
+onready var current_gun : Gun = get_node(first_gun)
 
 var velocity := Vector2.ZERO #this is simply where we start out when initializing
 var jump_held : bool = false #modified by states when jump is held or not, for jump buffering
@@ -59,7 +63,9 @@ func jump_process(_delta:float) -> void:
 	#quickly decreases upwards velocity until it is 0
 	#velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
 	if !jump_held:
-		velocity.y = move_toward(velocity.y, 0, jump_cancel_power*_delta)
+		#velocity.y = move_toward(velocity.y, 0, jump_cancel_power*_delta)
+		velocity.y = velocity.y/2
+		jump_held = true
 	else:
 		velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity*_delta)
 	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
@@ -84,7 +90,10 @@ func move(_direction, _delta:float) -> void:
 		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2*_delta)
 	else:
 		#less reverse movement in air
-		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta)
+		if _direction == 0:
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta*.2)
+		else:
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta)
 	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
 	#global_position.x += velocity.x*_delta
 
@@ -95,7 +104,16 @@ func dash(_direction, _delta:float) -> void:
 
 func shoot(_delta:float) -> void:
 	#shoot utilizes gun system to provide acceleration to player
-	pass
+	var mouse_pos = get_global_mouse_position()/4
+	
+	var shot_direction_vector = (mouse_pos - get_global_position())
+	shot_direction_vector = shot_direction_vector/shot_direction_vector.length()
+	var shot_power = shot_direction_vector*current_gun.get_knockback()
+	if shot_power.y > 0:
+		velocity.y = -(shot_direction_vector*current_gun.get_knockback()).y
+	elif shot_power.y < 0:
+		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
+	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/2
 	
 func idle(_delta:float) -> void:
 	#anything that needs to happen when idle
