@@ -6,10 +6,10 @@ export var first_gun : NodePath
 
 export var acceleration : float = 500.0
 export var max_speed : float = 150.0
-export var jump_power : float = 300.0
+export var jump_power : float = 270.0
 export var jump_cancel_power: float = 2500
-export var jump_gravity : float = 680.0
-export var gravity : float = 1000.0
+export var jump_gravity : float = 580.0
+export var gravity : float = 800.0
 export var terminal_velo : float = 500.0
 export var dash_multiplier : float = 3.0
 export var dash_time : float = 0.5
@@ -113,7 +113,7 @@ func shoot(_delta:float) -> void:
 		velocity.y = -(shot_direction_vector*current_gun.get_knockback()).y
 	elif shot_power.y < 0:
 		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
-	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/2
+	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/1.5
 	
 func idle(_delta:float) -> void:
 	#anything that needs to happen when idle

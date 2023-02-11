@@ -32,11 +32,7 @@ func input(_event:InputEvent) -> BaseState:
 	return null
 
 func process(_delta:float) -> BaseState:
-	#Dash time calc
-	if actor.is_dashing():
-		return null
-		
-	return idle_state
+	return null
 
 func physics_process(_delta:float) -> BaseState:
 	actor.shoot(_delta)
@@ -44,11 +40,12 @@ func physics_process(_delta:float) -> BaseState:
 	var direction = get_move_direction()
 	actor.move(direction, _delta)
 	
-	if actor.velocity.y > 0:
-		return fall_state
-	#check if player is grounded
 	if actor.is_grounded():
 		if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 			return move_state
 		return idle_state
+	
+	#if actor.velocity.y > 0:
+	return fall_state
+	#check if player is grounded
 	return null

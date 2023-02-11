@@ -251,4 +251,4 @@ shoot_node = NodePath("../PlayerShootState")
 
 [node name="ProtoGun" type="Node2D" parent="."]
 script = ExtResource( 11 )
-_knockback = 400.0
+_knockback = 300.0
