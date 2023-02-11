@@ -251,4 +251,18 @@ shoot_node = NodePath("../PlayerShootState")
 
 [node name="ProtoGun" type="Node2D" parent="."]
 script = ExtResource( 11 )
-_knockback = 300.0
+_knockback = 250.0
+
+[node name="UnderCasts" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="UnderCasts"]
+position = Vector2( 0, -1 )
+cast_to = Vector2( 0, 5 )
+
+[node name="RayCast2D2" type="RayCast2D" parent="UnderCasts"]
+position = Vector2( -4, -1 )
+cast_to = Vector2( 0, 5 )
+
+[node name="RayCast2D3" type="RayCast2D" parent="UnderCasts"]
+position = Vector2( 4, -1 )
+cast_to = Vector2( 0, 5 )

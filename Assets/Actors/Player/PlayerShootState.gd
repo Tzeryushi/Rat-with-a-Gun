@@ -15,7 +15,6 @@ onready var idle_state : BaseState = get_node(idle_node)
 onready var move_state : BaseState = get_node(idle_node)
 onready var shoot_state : BaseState = get_node(shoot_node)
 
-
 func on_enter() -> void:
 	#switch to shoot animation
 	#todo: flag so that animation doesn't reset coming from a gdash
@@ -47,5 +46,3 @@ func physics_process(_delta:float) -> BaseState:
 	
 	#if actor.velocity.y > 0:
 	return fall_state
-	#check if player is grounded
-	return null

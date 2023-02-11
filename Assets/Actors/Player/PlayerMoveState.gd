@@ -32,7 +32,7 @@ func input(_event:InputEvent) -> BaseState:
 	#cycle to jump or dash
 	if Input.is_action_just_pressed("jump"): return jump_state
 	elif Input.is_action_just_pressed("dash"): return g_dash_state
-	
+	elif Input.is_action_just_pressed("shoot"): return shoot_state
 	#in unhandled case
 	return null
 
