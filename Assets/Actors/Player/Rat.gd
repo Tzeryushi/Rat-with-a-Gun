@@ -9,6 +9,7 @@ export var max_speed : float = 150.0
 export var jump_power : float = 210.0
 export var jump_cancel_power: float = 2500
 export var jump_gravity : float = 380.0
+export var stomp_power : float = 300
 export var gravity : float = 600.0
 export var terminal_velo : float = 500.0
 export var dash_multiplier : float = 3.0
@@ -17,6 +18,7 @@ export var jump_buffer_tolerance : float = 0.1
 export var coyote_time_tolerance : float = 0.15
 
 onready var current_gun : Gun = get_node(first_gun)
+onready var bounce_casts := $UnderCasts
 
 var velocity := Vector2.ZERO #this is simply where we start out when initializing
 var jump_held : bool = false #modified by states when jump is held or not, for jump buffering
@@ -24,6 +26,9 @@ var dash_completed : float = 0.0 #helps keeps track of how much dash time is lef
 var jump_buffer_timer : float = 0.0 #checked by state to see if a jump has been buffered
 var coyote_time : float = 0.0 #fall state checks this to see if coyote time is usable
 var was_grounded : bool = false #keeps track of the grounded condition of the previous physics step
+var stomped_node_reference : Node #a reference to the last entity bounced upon - will often be a null 'pointer'
+var invincible : bool = false #to help future proof this, only interact using the setter/getter function
+var invincible_timer : float = 0.0
 
 #player node accepts input, sends to state manager to get result
 #states will decide if player defined functions for actions will be triggered
@@ -44,8 +49,16 @@ func _unhandled_input(_event) -> void:
 func _process(_delta) -> void:
 	state_manager.process(_delta)
 	
+	#temporary invincible timer check
+	if invincible_timer > 0.0:
+		invincible_timer -= _delta
+		if invincible_timer >= 0.0:
+			set_invincible(false)
+	
 func _physics_process(_delta):
 	state_manager.physics_process(_delta)
+	
+	#coyote and jump buffer countdowns
 	if coyote_time > 0.0:
 		coyote_time -= _delta
 	if jump_buffer_timer > 0.0:
@@ -93,7 +106,7 @@ func move(_direction, _delta:float) -> void:
 		if _direction == 0:
 			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta*.2)
 		else:
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta)
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2*_delta)
 	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
 	#global_position.x += velocity.x*_delta
 
@@ -124,6 +137,15 @@ func idle(_delta:float) -> void:
 	#global_position.x += velocity.x*_delta
 	pass
 
+func stomp() -> void:
+	#when an enemy actor is stomped upon, execute
+	var stomp_multiplier = stomped_node_reference.get_stomp_strength()
+	velocity.y = -stomp_power*stomp_multiplier
+	
+func stomp_process(_delta) -> void:
+	velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity*_delta)
+	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
+
 func is_grounded() -> bool:
 	#TODO: grounded check
 	#if global_position.y >= 304:
@@ -148,3 +170,28 @@ func is_jump_buffered() -> bool:
 	
 func can_coyote_jump() -> bool:
 	return coyote_time > 0.0
+
+func set_invincible(state:bool=true) -> void:
+	invincible = state
+
+func set_invincible_time(time:float) -> void:
+	invincible_timer = time
+	if invincible_timer > 0.0:
+		set_invincible(true)
+
+func is_invincible() -> bool:
+	return invincible
+
+func check_stomp(_delta) -> bool:
+	#as long as the player is falling, they will stomp on a stompable field; rays are extended to the player velocity
+	#the player body will move to the cast intersection in the physics tick
+	#TODO: Add some invicibility and remove velocity truncation
+	if velocity.y > 0:
+		for cast in bounce_casts.get_children():
+			cast.cast_to = Vector2.DOWN*velocity*_delta+Vector2.DOWN
+			cast.force_raycast_update()
+			if cast.is_colliding() && cast.get_collision_normal() == Vector2.UP:
+				velocity.y = (cast.get_collision_point() - cast.global_position - Vector2.DOWN).y
+				stomped_node_reference = cast.get_collider()
+				return true
+	return false

@@ -22,3 +22,7 @@ func _physics_process(_delta) -> void:
 func _process(_delta) -> void:
 	#will send request to states, handled in inheriting actors
 	pass
+
+func be_bounced_on() -> void:
+	#will contain logic that occurs to an actor when bounced on
+	pass
