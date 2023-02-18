@@ -142,6 +142,8 @@ func stomp() -> void:
 	var stomp_multiplier = stomped_node_reference.get_stomp_strength()
 	velocity.y = -stomp_power*stomp_multiplier
 	
+	stomped_node_reference.bounce_parent()
+	
 func stomp_process(_delta) -> void:
 	velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity*_delta)
 	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
@@ -191,7 +193,7 @@ func check_stomp(_delta) -> bool:
 			cast.cast_to = Vector2.DOWN*velocity*_delta+Vector2.DOWN
 			cast.force_raycast_update()
 			if cast.is_colliding() && cast.get_collision_normal() == Vector2.UP:
-				velocity.y = (cast.get_collision_point() - cast.global_position - Vector2.DOWN).y
+				#velocity.y = (cast.get_collision_point() - cast.global_position - Vector2.DOWN).y
 				stomped_node_reference = cast.get_collider()
 				return true
 	return false

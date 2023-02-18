@@ -10,3 +10,6 @@ export var stomp_strength : float = 1.0
 
 func get_stomp_strength() -> float:
 	return stomp_strength
+
+func bounce_parent() -> void:
+	parent_actor.be_bounced_on()

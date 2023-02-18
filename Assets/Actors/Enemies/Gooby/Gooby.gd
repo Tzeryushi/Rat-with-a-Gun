@@ -17,3 +17,7 @@ func _physics_process(_delta):
 func _bob_up() -> void:
 	#adds an impulse to the gooby to keep it afloat
 	velocity.y -= _bob_impulse
+
+func be_bounced_on() -> void:
+	.be_bounced_on()
+	queue_free()
