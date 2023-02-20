@@ -160,6 +160,7 @@ shoot={
 2d_physics/layer_2="Passable"
 2d_physics/layer_3="Pain"
 2d_physics/layer_4="Stomp"
+2d_physics/layer_5="Player Bullets"
 
 [physics]
 

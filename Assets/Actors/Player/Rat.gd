@@ -30,6 +30,8 @@ var stomped_node_reference : Node #a reference to the last entity bounced upon -
 var invincible : bool = false #to help future proof this, only interact using the setter/getter function
 var invincible_timer : float = 0.0
 
+signal health_changed
+
 #player node accepts input, sends to state manager to get result
 #states will decide if player defined functions for actions will be triggered
 #basically,
@@ -67,11 +69,12 @@ func _physics_process(_delta):
 	#	global_position.y = 304
 	
 #player functions
+
+#jump
 func jump() -> void:
 	#simple jump, is called on multiple frames
 	#velocity applied until max is reached
 	velocity.y = -jump_power
-
 func jump_process(_delta:float) -> void:
 	#quickly decreases upwards velocity until it is 0
 	#velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
@@ -85,13 +88,15 @@ func jump_process(_delta:float) -> void:
 	#global_position.y += (velocity.y*_delta)
 	pass
 
+#fall
 func fall(_delta:float) -> void:
 	#accelerates downwards, no jumps allowed unless there is coyote time
 	velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
 	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
 	#global_position.y += (velocity.y*_delta)
 	pass
-	
+
+#move (used by many states)
 func move(_direction, _delta:float) -> void:
 	#accelerates in input direction up to max speed
 	if _direction < 0:
@@ -110,11 +115,13 @@ func move(_direction, _delta:float) -> void:
 	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
 	#global_position.x += velocity.x*_delta
 
+#dash
 func dash(_direction, _delta:float) -> void:
 	#dashes in direction, will continue to do so until dash_completed is up
 	#dash should preserve any prior velocity and then return to it after completion
 	pass
 
+#shoot
 func shoot(_delta:float) -> void:
 	#shoot utilizes gun system to provide acceleration to player
 	if is_grounded():
@@ -129,7 +136,8 @@ func shoot(_delta:float) -> void:
 	elif shot_power.y < 0:
 		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
 	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/2.5
-	
+
+#idle
 func idle(_delta:float) -> void:
 	#anything that needs to happen when idle
 	velocity.x = move_toward(velocity.x, max_speed*0, acceleration*_delta)
@@ -137,16 +145,30 @@ func idle(_delta:float) -> void:
 	#global_position.x += velocity.x*_delta
 	pass
 
+#stomp functions
 func stomp() -> void:
 	#when an enemy actor is stomped upon, execute
 	var stomp_multiplier = stomped_node_reference.get_stomp_strength()
 	velocity.y = -stomp_power*stomp_multiplier
 	
 	stomped_node_reference.bounce_parent()
-	
 func stomp_process(_delta) -> void:
+	#carries and reduces y velocity similarly to jump process
 	velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity*_delta)
 	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
+func check_stomp(_delta) -> bool:
+	#as long as the player is falling, they will stomp on a stompable field; rays are extended to the player velocity
+	#the player body will move to the cast intersection in the physics tick
+	#TODO: Add some invicibility and remove velocity truncation
+	if velocity.y > 0:
+		for cast in bounce_casts.get_children():
+			cast.cast_to = Vector2.DOWN*velocity*_delta+Vector2.DOWN
+			cast.force_raycast_update()
+			if cast.is_colliding() && cast.get_collision_normal() == Vector2.UP:
+				#velocity.y = (cast.get_collision_point() - cast.global_position - Vector2.DOWN).y
+				stomped_node_reference = cast.get_collider()
+				return true
+	return false
 
 func is_grounded() -> bool:
 	#TODO: grounded check
@@ -184,16 +206,17 @@ func set_invincible_time(time:float) -> void:
 func is_invincible() -> bool:
 	return invincible
 
-func check_stomp(_delta) -> bool:
-	#as long as the player is falling, they will stomp on a stompable field; rays are extended to the player velocity
-	#the player body will move to the cast intersection in the physics tick
-	#TODO: Add some invicibility and remove velocity truncation
-	if velocity.y > 0:
-		for cast in bounce_casts.get_children():
-			cast.cast_to = Vector2.DOWN*velocity*_delta+Vector2.DOWN
-			cast.force_raycast_update()
-			if cast.is_colliding() && cast.get_collision_normal() == Vector2.UP:
-				#velocity.y = (cast.get_collision_point() - cast.global_position - Vector2.DOWN).y
-				stomped_node_reference = cast.get_collider()
-				return true
-	return false
+func change_health(value:int) -> void:
+	#in the future, this will send out signals to update GUI and visual functions
+	health = health + value
+	print(health)
+
+#incoming signals
+
+#
+func _on_Hurtbox_body_entered(body):
+	if body is Actor:
+		change_health(-body.get_actor_damage())
+func _on_Hurtbox_area_entered(area):
+	if area is Actor:
+		change_health(-area.get_actor_damage())

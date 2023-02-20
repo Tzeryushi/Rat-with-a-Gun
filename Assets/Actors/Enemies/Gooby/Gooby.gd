@@ -20,4 +20,7 @@ func _bob_up() -> void:
 
 func be_bounced_on() -> void:
 	.be_bounced_on()
+	destruct()
+
+func destruct() -> void:
 	queue_free()

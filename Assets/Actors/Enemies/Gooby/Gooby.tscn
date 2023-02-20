@@ -11,11 +11,12 @@ extents = Vector2( 7.5, 3 )
 radius = 7.0
 
 [node name="Gooby" type="KinematicBody2D"]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 4
+collision_mask = 16
 script = ExtResource( 1 )
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
+enemy = true
 
 [node name="BounceField" parent="." instance=ExtResource( 2 )]
 stomp_strength = 0.9
