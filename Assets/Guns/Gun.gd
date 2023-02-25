@@ -7,6 +7,8 @@ export var _firing_speed : float = 0.5
 export var _reload_time : float = 1
 export var _clip_size : int = 6
 
+onready var gun_sprite := $GunSprite
+
 #prototype to be inherited by other guns, structures are referenced by PlayerRat class
 #initial internal data should be protected, effects and stat alterations will be returned with getter functions
 
