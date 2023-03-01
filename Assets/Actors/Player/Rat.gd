@@ -171,13 +171,19 @@ func check_stomp(_delta) -> bool:
 	return false
 
 func is_grounded() -> bool:
-	#TODO: grounded check
-	#if global_position.y >= 304:
+	#uses kinematicbody function to determine ground contact
+	#this might merit change in the future...raycasts? unsure
 	var value = is_on_floor()
 	if !value and was_grounded:
 		coyote_time = coyote_time_tolerance
 	was_grounded = value
 	return value
+
+func is_moving_up() -> bool:
+	#returns true if player velocity is moving them upwards, to prevent false landings
+	if velocity.y < 0:
+		return true
+	return false
 
 func is_dashing() -> bool:
 	return dash_completed > 0.0

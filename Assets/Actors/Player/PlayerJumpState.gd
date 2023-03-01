@@ -52,7 +52,7 @@ func physics_process(_delta:float) -> BaseState:
 		return fall_state
 	
 	#TODO: check if player is grounded, switch state accordingly
-	if actor.is_grounded():
+	if actor.is_grounded() and !actor.is_moving_up():
 		if direction == 0:
 			return idle_state
 		return move_state

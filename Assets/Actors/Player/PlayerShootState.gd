@@ -39,7 +39,7 @@ func physics_process(_delta:float) -> BaseState:
 	var direction = get_move_direction()
 	actor.move(direction, _delta)
 	
-	if actor.is_grounded():
+	if actor.is_grounded() and !actor.is_moving_up():
 		if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 			return move_state
 		return idle_state
