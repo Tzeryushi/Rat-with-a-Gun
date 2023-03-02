@@ -6,6 +6,8 @@ export var _knockback : float = 100
 export var _firing_speed : float = 0.5
 export var _reload_time : float = 1
 export var _clip_size : int = 6
+export var _spread : float = 1.0
+export var _hold_length : float = 0
 export var _bullet_speed : float = 10
 export var _bullet_scene : PackedScene
 
@@ -43,7 +45,9 @@ func switch_held() -> void:
 	_held = true
 	#gun_sprite.scale = Vector2(1,1)
 	gun_sprite.flip_v = false
+	#set held gun distance and rotation point
 	gun_sprite.offset = Vector2.ZERO - held_position.position
+	gun_sprite.offset = (gun_sprite.offset+Vector2.RIGHT*_hold_length)
 	
 func switch_back() -> void:
 	#switches to back position on ground
@@ -57,7 +61,10 @@ func get_knockback() -> float:
 
 func get_muzzle_reach() -> float:
 	#returns the distance between the current hold position and the muzzle
-	return (muzzle_position - gun_sprite.position).length()
+	return (Vector2.RIGHT*_hold_length+muzzle_position.position-held_position.position).length()
+
+func get_gun_rotation() -> Vector2:
+	return Vector2(cos(gun_sprite.rotation), sin(gun_sprite.rotation))
 
 func is_held() -> bool:
 	return _held

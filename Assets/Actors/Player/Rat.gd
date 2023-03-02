@@ -152,7 +152,7 @@ func shoot(_delta:float) -> void:
 	#todo: store this in a specialized container node!
 	#todo: set up bullet lifetime calculations
 	var bullet = current_gun.fire()
-	bullet.set_position(center_point.global_position)
+	bullet.set_position(center_point.global_position+current_gun.get_gun_rotation()*current_gun.get_muzzle_reach())
 	bullet.set_direction(shot_direction_vector.normalized())
 	bullet.set_lifetime(2.0)
 	get_parent().add_child(bullet)
