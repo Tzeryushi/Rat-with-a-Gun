@@ -53,5 +53,5 @@ func set_speed(speed:float) -> void:
 	_speed = speed
 
 
-func _on_Bullet_body_entered(body):
+func _on_Bullet_body_entered(_body):
 	destroy()

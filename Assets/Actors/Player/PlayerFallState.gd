@@ -7,6 +7,7 @@ export var idle_node : NodePath
 export var move_node : NodePath
 export var shoot_node : NodePath
 export var bounce_node : NodePath
+export var hurt_node : NodePath
 
 onready var a_dash_state : BaseState = get_node(a_dash_node)
 onready var jump_state : BaseState = get_node(jump_node)
@@ -14,6 +15,7 @@ onready var idle_state : BaseState = get_node(idle_node)
 onready var move_state : BaseState = get_node(move_node)
 onready var shoot_state : BaseState = get_node(shoot_node)
 onready var bounce_state : BaseState = get_node(bounce_node)
+onready var hurt_state : BaseState = get_node(hurt_node)
 
 #implementation can scale over time
 
@@ -37,6 +39,9 @@ func input(_event:InputEvent) -> BaseState:
 
 func physics_process(_delta:float) -> BaseState:	
 	#send directional data to be handled in player class
+	if actor.is_hurt:
+		return hurt_state
+	
 	var direction = get_move_direction()
 	
 	#check if the player stomped this tick

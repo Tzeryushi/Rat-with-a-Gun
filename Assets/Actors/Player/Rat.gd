@@ -16,6 +16,8 @@ export var dash_multiplier : float = 3.0
 export var dash_time : float = 0.5
 export var jump_buffer_tolerance : float = 0.1
 export var coyote_time_tolerance : float = 0.15
+export var hurt_time : float = 0.5
+export var default_invincible_time : float = 0.2
 
 onready var current_gun : Gun = get_node(first_gun)
 onready var bounce_casts := $UnderCasts
@@ -32,8 +34,13 @@ var was_grounded : bool = false #keeps track of the grounded condition of the pr
 var stomped_node_reference : Node #a reference to the last entity bounced upon - will often be a null 'pointer'
 var invincible : bool = false #to help future proof this, only interact using the setter/getter function
 var invincible_timer : float = 0.0
+var is_hurt : bool = false
+var last_hurt_direction : Vector2 = Vector2.ZERO #impulse direction from last painful collision
+
 
 signal health_changed(new_value, difference)
+signal shot_fired
+signal jumped
 
 #player node accepts input, sends to state manager to get result
 #states will decide if player defined functions for actions will be triggered
@@ -77,7 +84,7 @@ func _physics_process(_delta):
 	#	global_position.y = 304
 	debug_line.clear_points()
 	debug_line.add_point(center_point.position)
-	debug_line.add_point(get_viewport().get_mouse_position()/4 - get_global_transform_with_canvas().origin)
+	debug_line.add_point(get_viewport().get_mouse_position() - get_global_transform_with_canvas().origin)
 	
 #player functions
 
@@ -86,6 +93,7 @@ func jump() -> void:
 	#simple jump, is called on multiple frames
 	#velocity applied until max is reached
 	velocity.y = -jump_power
+	emit_signal("jumped")
 func jump_process(_delta:float) -> void:
 	#quickly decreases upwards velocity until it is 0
 	#velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
@@ -133,11 +141,11 @@ func dash(_direction, _delta:float) -> void:
 	pass
 
 #shoot
-func shoot(_delta:float) -> void:
+func shoot() -> void:
 	#shoot utilizes gun system to provide acceleration to player
-	if is_grounded():
-		return
-	
+	#if is_grounded():
+		#return
+	#switch_gun_held()
 	#getting the vector from the center of the player
 	var shot_direction_vector = get_mouse_direction()
 	var shot_power = shot_direction_vector*current_gun.get_knockback()
@@ -148,11 +156,13 @@ func shoot(_delta:float) -> void:
 		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
 	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/2.5
 	
+	emit_signal("shot_fired")
+	
 	#getting the bullet and storing it in the scene, outside of the player
 	#todo: store this in a specialized container node!
 	#todo: set up bullet lifetime calculations
 	var bullet = current_gun.fire()
-	bullet.set_position(center_point.global_position+current_gun.get_gun_rotation()*current_gun.get_muzzle_reach())
+	#bullet.set_position(center_point.global_position+current_gun.get_gun_rotation()*current_gun.get_muzzle_reach())
 	bullet.set_direction(shot_direction_vector.normalized())
 	bullet.set_lifetime(2.0)
 	get_parent().add_child(bullet)
@@ -169,7 +179,6 @@ func idle(_delta:float) -> void:
 	velocity.x = move_toward(velocity.x, max_speed*0, acceleration*_delta)
 	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
 	#global_position.x += velocity.x*_delta
-	pass
 
 #stomp functions
 func stomp() -> void:
@@ -195,6 +204,19 @@ func check_stomp(_delta) -> bool:
 				stomped_node_reference = cast.get_collider()
 				return true
 	return false
+
+func hurt() -> void:
+	#uses vector from the last collision
+	velocity = last_hurt_direction*200
+	set_invincible_time(default_invincible_time)
+	is_hurt = false
+func hurt_process(_delta:float) -> void:
+	#simulates fall and move
+	velocity.x = move_toward(velocity.x, max_speed*0, acceleration*_delta)
+	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
+	if !is_grounded():
+		velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
+		velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
 
 func is_grounded() -> bool:
 	#uses kinematicbody function to determine ground contact
@@ -231,6 +253,10 @@ func set_invincible_time(time:float) -> void:
 		set_invincible(true)
 func is_invincible() -> bool:
 	return invincible
+func start_default_invincible() -> void:
+	set_invincible_time(default_invincible_time)
+func get_hurt_time() -> float:
+	return hurt_time
 
 func change_health(value:int) -> void:
 	#in the future, this will send out signals to update GUI and visual functions
@@ -241,7 +267,7 @@ func change_health(value:int) -> void:
 func get_mouse_direction() -> Vector2:
 	#these specific transforms to get mouse screen position due to the viewport altering worldspace resolution
 	#this is a pain point! consider revision or connect it to the viewport!
-	var mouse_pos = get_viewport().get_mouse_position()/4 - get_global_transform_with_canvas().origin
+	var mouse_pos = get_viewport().get_mouse_position() - get_global_transform_with_canvas().origin
 	#getting the vector to the center of the player
 	var shot_direction_vector = (mouse_pos - center_point.position)
 	shot_direction_vector = shot_direction_vector/shot_direction_vector.length()
@@ -253,6 +279,8 @@ func get_mouse_direction() -> Vector2:
 func _on_Hurtbox_body_entered(body):
 	if body is Actor:
 		change_health(-body.get_actor_damage())
+		last_hurt_direction = (center_point.global_position - body.global_position).normalized()
+		is_hurt = true
 func _on_Hurtbox_area_entered(area):
 	if area is Actor:
 		change_health(-area.get_actor_damage())

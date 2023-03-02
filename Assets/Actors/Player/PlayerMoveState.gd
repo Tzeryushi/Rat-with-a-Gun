@@ -15,12 +15,14 @@ export var jump_node : NodePath
 export var fall_node : NodePath
 export var idle_node : NodePath
 export var shoot_node: NodePath
+export var hurt_node : NodePath
 
 onready var g_dash_state : BaseState = get_node(g_dash_node)
 onready var jump_state : BaseState = get_node(jump_node)
 onready var fall_state : BaseState = get_node(fall_node)
 onready var idle_state : BaseState = get_node(idle_node)
 onready var shoot_state : BaseState = get_node(shoot_node)
+onready var hurt_state : BaseState = get_node(hurt_node)
 
 #implementation can scale over time
 
@@ -33,13 +35,15 @@ func input(_event:InputEvent) -> BaseState:
 	#cycle to jump or dash
 	if Input.is_action_just_pressed("jump"): return jump_state
 	elif Input.is_action_just_pressed("dash"): return g_dash_state
-	elif Input.is_action_just_pressed("shoot"): return shoot_state
+	#elif Input.is_action_just_pressed("shoot"): return shoot_state
 	#in unhandled case
 	return null
 
 func physics_process(_delta:float) -> BaseState:
+	if actor.is_hurt:
+		return hurt_state
+	
 	#check if player is still grounded, switch to fall_state if not
-	#TODO: Get floor calc
 	if !actor.is_grounded():
 		return fall_state
 	

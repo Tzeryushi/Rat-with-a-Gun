@@ -407,6 +407,7 @@ position = Vector2( 69, 217 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
+zoom = Vector2( 0.25, 0.25 )
 smoothing_enabled = true
 
 [node name="Enemies" type="Node2D" parent="."]

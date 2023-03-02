@@ -7,6 +7,7 @@ export var fall_node : NodePath
 export var idle_node : NodePath
 export var move_node : NodePath
 export var shoot_node: NodePath
+export var hurt_node : NodePath
 
 onready var a_dash_state : BaseState = get_node(a_dash_node)
 onready var jump_state : BaseState = get_node(jump_node)
@@ -14,12 +15,14 @@ onready var fall_state : BaseState = get_node(fall_node)
 onready var idle_state : BaseState = get_node(idle_node)
 onready var move_state : BaseState = get_node(idle_node)
 onready var shoot_state : BaseState = get_node(shoot_node)
+onready var hurt_state : BaseState = get_node(hurt_node)
 
 func on_enter() -> void:
 	#switch to shoot animation
 	#todo: flag so that animation doesn't reset coming from a gdash
 	.on_enter()
 	actor.switch_gun_held()
+	actor.shoot()
 
 func input(_event:InputEvent) -> BaseState:
 	#cycle to jump or shoot
@@ -35,7 +38,8 @@ func process(_delta:float) -> BaseState:
 	return null
 
 func physics_process(_delta:float) -> BaseState:
-	actor.shoot(_delta)
+	if actor.is_hurt:
+		return hurt_state
 	
 	var direction = get_move_direction()
 	actor.move(direction, _delta)
