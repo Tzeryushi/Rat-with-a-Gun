@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Guns/Gun.gd" type="Script" id=1]
+[ext_resource path="res://TempAssets/MBG Weapon Pack (2).png" type="Texture" id=2]
+[ext_resource path="res://Assets/Guns/Bullet.tscn" type="PackedScene" id=3]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 3, 1, 12, 7 )
+
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [  ],
+"frames": [ SubResource( 1 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -12,6 +18,17 @@ animations = [ {
 
 [node name="BaseGun" type="Node2D"]
 script = ExtResource( 1 )
+_bullet_speed = 200.0
+_bullet_scene = ExtResource( 3 )
 
 [node name="GunSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 1 )
+frames = SubResource( 2 )
+
+[node name="BackPosition" type="Position2D" parent="."]
+position = Vector2( 0, -3 )
+
+[node name="HeldPosition" type="Position2D" parent="."]
+position = Vector2( -4, -3 )
+
+[node name="MuzzlePosition" type="Position2D" parent="."]
+position = Vector2( 6, -3 )

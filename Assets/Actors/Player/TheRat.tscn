@@ -10,8 +10,8 @@
 [ext_resource path="res://Assets/Actors/Player/PlayerShootState.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Actors/Player/PlayerGDashState.gd" type="Script" id=9]
 [ext_resource path="res://Assets/Actors/Player/PlayerADashState.gd" type="Script" id=10]
-[ext_resource path="res://Assets/Guns/ProtoGun.gd" type="Script" id=11]
 [ext_resource path="res://Assets/Actors/Player/PlayerStompState.gd" type="Script" id=12]
+[ext_resource path="res://Assets/Guns/BaseGun.tscn" type="PackedScene" id=13]
 
 [sub_resource type="CapsuleShape2D" id=33]
 radius = 4.0
@@ -169,19 +169,21 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["player"]]
+collision_layer = 0
 script = ExtResource( 2 )
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 health = 4
-first_gun = NodePath("ProtoGun")
+first_gun = NodePath("BaseGun")
 
 [node name="Hurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2( -1, -4 )
+position = Vector2( -2, -4 )
 rotation = 1.57079
 shape = SubResource( 33 )
 
@@ -273,12 +275,12 @@ idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 
-[node name="ProtoGun" type="Node2D" parent="."]
-visible = false
-script = ExtResource( 11 )
-_knockback = 250.0
+[node name="BaseGun" parent="." instance=ExtResource( 13 )]
+position = Vector2( 0, -7 )
+_knockback = 200.0
 
 [node name="UnderCasts" type="Node2D" parent="."]
+visible = false
 
 [node name="RayCast2D" type="RayCast2D" parent="UnderCasts"]
 position = Vector2( 0, -1 )
@@ -297,6 +299,15 @@ position = Vector2( 4, -1 )
 cast_to = Vector2( 0, 5 )
 collision_mask = 8
 collide_with_areas = true
+
+[node name="DebugLine" type="Line2D" parent="."]
+position = Vector2( 1, 0 )
+z_index = -1
+points = PoolVector2Array( -1, -4, -1, -4 )
+width = 2.0
+
+[node name="Center" type="Position2D" parent="."]
+position = Vector2( 0, -5 )
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]

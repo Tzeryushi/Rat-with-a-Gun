@@ -9,7 +9,7 @@ export var max_speed : float = 150.0
 export var jump_power : float = 210.0
 export var jump_cancel_power: float = 2500
 export var jump_gravity : float = 380.0
-export var stomp_power : float = 300
+export var stomp_power : float = 250
 export var gravity : float = 600.0
 export var terminal_velo : float = 500.0
 export var dash_multiplier : float = 3.0
@@ -19,6 +19,8 @@ export var coyote_time_tolerance : float = 0.15
 
 onready var current_gun : Gun = get_node(first_gun)
 onready var bounce_casts := $UnderCasts
+onready var debug_line := $DebugLine
+onready var center_point := $Center
 
 var velocity := Vector2.ZERO #this is simply where we start out when initializing
 var jump_held : bool = false #modified by states when jump is held or not, for jump buffering
@@ -30,7 +32,7 @@ var stomped_node_reference : Node #a reference to the last entity bounced upon -
 var invincible : bool = false #to help future proof this, only interact using the setter/getter function
 var invincible_timer : float = 0.0
 
-signal health_changed
+signal health_changed(new_value, difference)
 
 #player node accepts input, sends to state manager to get result
 #states will decide if player defined functions for actions will be triggered
@@ -47,6 +49,10 @@ func _ready() -> void:
 
 func _unhandled_input(_event) -> void:
 	state_manager.input(_event)
+	if Input.is_action_just_pressed("ui_accept"):
+		current_gun.switch_back()
+	if Input.is_action_just_pressed("ui_cancel"):
+		current_gun.switch_held()
 	
 func _process(_delta) -> void:
 	state_manager.process(_delta)
@@ -67,6 +73,9 @@ func _physics_process(_delta):
 		jump_buffer_timer -= _delta
 	#if global_position.y >= 304:
 	#	global_position.y = 304
+	debug_line.clear_points()
+	debug_line.add_point(center_point.position)
+	debug_line.add_point(get_viewport().get_mouse_position()/4 - get_global_transform_with_canvas().origin)
 	
 #player functions
 
@@ -126,16 +135,29 @@ func shoot(_delta:float) -> void:
 	#shoot utilizes gun system to provide acceleration to player
 	if is_grounded():
 		return
-	var mouse_pos = get_global_mouse_position()/4
+	#these specific transforms to get mouse screen position due to the viewport altering worldspace resolution
+	#this is a pain point! consider revision or connect it to the viewport!
+	var mouse_pos = get_viewport().get_mouse_position()/4 - get_global_transform_with_canvas().origin
 	
-	var shot_direction_vector = (mouse_pos - get_global_position())
+	#getting the vector to the center of the player
+	var shot_direction_vector = (mouse_pos - center_point.position)
 	shot_direction_vector = shot_direction_vector/shot_direction_vector.length()
 	var shot_power = shot_direction_vector*current_gun.get_knockback()
+	#resetting upward velocities to prevent rocketing and provide proper impulse when falling
 	if shot_power.y > 0:
 		velocity.y = -(shot_direction_vector*current_gun.get_knockback()).y
 	elif shot_power.y < 0:
 		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
 	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/2.5
+	
+	#getting the bullet and storing it in the scene, outside of the player
+	#todo: store this in a specialized container node!
+	#todo: set up bullet lifetime calculations
+	var bullet = current_gun.fire()
+	bullet.set_position(center_point.global_position)
+	bullet.set_direction(shot_direction_vector.normalized())
+	bullet.set_lifetime(2.0)
+	get_parent().add_child(bullet)
 
 #idle
 func idle(_delta:float) -> void:
@@ -215,6 +237,7 @@ func is_invincible() -> bool:
 func change_health(value:int) -> void:
 	#in the future, this will send out signals to update GUI and visual functions
 	health = health + value
+	emit_signal("health_changed", health, value)
 	print(health)
 
 #incoming signals

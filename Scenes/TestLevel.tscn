@@ -395,6 +395,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 [node name="TestLevel" type="Node2D"]
 
 [node name="PlayArea" type="Polygon2D" parent="."]
+z_index = -10
 color = Color( 0.564706, 0.564706, 0.564706, 1 )
 polygon = PoolVector2Array( 180, 0, 180, 320, 0, 320, 0, 0 )
 
@@ -410,7 +411,7 @@ position = Vector2( 0, 6 )
 rotation = 1.57079
 shape = SubResource( 2 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." groups=["map"]]
 position = Vector2( 2, 0 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
@@ -421,6 +422,10 @@ tile_data = PoolIntArray( 65535, 2, 0, 0, 2, 0, 8, 2, 0, 9, 2, 0, 10, 2, 0, 11, 
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
 position = Vector2( 69, 217 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+smoothing_enabled = true
 
 [node name="Enemies" type="Node2D" parent="."]
 
