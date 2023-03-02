@@ -18,6 +18,7 @@ func on_enter() -> void:
 	.on_enter()
 	#introduce stomp velocity
 	actor.stomp()
+	actor.switch_gun_held()
 
 func input(_event:InputEvent) -> BaseState:
 	#cycle to aerial dash

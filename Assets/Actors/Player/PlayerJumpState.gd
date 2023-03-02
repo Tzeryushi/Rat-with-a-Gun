@@ -21,7 +21,8 @@ func on_enter() -> void:
 	#reset jump button held flag
 	actor.jump_held = true
 	actor.jump()
-	#where should we call the jump?
+	
+	actor.switch_gun_held()
 
 func on_exit() -> void:
 	.on_exit()

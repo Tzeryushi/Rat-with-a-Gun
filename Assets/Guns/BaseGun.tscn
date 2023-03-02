@@ -22,6 +22,7 @@ _bullet_speed = 200.0
 _bullet_scene = ExtResource( 3 )
 
 [node name="GunSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -1 )
 frames = SubResource( 2 )
 
 [node name="BackPosition" type="Position2D" parent="."]

@@ -20,6 +20,8 @@ onready var bounce_state : BaseState = get_node(bounce_node)
 func on_enter() -> void:
 	#switch to jump animation
 	.on_enter()
+	
+	actor.switch_gun_held()
 
 func input(_event:InputEvent) -> BaseState:
 	#cycle to aerial dash

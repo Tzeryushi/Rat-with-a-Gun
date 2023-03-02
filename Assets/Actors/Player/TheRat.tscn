@@ -304,10 +304,14 @@ collide_with_areas = true
 position = Vector2( 1, 0 )
 z_index = -1
 points = PoolVector2Array( -1, -4, -1, -4 )
-width = 2.0
+width = 1.0
+default_color = Color( 1, 0.4, 0.4, 1 )
 
 [node name="Center" type="Position2D" parent="."]
-position = Vector2( 0, -5 )
+position = Vector2( 0, -4 )
+
+[node name="Back" type="Position2D" parent="."]
+position = Vector2( 0, -7 )
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]

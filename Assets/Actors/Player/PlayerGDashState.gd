@@ -16,6 +16,7 @@ onready var shoot_state : BaseState = get_node(shoot_node)
 func on_enter() -> void:
 	#switch to dash animation
 	.on_enter()
+	actor.switch_gun_held()
 
 func input(_event:InputEvent) -> BaseState:
 	#cycle to jump or shoot

@@ -14,12 +14,20 @@ onready var back_position := $BackPosition
 onready var held_position := $HeldPosition
 onready var muzzle_position := $MuzzlePosition
 
+var _held : bool = false
+
 signal bullet_fired
 
 #prototype to be inherited by other guns, structures are referenced by PlayerRat class
 #initial internal data should be protected, effects and stat alterations will be returned with getter functions
 
 #back position and held position are designated by the position nodes, and inform the sprite's position in various states
+
+func _process(_delta):
+	if gun_sprite.rotation > PI/2 or gun_sprite.rotation < -PI/2:
+		gun_sprite.scale = Vector2(1,-1)
+	else:
+		gun_sprite.scale = Vector2(1,1)
 
 func fire() -> Bullet:
 	emit_signal("bullet_fired")
@@ -32,14 +40,16 @@ func reload() -> void:
 
 func switch_held() -> void:
 	#switches to "hand" position in air
-	gun_sprite.scale = Vector2(1,1)
-	gun_sprite.position = Vector2.ZERO - held_position.position
+	_held = true
+	#gun_sprite.scale = Vector2(1,1)
+	gun_sprite.flip_v = false
+	gun_sprite.offset = Vector2.ZERO - held_position.position
 	
 func switch_back() -> void:
 	#switches to back position on ground
-	gun_sprite.scale = Vector2(1,-1)
-	gun_sprite.position = Vector2.ZERO + back_position.position
-	pass
+	_held = false
+	gun_sprite.flip_v = true
+	gun_sprite.offset = Vector2.ZERO + back_position.position
 
 func get_knockback() -> float:
 	#todo: factor in value changes from effects? should that be on the player?
@@ -48,3 +58,6 @@ func get_knockback() -> float:
 func get_muzzle_reach() -> float:
 	#returns the distance between the current hold position and the muzzle
 	return (muzzle_position - gun_sprite.position).length()
+
+func is_held() -> bool:
+	return _held

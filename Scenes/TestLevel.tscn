@@ -1,14 +1,8 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=37 format=2]
 
-[ext_resource path="res://PrototypeRat.gd" type="Script" id=1]
-[ext_resource path="res://Assets/prototypeRat.png" type="Texture" id=2]
 [ext_resource path="res://TempAssets/industrial.v1.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Actors/Player/TheRat.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Actors/Enemies/Gooby/Gooby.tscn" type="PackedScene" id=5]
-
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 6.00002
-height = 7.99995
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -398,18 +392,6 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 z_index = -10
 color = Color( 0.564706, 0.564706, 0.564706, 1 )
 polygon = PoolVector2Array( 180, 0, 180, 320, 0, 320, 0, 0 )
-
-[node name="PrototypeRat" type="Sprite" parent="."]
-position = Vector2( 103, 157 )
-texture = ExtResource( 2 )
-script = ExtResource( 1 )
-
-[node name="RigidBody2D" type="RigidBody2D" parent="PrototypeRat"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PrototypeRat/RigidBody2D"]
-position = Vector2( 0, 6 )
-rotation = 1.57079
-shape = SubResource( 2 )
 
 [node name="TileMap" type="TileMap" parent="." groups=["map"]]
 position = Vector2( 2, 0 )

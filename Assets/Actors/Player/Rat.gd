@@ -21,6 +21,7 @@ onready var current_gun : Gun = get_node(first_gun)
 onready var bounce_casts := $UnderCasts
 onready var debug_line := $DebugLine
 onready var center_point := $Center
+onready var back_point := $Back
 
 var velocity := Vector2.ZERO #this is simply where we start out when initializing
 var jump_held : bool = false #modified by states when jump is held or not, for jump buffering
@@ -49,10 +50,6 @@ func _ready() -> void:
 
 func _unhandled_input(_event) -> void:
 	state_manager.input(_event)
-	if Input.is_action_just_pressed("ui_accept"):
-		current_gun.switch_back()
-	if Input.is_action_just_pressed("ui_cancel"):
-		current_gun.switch_held()
 	
 func _process(_delta) -> void:
 	state_manager.process(_delta)
@@ -62,6 +59,11 @@ func _process(_delta) -> void:
 		invincible_timer -= _delta
 		if invincible_timer >= 0.0:
 			set_invincible(false)
+	
+	if current_gun.is_held():
+		current_gun.gun_sprite.rotation = get_mouse_direction().angle()
+	else:
+		current_gun.gun_sprite.rotation = Vector2.RIGHT.angle()
 	
 func _physics_process(_delta):
 	state_manager.physics_process(_delta)
@@ -135,13 +137,9 @@ func shoot(_delta:float) -> void:
 	#shoot utilizes gun system to provide acceleration to player
 	if is_grounded():
 		return
-	#these specific transforms to get mouse screen position due to the viewport altering worldspace resolution
-	#this is a pain point! consider revision or connect it to the viewport!
-	var mouse_pos = get_viewport().get_mouse_position()/4 - get_global_transform_with_canvas().origin
 	
-	#getting the vector to the center of the player
-	var shot_direction_vector = (mouse_pos - center_point.position)
-	shot_direction_vector = shot_direction_vector/shot_direction_vector.length()
+	#getting the vector from the center of the player
+	var shot_direction_vector = get_mouse_direction()
 	var shot_power = shot_direction_vector*current_gun.get_knockback()
 	#resetting upward velocities to prevent rocketing and provide proper impulse when falling
 	if shot_power.y > 0:
@@ -158,7 +156,13 @@ func shoot(_delta:float) -> void:
 	bullet.set_direction(shot_direction_vector.normalized())
 	bullet.set_lifetime(2.0)
 	get_parent().add_child(bullet)
-
+func switch_gun_back() -> void:
+	current_gun.switch_back()
+	current_gun.position = back_point.position
+func switch_gun_held() -> void:
+	current_gun.switch_held()
+	current_gun.position = center_point.position
+	
 #idle
 func idle(_delta:float) -> void:
 	#anything that needs to happen when idle
@@ -200,23 +204,19 @@ func is_grounded() -> bool:
 		coyote_time = coyote_time_tolerance
 	was_grounded = value
 	return value
-
 func is_moving_up() -> bool:
 	#returns true if player velocity is moving them upwards, to prevent false landings
 	if velocity.y < 0:
 		return true
 	return false
-
 func is_dashing() -> bool:
 	return dash_completed > 0.0
-
 func is_shot_ready() -> bool:
 	#TODO: update this with reload time
 	return true
 
 func start_jump_buffer_timer() -> void:
 	jump_buffer_timer = jump_buffer_tolerance
-
 func is_jump_buffered() -> bool:
 	return jump_buffer_timer > 0.0
 	
@@ -225,12 +225,10 @@ func can_coyote_jump() -> bool:
 
 func set_invincible(state:bool=true) -> void:
 	invincible = state
-
 func set_invincible_time(time:float) -> void:
 	invincible_timer = time
 	if invincible_timer > 0.0:
 		set_invincible(true)
-
 func is_invincible() -> bool:
 	return invincible
 
@@ -239,6 +237,15 @@ func change_health(value:int) -> void:
 	health = health + value
 	emit_signal("health_changed", health, value)
 	print(health)
+
+func get_mouse_direction() -> Vector2:
+	#these specific transforms to get mouse screen position due to the viewport altering worldspace resolution
+	#this is a pain point! consider revision or connect it to the viewport!
+	var mouse_pos = get_viewport().get_mouse_position()/4 - get_global_transform_with_canvas().origin
+	#getting the vector to the center of the player
+	var shot_direction_vector = (mouse_pos - center_point.position)
+	shot_direction_vector = shot_direction_vector/shot_direction_vector.length()
+	return shot_direction_vector.normalized()
 
 #incoming signals
 
