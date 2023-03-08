@@ -119,9 +119,11 @@ func fall(_delta:float) -> void:
 func move(_direction, _delta:float) -> void:
 	#accelerates in input direction up to max speed
 	if _direction < 0:
-		animations.flip_h = false
+		#animations.flip_h = true
+		animations.scale.x = -abs(animations.scale.x)
 	if _direction > 0:
-		animations.flip_h = true
+		#animations.flip_h = false
+		animations.scale.x = abs(animations.scale.x)
 	if is_grounded() and sign(_direction)!=sign(velocity.x):
 		#simulated friction for grounded movement
 		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2*_delta)
