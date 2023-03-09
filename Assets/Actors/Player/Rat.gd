@@ -66,11 +66,8 @@ func _process(_delta) -> void:
 		invincible_timer -= _delta
 		if invincible_timer >= 0.0:
 			set_invincible(false)
-	
-	if current_gun.is_held():
-		current_gun.gun_sprite.rotation = get_mouse_direction().angle()
-	else:
-		current_gun.gun_sprite.rotation = Vector2.RIGHT.angle()
+			
+	sprite_rotations()
 	
 func _physics_process(_delta):
 	state_manager.physics_process(_delta)
@@ -82,9 +79,6 @@ func _physics_process(_delta):
 		jump_buffer_timer -= _delta
 	#if global_position.y >= 304:
 	#	global_position.y = 304
-	debug_line.clear_points()
-	debug_line.add_point(center_point.position)
-	debug_line.add_point(get_viewport().get_mouse_position() - get_global_transform_with_canvas().origin)
 	
 #player functions
 
@@ -117,13 +111,13 @@ func fall(_delta:float) -> void:
 
 #move (used by many states)
 func move(_direction, _delta:float) -> void:
-	#accelerates in input direction up to max speed
-	if _direction < 0:
-		#animations.flip_h = true
-		animations.scale.x = -abs(animations.scale.x)
-	if _direction > 0:
-		#animations.flip_h = false
-		animations.scale.x = abs(animations.scale.x)
+	#move accelerates the player towards input direction up to max speed
+	
+	#flipping our player sprite
+	#this might require some changes if animations are standardized, until then we utilize sprite scale
+	if (_direction >= 1 or _direction <= -1) and is_grounded():
+		animations.scale.x = sign(_direction)*abs(animations.scale.x)
+	
 	if is_grounded() and sign(_direction)!=sign(velocity.x):
 		#simulated friction for grounded movement
 		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2*_delta)
@@ -259,6 +253,40 @@ func start_default_invincible() -> void:
 	set_invincible_time(default_invincible_time)
 func get_hurt_time() -> float:
 	return hurt_time
+
+func sprite_rotations() -> void:
+	#calculations for player and gun sprite rotations and flips
+	#this is a little iffy and has a dependency with checking the player sprite scale value
+	#I'd like to revisit this, potentially by setting up a member variable(s) that tracks
+	#movement direction or mouse direction
+	#the current behavior is split between here and the move function...beware!
+	
+	#calculation rotations when gun is held (midair)
+	if current_gun.is_held():
+		var current_angle = get_mouse_direction().angle()
+		current_gun.gun_sprite.rotation = current_angle
+		if sign(animations.scale.x) > 0:
+			animations.rotation = current_angle
+		else:
+			animations.rotation = current_angle - PI
+	else:
+		current_gun.gun_sprite.rotation = Vector2.RIGHT.angle()
+		animations.rotation = Vector2.RIGHT.angle()
+	
+	#gross gunsprite flipping solution that requires checking player sprite data
+	#gun sprite changes should probably be inside the gun class, this is a hacky temp solution
+	#that does require me to pass in move direction data to the gun
+	#if that becomes a neccessity, this will absolutely be changed
+	if is_grounded() and !current_gun.is_held():
+		current_gun.flip_gun_sprite_vertical(false)
+		current_gun.flip_gun_sprite_horizontal(sign(animations.scale.x)<0)
+	if !is_grounded() and current_gun.is_held():
+		current_gun.flip_gun_sprite_vertical(sign(animations.scale.x)<0)
+		current_gun.flip_gun_sprite_horizontal(false)
+	
+	debug_line.clear_points()
+	debug_line.add_point(center_point.position)
+	debug_line.add_point(get_viewport().get_mouse_position() - get_global_transform_with_canvas().origin)
 
 func change_health(value:int) -> void:
 	#in the future, this will send out signals to update GUI and visual functions

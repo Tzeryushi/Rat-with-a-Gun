@@ -26,10 +26,11 @@ signal bullet_fired
 #back position and held position are designated by the position nodes, and inform the sprite's position in various states
 
 func _process(_delta):
-	if gun_sprite.rotation > PI/2 or gun_sprite.rotation < -PI/2:
-		gun_sprite.scale = Vector2(1,-1)
-	else:
-		gun_sprite.scale = Vector2(1,1)
+#	if gun_sprite.rotation > PI/2 or gun_sprite.rotation < -PI/2:
+#		gun_sprite.scale = Vector2(1,-1)
+#	else:
+#		gun_sprite.scale = Vector2(1,1)
+	pass
 
 func fire() -> Bullet:
 	emit_signal("bullet_fired")
@@ -55,13 +56,29 @@ func switch_back() -> void:
 	gun_sprite.flip_v = true
 	gun_sprite.offset = Vector2.ZERO + back_position.position
 
+func flip_gun_sprite_horizontal(value:bool) -> void:
+	#flips the gun sprite if true, unflips if false
+	#this is done through sprite scale as the sprite is flips around its offset, flipv simply flips the sprite in place
+	if value:
+		gun_sprite.scale.x = -1
+	else:
+		gun_sprite.scale.x = 1
+
+func flip_gun_sprite_vertical(value:bool) -> void:
+	#flips the gun sprite if true, unflips if false
+	#this is done through sprite scale as the sprite is flips around its offset, flipv simply flips the sprite in place
+	if value:
+		gun_sprite.scale.y = -1
+	else:
+		gun_sprite.scale.y = 1
+
 func get_knockback() -> float:
 	#todo: factor in value changes from effects? should that be on the player?
 	return _knockback
 
 func get_muzzle_reach() -> float:
 	#returns the distance between the current hold position and the muzzle
-	return (Vector2.RIGHT*_hold_length+muzzle_position.position-held_position.position).length()
+	return ((Vector2.RIGHT*_hold_length+muzzle_position.position-held_position.position)*scale).length()
 
 func get_gun_rotation() -> Vector2:
 	return Vector2(cos(gun_sprite.rotation), sin(gun_sprite.rotation))

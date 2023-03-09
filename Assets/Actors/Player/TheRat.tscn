@@ -52,7 +52,6 @@ animations = [ {
 } ]
 
 [node name="Player" type="KinematicBody2D" groups=["player"]]
-position = Vector2( -3, 3 )
 collision_layer = 0
 script = ExtResource( 2 )
 animation_node = NodePath("Animations")
@@ -64,6 +63,7 @@ max_speed = 600.0
 jump_power = 1000.0
 jump_cancel_power = 8000.0
 jump_gravity = 1200.0
+stomp_power = 1000.0
 gravity = 1700.0
 terminal_velo = 1500.0
 
@@ -82,12 +82,12 @@ rotation = 1.57079
 shape = SubResource( 1 )
 
 [node name="Animations" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -63 )
+position = Vector2( 0, -43 )
 scale = Vector2( 0.063, 0.063 )
 frames = SubResource( 28 )
 animation = "jump"
 playing = true
-offset = Vector2( -288, 0 )
+offset = Vector2( -288, -320 )
 
 [node name="StateManager" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -185,7 +185,7 @@ stomp_node = NodePath("../PlayerStompState")
 position = Vector2( 0, -43 )
 scale = Vector2( 6, 6 )
 _knockback = 600.0
-_hold_length = 5.0
+_hold_length = 3.0
 _bullet_speed = 700.0
 
 [node name="UnderCasts" type="Node2D" parent="."]
