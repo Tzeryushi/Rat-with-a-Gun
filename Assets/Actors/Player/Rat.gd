@@ -20,6 +20,8 @@ export var hurt_time : float = 0.5
 export var default_invincible_time : float = 0.2
 
 onready var current_gun : Gun = get_node(first_gun)
+onready var ground_collider := $GroundPhysicsCollider
+onready var jump_collider := $JumpPhysicsCollider
 onready var bounce_casts := $UnderCasts
 onready var debug_line := $DebugLine
 onready var center_point := $Center
@@ -36,7 +38,6 @@ var invincible : bool = false #to help future proof this, only interact using th
 var invincible_timer : float = 0.0
 var is_hurt : bool = false
 var last_hurt_direction : Vector2 = Vector2.ZERO #impulse direction from last painful collision
-
 
 signal health_changed(new_value, difference)
 signal shot_fired
@@ -77,8 +78,6 @@ func _physics_process(_delta):
 		coyote_time -= _delta
 	if jump_buffer_timer > 0.0:
 		jump_buffer_timer -= _delta
-	#if global_position.y >= 304:
-	#	global_position.y = 304
 	
 #player functions
 
@@ -201,6 +200,38 @@ func check_stomp(_delta) -> bool:
 				return true
 	return false
 
+func switch_hitboxes(value:int) -> void:
+	#switches which hitboxes player uses, basis of animation
+	#I CHANGED THIS, NEEDS REFACTORING NOW
+	match value:
+		Globals.PLAYERSTATE.IDLE:
+			ground_collider.disabled = false
+			jump_collider.disabled = true
+		Globals.PLAYERSTATE.MOVE:
+			ground_collider.disabled = false
+			jump_collider.disabled = true
+		Globals.PLAYERSTATE.JUMP:
+			ground_collider.disabled = true
+			jump_collider.disabled = false
+		Globals.PLAYERSTATE.FALL:
+			ground_collider.disabled = true
+			jump_collider.disabled = false
+		Globals.PLAYERSTATE.GDASH:
+			ground_collider.disabled = false
+			jump_collider.disabled = true
+		Globals.PLAYERSTATE.ADASH:
+			ground_collider.disabled = false
+			jump_collider.disabled = true
+		Globals.PLAYERSTATE.STOMP:
+			ground_collider.disabled = true
+			jump_collider.disabled = false
+		Globals.PLAYERSTATE.HURT:
+			ground_collider.disabled = true
+			jump_collider.disabled = false
+		Globals.PLAYERSTATE.SHOOT:
+			ground_collider.disabled = false
+			jump_collider.disabled = true
+
 func hurt() -> void:
 	#uses vector from the last collision
 	velocity = last_hurt_direction*200
@@ -241,6 +272,7 @@ func is_jump_buffered() -> bool:
 func can_coyote_jump() -> bool:
 	return coyote_time > 0.0
 
+#invincibility functions
 func set_invincible(state:bool=true) -> void:
 	invincible = state
 func set_invincible_time(time:float) -> void:

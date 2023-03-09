@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://TempAssets/2.PNG" type="Texture" id=1]
 [ext_resource path="res://Assets/Actors/Player/Rat.gd" type="Script" id=2]
@@ -22,6 +22,9 @@ height = 0.0
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 17.0001
 height = 33.9998
+
+[sub_resource type="CircleShape2D" id=34]
+radius = 43.0
 
 [sub_resource type="SpriteFrames" id=28]
 animations = [ {
@@ -76,10 +79,16 @@ position = Vector2( 0, -43 )
 rotation = 1.57079
 shape = SubResource( 33 )
 
-[node name="PhysicsCollider" type="CollisionShape2D" parent="."]
+[node name="GroundPhysicsCollider" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -17 )
 rotation = 1.57079
 shape = SubResource( 1 )
+
+[node name="JumpPhysicsCollider" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -43 )
+rotation = 1.57079
+shape = SubResource( 34 )
+disabled = true
 
 [node name="Animations" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -43 )
@@ -96,6 +105,7 @@ first_state = NodePath("PlayerIdleState")
 [node name="PlayerMoveState" type="Node" parent="StateManager"]
 script = ExtResource( 4 )
 animation_type = "move"
+hurtbox_state = 1
 g_dash_node = NodePath("../PlayerGDashState")
 jump_node = NodePath("../PlayerJumpState")
 fall_node = NodePath("../PlayerFallState")
@@ -106,6 +116,7 @@ hurt_node = NodePath("../PlayerHurtState")
 [node name="PlayerJumpState" type="Node" parent="StateManager"]
 script = ExtResource( 5 )
 animation_type = "jump"
+hurtbox_state = 2
 a_dash_node = NodePath("../PlayerADashState")
 fall_node = NodePath("../PlayerFallState")
 idle_node = NodePath("../PlayerIdleState")
@@ -116,6 +127,7 @@ hurt_node = NodePath("../PlayerHurtState")
 [node name="PlayerFallState" type="Node" parent="StateManager"]
 script = ExtResource( 6 )
 animation_type = "fall"
+hurtbox_state = 3
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
@@ -136,6 +148,7 @@ hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerShootState" type="Node" parent="StateManager"]
 script = ExtResource( 8 )
+hurtbox_state = 6
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
 fall_node = NodePath("../PlayerFallState")
@@ -146,6 +159,7 @@ hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerGDashState" type="Node" parent="StateManager"]
 script = ExtResource( 9 )
+hurtbox_state = 4
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
@@ -154,6 +168,7 @@ shoot_node = NodePath("../PlayerShootState")
 
 [node name="PlayerADashState" type="Node" parent="StateManager"]
 script = ExtResource( 10 )
+hurtbox_state = 5
 g_dash_node = NodePath("../PlayerGDashState")
 fall_node = NodePath("../PlayerFallState")
 jump_node = NodePath("../PlayerJumpState")
@@ -163,6 +178,7 @@ shoot_node = NodePath("../PlayerShootState")
 
 [node name="PlayerStompState" type="Node" parent="StateManager"]
 script = ExtResource( 12 )
+hurtbox_state = 6
 a_dash_node = NodePath("../PlayerADashState")
 fall_node = NodePath("../PlayerFallState")
 idle_node = NodePath("../PlayerIdleState")
@@ -172,6 +188,7 @@ hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerHurtState" type="Node" parent="StateManager"]
 script = ExtResource( 11 )
+hurtbox_state = 7
 g_dash_node = NodePath("../PlayerGDashState")
 a_dash_node = NodePath("../PlayerADashState")
 fall_node = NodePath("../PlayerFallState")

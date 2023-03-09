@@ -35,6 +35,7 @@ func _process(_delta):
 func fire() -> Bullet:
 	emit_signal("bullet_fired")
 	var new_bullet = _bullet_scene.instance()
+	#new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
 	new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
 	return new_bullet
 

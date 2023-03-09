@@ -115,6 +115,10 @@ run/main_scene="res://Main.tscn"
 boot_splash/image="res://TempAssets/RatWAGun.png"
 config/icon="res://TempAssets/RatWAGun.png"
 
+[autoload]
+
+Globals="*res://Assets/GLOBALS.gd"
+
 [display]
 
 window/size/width=1920
