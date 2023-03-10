@@ -20,7 +20,7 @@ extends PlayerState
 func on_enter() -> void:
 	#switch to shoot animation
 	#todo: flag so that animation doesn't reset coming from a gdash
-	super.on_enter()
+	super()
 	actor.switch_gun_held()
 	actor.shoot()
 

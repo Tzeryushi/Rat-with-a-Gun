@@ -110,30 +110,28 @@ first_state = NodePath("PlayerIdleState")
 
 [node name="PlayerMoveState" type="Node" parent="StateManager"]
 script = ExtResource("4")
-animation_type = "move"
-hurtbox_state = 1
 g_dash_node = NodePath("../PlayerGDashState")
 jump_node = NodePath("../PlayerJumpState")
 fall_node = NodePath("../PlayerFallState")
 idle_node = NodePath("../PlayerIdleState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
+animation_type = "move"
+hurtbox_state = 6
 
 [node name="PlayerJumpState" type="Node" parent="StateManager"]
 script = ExtResource("5")
-animation_type = "jump"
-hurtbox_state = 2
 a_dash_node = NodePath("../PlayerADashState")
 fall_node = NodePath("../PlayerFallState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
+animation_type = "jump"
+hurtbox_state = 1
 
 [node name="PlayerFallState" type="Node" parent="StateManager"]
 script = ExtResource("6")
-animation_type = "fall"
-hurtbox_state = 3
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
@@ -141,20 +139,22 @@ move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 bounce_node = NodePath("../PlayerStompState")
 hurt_node = NodePath("../PlayerHurtState")
+animation_type = "fall"
+hurtbox_state = 2
 
 [node name="PlayerIdleState" type="Node" parent="StateManager"]
 script = ExtResource("7")
-animation_type = "idle"
 g_dash_node = NodePath("../PlayerGDashState")
 jump_node = NodePath("../PlayerJumpState")
 fall_node = NodePath("../PlayerFallState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
+animation_type = "idle"
+hurtbox_state = 3
 
 [node name="PlayerShootState" type="Node" parent="StateManager"]
 script = ExtResource("8")
-hurtbox_state = 6
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
 fall_node = NodePath("../PlayerFallState")
@@ -162,39 +162,39 @@ idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath(".")
 hurt_node = NodePath("../PlayerHurtState")
+hurtbox_state = 2
 
 [node name="PlayerGDashState" type="Node" parent="StateManager"]
 script = ExtResource("9")
-hurtbox_state = 4
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
+hurtbox_state = 9
 
 [node name="PlayerADashState" type="Node" parent="StateManager"]
 script = ExtResource("10")
-hurtbox_state = 5
 g_dash_node = NodePath("../PlayerGDashState")
 fall_node = NodePath("../PlayerFallState")
 jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
+hurtbox_state = 12
 
 [node name="PlayerStompState" type="Node" parent="StateManager"]
 script = ExtResource("12")
-hurtbox_state = 6
 a_dash_node = NodePath("../PlayerADashState")
 fall_node = NodePath("../PlayerFallState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
+hurtbox_state = 7
 
 [node name="PlayerHurtState" type="Node" parent="StateManager"]
 script = ExtResource("11")
-hurtbox_state = 7
 g_dash_node = NodePath("../PlayerGDashState")
 a_dash_node = NodePath("../PlayerADashState")
 fall_node = NodePath("../PlayerFallState")
@@ -203,6 +203,7 @@ idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 stomp_node = NodePath("../PlayerStompState")
+hurtbox_state = 10
 
 [node name="BaseGun" parent="." instance=ExtResource("13")]
 position = Vector2(0, -43)
@@ -241,7 +242,7 @@ default_color = Color(1, 0.4, 0.4, 1)
 position = Vector2(0, -43)
 
 [node name="Back" type="Marker2D" parent="."]
-position = Vector2(0, -21)
+position = Vector2(0, -35)
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]

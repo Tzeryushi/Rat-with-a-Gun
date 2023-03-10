@@ -27,7 +27,7 @@ var hurt_time : float = 0.5
 
 func on_enter() -> void:
 	#switch to hurt animation
-	super.on_enter()
+	super()
 	#start invincibility, grab hurt timer from player, call impulse from hurt
 	hurt_time = actor.get_hurt_time()
 	actor.hurt()

@@ -19,7 +19,7 @@ extends PlayerState
 
 func on_enter() -> void:
 	#switch to jump animation
-	super.on_enter()
+	super()
 	#reset jump button held flag
 	actor.jump_held = true
 	actor.jump()

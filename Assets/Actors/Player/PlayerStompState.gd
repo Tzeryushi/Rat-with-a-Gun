@@ -17,7 +17,7 @@ extends PlayerState
 
 func on_enter() -> void:
 	#switch to stomp animation
-	super.on_enter()
+	super()
 	#introduce stomp velocity
 	actor.stomp()
 	actor.switch_gun_held()

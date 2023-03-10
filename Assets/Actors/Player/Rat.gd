@@ -141,7 +141,6 @@ func shoot() -> void:
 	#shoot utilizes gun system to provide acceleration to player
 	#if is_grounded():
 		#return
-	#switch_gun_held()
 	#getting the vector from the center of the player
 	var shot_direction_vector = get_mouse_direction()
 	var shot_power = shot_direction_vector*current_gun.get_knockback()
@@ -204,37 +203,17 @@ func check_stomp(_delta) -> bool:
 				return true
 	return false
 
-func switch_hitboxes(value:int) -> void:
+func switch_hitboxes(value:Globals.PLAYERSTATE) -> void:
 	#switches which hitboxes player uses, basis of animation
-	#I CHANGED THIS, NEEDS REFACTORING NOW
-	match value:
-		Globals.PLAYERSTATE.IDLE:
+	match value%3:
+		0:
+			#ground hitbox active
 			ground_collider.disabled = false
 			jump_collider.disabled = true
-		Globals.PLAYERSTATE.MOVE:
-			ground_collider.disabled = false
-			jump_collider.disabled = true
-		Globals.PLAYERSTATE.JUMP:
+		1:
+			#aerial hitbox active
 			ground_collider.disabled = true
 			jump_collider.disabled = false
-		Globals.PLAYERSTATE.FALL:
-			ground_collider.disabled = true
-			jump_collider.disabled = false
-		Globals.PLAYERSTATE.GDASH:
-			ground_collider.disabled = false
-			jump_collider.disabled = true
-		Globals.PLAYERSTATE.ADASH:
-			ground_collider.disabled = false
-			jump_collider.disabled = true
-		Globals.PLAYERSTATE.STOMP:
-			ground_collider.disabled = true
-			jump_collider.disabled = false
-		Globals.PLAYERSTATE.HURT:
-			ground_collider.disabled = true
-			jump_collider.disabled = false
-		Globals.PLAYERSTATE.SHOOT:
-			ground_collider.disabled = false
-			jump_collider.disabled = true
 
 func hurt() -> void:
 	#uses vector from the last collision

@@ -12,6 +12,7 @@ var effects : Array
 #standard bullet behavior, can be overridden
 
 func _process(_delta) -> void:
+	#countdown to lifetime.
 	_lifetime -= _delta
 	if _lifetime <= 0.0:
 		destroy()

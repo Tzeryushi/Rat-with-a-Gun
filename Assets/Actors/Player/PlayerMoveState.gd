@@ -28,7 +28,7 @@ extends PlayerState
 
 func on_enter() -> void:
 	#switch to move animation
-	super.on_enter()
+	super()
 	actor.switch_gun_back()
 
 func input(_event:InputEvent) -> BaseState:

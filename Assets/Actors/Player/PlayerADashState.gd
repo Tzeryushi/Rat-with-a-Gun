@@ -17,7 +17,7 @@ extends PlayerState
 
 func on_enter() -> void:
 	#switch to dash animation
-	super.on_enter()
+	super()
 	actor.switch_gun_held()
 
 func input(_event:InputEvent) -> BaseState:

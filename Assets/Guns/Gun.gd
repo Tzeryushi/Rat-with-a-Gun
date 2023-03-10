@@ -18,6 +18,8 @@ extends Node2D
 
 var _held : bool = false
 
+signal reload_started(time:float)
+signal reload_finished
 signal bullet_fired
 
 #prototype to be inherited by other guns, structures are referenced by PlayerRat class
@@ -26,21 +28,27 @@ signal bullet_fired
 #back position and held position are designated by the position nodes, and inform the sprite's position in various states
 
 func _process(_delta):
-#	if gun_sprite.rotation > PI/2 or gun_sprite.rotation < -PI/2:
-#		gun_sprite.scale = Vector2(1,-1)
-#	else:
-#		gun_sprite.scale = Vector2(1,1)
+	#will potentially handle gun rotation here in the future
 	pass
 
 func fire() -> Bullet:
-	emit_signal("bullet_fired")
+	#instantiates loaded bullet, returns ref
+	#this will remove a bullet from the clip and start the firing speed timer
+	bullet_fired.emit()
 	var new_bullet = _bullet_scene.instantiate()
 	#new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
 	new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
 	return new_bullet
 
 func reload() -> void:
-	pass
+	#begins reload, yields until reload time passes
+	#emits signal upon beginning and end to interface with UI
+	#by design this does not directly interact with checks to shoot, but does affect is_shot_ready
+	
+	#TODO: update to not use base variables
+	reload_started.emit(_reload_time)
+	await get_tree().create_timer(_reload_time).timeout
+	reload_finished.emit()
 
 func switch_held() -> void:
 	#switches to "hand" position in air
@@ -86,3 +94,8 @@ func get_gun_rotation() -> Vector2:
 
 func is_held() -> bool:
 	return _held
+
+func is_shot_ready() -> bool:
+	#returns true when gun can shoot
+	#this is limited by reload, loaded bullets, and firing speed
+	return true

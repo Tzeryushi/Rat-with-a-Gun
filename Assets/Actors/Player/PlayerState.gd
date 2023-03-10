@@ -10,9 +10,9 @@ var move_last : int = 0
 func on_enter() -> void:
 	#execute when state is entered
 	#this will be overwritten by inheritors, will need to be referenced if needed
+	print(self)
 	actor.animations.play(animation_type)
 	actor.switch_hitboxes(hurtbox_state)
-	print(self)
 	pass
 
 func on_exit() -> void:

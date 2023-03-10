@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b7m87fv7olha4"]
 
 [ext_resource type="Script" path="res://Assets/Guns/Gun.gd" id="1"]
-[ext_resource type="PackedScene" path="res://Assets/Guns/Bullet.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://d15yytkcst3dt" path="res://Assets/Guns/Bullet.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://vecgebt1vcb" path="res://TempAssets/Paint Layer 4.PNG" id="3_sd3mp"]
 
 [sub_resource type="SpriteFrames" id="2"]
@@ -22,16 +22,15 @@ _bullet_scene = ExtResource("3")
 
 [node name="GunSprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(0, -1)
 scale = Vector2(0.063, 0.063)
 sprite_frames = SubResource("2")
 frame_progress = 0.228939
 
 [node name="BackPosition" type="Marker2D" parent="."]
-position = Vector2(0, -29)
+position = Vector2(-9, -28)
 
 [node name="HeldPosition" type="Marker2D" parent="."]
-position = Vector2(-31, -25)
+position = Vector2(-31, -22)
 
 [node name="MuzzlePosition" type="Marker2D" parent="."]
-position = Vector2(46, -25)
+position = Vector2(45, -22)
