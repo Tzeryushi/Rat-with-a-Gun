@@ -34,7 +34,7 @@ func input(_event:InputEvent) -> BaseState:
 	#cycle to aerial dash
 	if Input.is_action_just_pressed("dash"):
 		return a_dash_state
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot") and actor.is_shot_ready():
 		return shoot_state
 	#if jump is released, flag to cut jump height
 	if Input.is_action_just_released("jump"):

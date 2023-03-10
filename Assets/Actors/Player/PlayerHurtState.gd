@@ -42,7 +42,7 @@ func process(_delta:float) -> BaseState:
 			#check for aerial states, dash->shoot->fall
 			if Input.is_action_pressed("dash"):
 				return a_dash_state
-			if Input.is_action_pressed("shoot"):
+			if Input.is_action_just_pressed("shoot") and actor.is_shot_ready():
 				return shoot_state
 			return fall_state
 		else:

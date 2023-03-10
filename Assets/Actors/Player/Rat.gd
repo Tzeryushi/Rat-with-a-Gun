@@ -251,7 +251,7 @@ func is_dashing() -> bool:
 	return dash_completed > 0.0
 func is_shot_ready() -> bool:
 	#TODO: update this with reload time
-	return true
+	return current_gun.is_shot_ready()
 
 func start_jump_buffer_timer() -> void:
 	jump_buffer_timer = jump_buffer_tolerance

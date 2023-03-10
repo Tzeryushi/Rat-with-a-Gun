@@ -32,7 +32,8 @@ func input(_event:InputEvent) -> BaseState:
 		actor.start_jump_buffer_timer()
 	
 	if Input.is_action_just_pressed("dash"): return a_dash_state
-	elif Input.is_action_just_pressed("shoot"): return shoot_state
+	elif Input.is_action_just_pressed("shoot") and actor.is_shot_ready():
+		return shoot_state
 	#in unhandled case, returns null to keep same state
 	return null
 

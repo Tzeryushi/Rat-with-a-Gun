@@ -208,6 +208,8 @@ hurtbox_state = 10
 [node name="BaseGun" parent="." instance=ExtResource("13")]
 position = Vector2(0, -43)
 _knockback = 1000.0
+_firing_speed = 0.2
+_reload_time = 2.0
 _bullet_speed = 700.0
 
 [node name="UnderCasts" type="Node2D" parent="."]

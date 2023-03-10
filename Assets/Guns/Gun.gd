@@ -17,10 +17,14 @@ extends Node2D
 @onready var muzzle_position := $MuzzlePosition
 
 var _held : bool = false
+var _reloading : bool = false
+var _fire_restricted : bool = false
+var _bullets_in_clip : int = _clip_size
 
 signal reload_started(time:float)
 signal reload_finished
 signal bullet_fired
+signal clip_emptied
 
 #prototype to be inherited by other guns, structures are referenced by PlayerRat class
 #initial internal data should be protected, effects and stat alterations will be returned with getter functions
@@ -34,6 +38,12 @@ func _process(_delta):
 func fire() -> Bullet:
 	#instantiates loaded bullet, returns ref
 	#this will remove a bullet from the clip and start the firing speed timer
+	_fire_rate_timer()
+	#TODO: update conditional with clip check
+	_bullets_in_clip += -1
+	if (_bullets_in_clip < 1):
+		clip_emptied.emit()
+		reload()
 	bullet_fired.emit()
 	var new_bullet = _bullet_scene.instantiate()
 	#new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
@@ -47,8 +57,18 @@ func reload() -> void:
 	
 	#TODO: update to not use base variables
 	reload_started.emit(_reload_time)
+	_reloading = true
+	print("reloading...")
 	await get_tree().create_timer(_reload_time).timeout
+	_reloading = false
+	print("done!")
+	_bullets_in_clip = _clip_size
 	reload_finished.emit()
+
+func _fire_rate_timer() -> void:
+	_fire_restricted = true
+	await get_tree().create_timer(_firing_speed).timeout
+	_fire_restricted = false
 
 func switch_held() -> void:
 	#switches to "hand" position in air
@@ -98,4 +118,4 @@ func is_held() -> bool:
 func is_shot_ready() -> bool:
 	#returns true when gun can shoot
 	#this is limited by reload, loaded bullets, and firing speed
-	return true
+	return !(_fire_restricted or _reloading)
