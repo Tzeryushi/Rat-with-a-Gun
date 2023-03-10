@@ -1,21 +1,21 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://bs604hv4xukb7"]
 
-[ext_resource path="res://Main.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/TestLevel.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://Main.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://d2a640kxl8k78" path="res://Scenes/TestLevel.tscn" id="2"]
 
 [node name="Main" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="TestLevel" parent="." instance=ExtResource( 2 )]
+[node name="TestLevel" parent="." instance=ExtResource("2")]
 
-[node name="PixelLayer" type="ViewportContainer" parent="."]
+[node name="PixelLayer" type="SubViewportContainer" parent="."]
 visible = false
-margin_right = 180.0
-margin_bottom = 320.0
-rect_scale = Vector2( 4, 4 )
+offset_right = 180.0
+offset_bottom = 320.0
+scale = Vector2(4, 4)
 mouse_filter = 2
 
-[node name="PixelLayerViewport" type="Viewport" parent="PixelLayer"]
-size = Vector2( 180, 320 )
+[node name="PixelLayerViewport" type="SubViewport" parent="PixelLayer"]
 handle_input_locally = false
+size = Vector2i(180, 320)
 render_target_update_mode = 0

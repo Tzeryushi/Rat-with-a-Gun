@@ -25,9 +25,9 @@ func _physics_process(_delta) -> void:
 	rotation = _direction.angle()
 	pass
 
-func spawn(position:Vector2, damage:int=0, speed:float=1.0, life:float=1.0) -> void:
+func spawn(new_position:Vector2, damage:int=0, speed:float=1.0, life:float=1.0) -> void:
 	#the position argument must be global!
-	self.position = position
+	self.position = new_position
 	_damage = damage
 	_speed = speed
 	_lifetime = life
@@ -41,15 +41,15 @@ func destroy() -> void:
 	pass
 
 #setters
-func set_position(position) -> void:
-	self.position = position
+#func set_position(position) -> void:
+#	self.position = position
 func set_direction(direction:Vector2) -> void:
 	_direction = direction
 func set_lifetime(lifetime:float) -> void:
 	_lifetime = lifetime
 func set_damage(damage:int) -> void:
 	_damage = damage
-func set_speed(speed:float) -> void:
+func set_velocity(speed:float) -> void:
 	_speed = speed
 
 

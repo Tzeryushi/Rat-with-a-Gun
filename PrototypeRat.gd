@@ -1,7 +1,7 @@
 extends Node2D
 
-export var acceleration : float = 500.0
-export var max_speed : float = 100.0
+@export var acceleration : float = 500.0
+@export var max_speed : float = 100.0
 
 var velocity = Vector2.ZERO #this is simply where we start out when initializing
 

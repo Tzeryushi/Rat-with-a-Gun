@@ -1,17 +1,17 @@
 class_name Actor
-extends KinematicBody2D #can be changed later
+extends CharacterBody2D #can be changed later
 
-export var animation_node : NodePath
-export var state_manager_node : NodePath
+@export var animation_node : NodePath
+@export var state_manager_node : NodePath
 
 #actor attributes
-export var health : int = 2
-export var base_power : int = 1
-export var defense : int = 0
-export var enemy : bool = false
+@export var health : int = 2
+@export var base_power : int = 1
+@export var defense : int = 0
+@export var enemy : bool = false
 
-onready var animations : AnimatedSprite = get_node(animation_node)
-onready var state_manager = get_node(state_manager_node)
+@onready var animations : AnimatedSprite2D = get_node(animation_node)
+@onready var state_manager = get_node(state_manager_node)
 
 func _ready() -> void:
 	#inject actor ref to states

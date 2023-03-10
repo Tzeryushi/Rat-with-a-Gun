@@ -1,23 +1,23 @@
 class_name PlayerADashState
 extends PlayerState
 
-export var g_dash_node : NodePath
-export var fall_node : NodePath
-export var jump_node : NodePath
-export var idle_node : NodePath
-export var move_node : NodePath
-export var shoot_node: NodePath
+@export var g_dash_node : NodePath
+@export var fall_node : NodePath
+@export var jump_node : NodePath
+@export var idle_node : NodePath
+@export var move_node : NodePath
+@export var shoot_node: NodePath
 
-onready var g_dash_state : BaseState = get_node(g_dash_node)
-onready var fall_state : BaseState = get_node(fall_node)
-onready var jump_state : BaseState = get_node(jump_node)
-onready var idle_state : BaseState = get_node(idle_node)
-onready var move_state : BaseState = get_node(idle_node)
-onready var shoot_state : BaseState = get_node(shoot_node)
+@onready var g_dash_state : BaseState = get_node(g_dash_node)
+@onready var fall_state : BaseState = get_node(fall_node)
+@onready var jump_state : BaseState = get_node(jump_node)
+@onready var idle_state : BaseState = get_node(idle_node)
+@onready var move_state : BaseState = get_node(idle_node)
+@onready var shoot_state : BaseState = get_node(shoot_node)
 
 func on_enter() -> void:
 	#switch to dash animation
-	.on_enter()
+	super.on_enter()
 	actor.switch_gun_held()
 
 func input(_event:InputEvent) -> BaseState:

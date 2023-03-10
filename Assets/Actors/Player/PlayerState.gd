@@ -1,8 +1,8 @@
 class_name PlayerState
 extends BaseState
 
-export var animation_type : String #this is used when entering a state
-export(Globals.PLAYERSTATE) var hurtbox_state
+@export var animation_type : String #this is used when entering a state
+@export var hurtbox_state : Globals.PLAYERSTATE
 
 var actor: PlayerRat
 var move_last : int = 0

@@ -1,109 +1,115 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=19 format=3 uid="uid://vt8hbs1jo2r4"]
 
-[ext_resource path="res://TempAssets/2.PNG" type="Texture" id=1]
-[ext_resource path="res://Assets/Actors/Player/Rat.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Actors/StateManager.gd" type="Script" id=3]
-[ext_resource path="res://Assets/Actors/Player/PlayerMoveState.gd" type="Script" id=4]
-[ext_resource path="res://Assets/Actors/Player/PlayerJumpState.gd" type="Script" id=5]
-[ext_resource path="res://Assets/Actors/Player/PlayerFallState.gd" type="Script" id=6]
-[ext_resource path="res://Assets/Actors/Player/PlayerIdleState.gd" type="Script" id=7]
-[ext_resource path="res://Assets/Actors/Player/PlayerShootState.gd" type="Script" id=8]
-[ext_resource path="res://Assets/Actors/Player/PlayerGDashState.gd" type="Script" id=9]
-[ext_resource path="res://Assets/Actors/Player/PlayerADashState.gd" type="Script" id=10]
-[ext_resource path="res://Assets/Actors/Player/PlayerHurtState.gd" type="Script" id=11]
-[ext_resource path="res://Assets/Actors/Player/PlayerStompState.gd" type="Script" id=12]
-[ext_resource path="res://Assets/Guns/BaseGun.tscn" type="PackedScene" id=13]
-[ext_resource path="res://TempAssets/3.PNG" type="Texture" id=14]
+[ext_resource type="Texture2D" uid="uid://dk3ko3qmdsfh8" path="res://TempAssets/2.PNG" id="1"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/Rat.gd" id="2"]
+[ext_resource type="Script" path="res://Assets/Actors/StateManager.gd" id="3"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerMoveState.gd" id="4"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerJumpState.gd" id="5"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerFallState.gd" id="6"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerIdleState.gd" id="7"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerShootState.gd" id="8"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerGDashState.gd" id="9"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerADashState.gd" id="10"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerHurtState.gd" id="11"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerStompState.gd" id="12"]
+[ext_resource type="PackedScene" uid="uid://b7m87fv7olha4" path="res://Assets/Guns/BaseGun.tscn" id="13"]
+[ext_resource type="Texture2D" uid="uid://cmx2ljbd5y2u" path="res://TempAssets/3.PNG" id="14"]
 
-[sub_resource type="CapsuleShape2D" id=33]
-radius = 40.0
+[sub_resource type="CapsuleShape2D" id="33"]
+radius = 0.0
 height = 0.0
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 17.0001
+[sub_resource type="CapsuleShape2D" id="1"]
+radius = 16.9999
 height = 33.9998
 
-[sub_resource type="CircleShape2D" id=34]
+[sub_resource type="CircleShape2D" id="34"]
 radius = 43.0
 
-[sub_resource type="SpriteFrames" id=28]
-animations = [ {
-"frames": [ ExtResource( 1 ) ],
+[sub_resource type="SpriteFrames" id="28"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1")
+}],
 "loop": false,
-"name": "dash",
+"name": &"dash",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 14 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14")
+}],
 "loop": false,
-"name": "fall",
+"name": &"fall",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 1 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1")
+}],
 "loop": true,
-"name": "idle",
+"name": &"idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14")
+}],
 "loop": false,
-"name": "jump",
+"name": &"jump",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 1 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1")
+}],
 "loop": true,
-"name": "move",
+"name": &"move",
 "speed": 5.0
-} ]
+}]
 
-[node name="Player" type="KinematicBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 0
-script = ExtResource( 2 )
+script = ExtResource("2")
+first_gun = NodePath("BaseGun")
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 health = 4
-first_gun = NodePath("BaseGun")
-acceleration = 1000.0
-max_speed = 600.0
-jump_power = 1000.0
-jump_cancel_power = 8000.0
-jump_gravity = 1200.0
-stomp_power = 1000.0
-gravity = 1700.0
-terminal_velo = 1500.0
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2( 0, -43 )
+position = Vector2(0, -43)
 rotation = 1.57079
-shape = SubResource( 33 )
+shape = SubResource("33")
 
 [node name="GroundPhysicsCollider" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -17 )
+position = Vector2(0, -17)
 rotation = 1.57079
-shape = SubResource( 1 )
+shape = SubResource("1")
 
 [node name="JumpPhysicsCollider" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -43 )
+position = Vector2(0, -43)
 rotation = 1.57079
-shape = SubResource( 34 )
+shape = SubResource("34")
 disabled = true
 
-[node name="Animations" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -43 )
-scale = Vector2( 0.063, 0.063 )
-frames = SubResource( 28 )
-animation = "jump"
-playing = true
-offset = Vector2( -288, -320 )
+[node name="Animations" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -43)
+scale = Vector2(0.063, 0.063)
+sprite_frames = SubResource("28")
+animation = &"jump"
+offset = Vector2(-288, -320)
 
 [node name="StateManager" type="Node" parent="."]
-script = ExtResource( 3 )
+script = ExtResource("3")
 first_state = NodePath("PlayerIdleState")
 
 [node name="PlayerMoveState" type="Node" parent="StateManager"]
-script = ExtResource( 4 )
+script = ExtResource("4")
 animation_type = "move"
 hurtbox_state = 1
 g_dash_node = NodePath("../PlayerGDashState")
@@ -114,7 +120,7 @@ shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerJumpState" type="Node" parent="StateManager"]
-script = ExtResource( 5 )
+script = ExtResource("5")
 animation_type = "jump"
 hurtbox_state = 2
 a_dash_node = NodePath("../PlayerADashState")
@@ -125,7 +131,7 @@ shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerFallState" type="Node" parent="StateManager"]
-script = ExtResource( 6 )
+script = ExtResource("6")
 animation_type = "fall"
 hurtbox_state = 3
 a_dash_node = NodePath("../PlayerADashState")
@@ -137,7 +143,7 @@ bounce_node = NodePath("../PlayerStompState")
 hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerIdleState" type="Node" parent="StateManager"]
-script = ExtResource( 7 )
+script = ExtResource("7")
 animation_type = "idle"
 g_dash_node = NodePath("../PlayerGDashState")
 jump_node = NodePath("../PlayerJumpState")
@@ -147,7 +153,7 @@ shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerShootState" type="Node" parent="StateManager"]
-script = ExtResource( 8 )
+script = ExtResource("8")
 hurtbox_state = 6
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
@@ -158,7 +164,7 @@ shoot_node = NodePath(".")
 hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerGDashState" type="Node" parent="StateManager"]
-script = ExtResource( 9 )
+script = ExtResource("9")
 hurtbox_state = 4
 a_dash_node = NodePath("../PlayerADashState")
 jump_node = NodePath("../PlayerJumpState")
@@ -167,7 +173,7 @@ move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 
 [node name="PlayerADashState" type="Node" parent="StateManager"]
-script = ExtResource( 10 )
+script = ExtResource("10")
 hurtbox_state = 5
 g_dash_node = NodePath("../PlayerGDashState")
 fall_node = NodePath("../PlayerFallState")
@@ -177,7 +183,7 @@ move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 
 [node name="PlayerStompState" type="Node" parent="StateManager"]
-script = ExtResource( 12 )
+script = ExtResource("12")
 hurtbox_state = 6
 a_dash_node = NodePath("../PlayerADashState")
 fall_node = NodePath("../PlayerFallState")
@@ -187,7 +193,7 @@ shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
 
 [node name="PlayerHurtState" type="Node" parent="StateManager"]
-script = ExtResource( 11 )
+script = ExtResource("11")
 hurtbox_state = 7
 g_dash_node = NodePath("../PlayerGDashState")
 a_dash_node = NodePath("../PlayerADashState")
@@ -198,46 +204,44 @@ move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 stomp_node = NodePath("../PlayerStompState")
 
-[node name="BaseGun" parent="." instance=ExtResource( 13 )]
-position = Vector2( 0, -43 )
-scale = Vector2( 6, 6 )
-_knockback = 600.0
-_hold_length = 3.0
+[node name="BaseGun" parent="." instance=ExtResource("13")]
+position = Vector2(0, -43)
+_knockback = 1000.0
 _bullet_speed = 700.0
 
 [node name="UnderCasts" type="Node2D" parent="."]
 visible = false
 
 [node name="RayCast2D" type="RayCast2D" parent="UnderCasts"]
-position = Vector2( 0, -1 )
-cast_to = Vector2( 0, 5 )
+position = Vector2(0, -1)
+target_position = Vector2(0, 5)
 collision_mask = 8
 collide_with_areas = true
 
 [node name="RayCast2D2" type="RayCast2D" parent="UnderCasts"]
-position = Vector2( -4, -1 )
-cast_to = Vector2( 0, 5 )
+position = Vector2(-4, -1)
+target_position = Vector2(0, 5)
 collision_mask = 8
 collide_with_areas = true
 
 [node name="RayCast2D3" type="RayCast2D" parent="UnderCasts"]
-position = Vector2( 4, -1 )
-cast_to = Vector2( 0, 5 )
+position = Vector2(4, -1)
+target_position = Vector2(0, 5)
 collision_mask = 8
 collide_with_areas = true
 
 [node name="DebugLine" type="Line2D" parent="."]
-position = Vector2( 1, -3 )
 z_index = -1
-points = PoolVector2Array( -1, -4, -1, -4 )
+position = Vector2(1, -3)
+points = PackedVector2Array(-1, -4, -1, -4)
 width = 2.0
-default_color = Color( 1, 0.4, 0.4, 1 )
+default_color = Color(1, 0.4, 0.4, 1)
 
-[node name="Center" type="Position2D" parent="."]
-position = Vector2( 0, -43 )
+[node name="Center" type="Marker2D" parent="."]
+position = Vector2(0, -43)
 
-[node name="Back" type="Position2D" parent="."]
-position = Vector2( 0, -21 )
+[node name="Back" type="Marker2D" parent="."]
+position = Vector2(0, -21)
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]

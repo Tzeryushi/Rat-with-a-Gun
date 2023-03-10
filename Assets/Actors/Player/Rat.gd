@@ -2,32 +2,32 @@ class_name PlayerRat
 
 extends Actor
 
-export var first_gun : NodePath
+@export var first_gun : NodePath
 
-export var acceleration : float = 500.0
-export var max_speed : float = 150.0
-export var jump_power : float = 210.0
-export var jump_cancel_power: float = 2500
-export var jump_gravity : float = 380.0
-export var stomp_power : float = 250
-export var gravity : float = 600.0
-export var terminal_velo : float = 500.0
-export var dash_multiplier : float = 3.0
-export var dash_time : float = 0.5
-export var jump_buffer_tolerance : float = 0.1
-export var coyote_time_tolerance : float = 0.15
-export var hurt_time : float = 0.5
-export var default_invincible_time : float = 0.2
+@export var acceleration : float = 30.0
+@export var max_speed : float = 600.0
+@export var jump_power : float = 1400.0
+@export var jump_cancel_power: float = 2000
+@export var jump_gravity : float = 40
+@export var stomp_power : float = 500
+@export var gravity : float = 50.0
+@export var terminal_velo : float = 1500.0
+@export var dash_multiplier : float = 3.0
+@export var dash_time : float = 0.5
+@export var jump_buffer_tolerance : float = 0.1
+@export var coyote_time_tolerance : float = 0.15
+@export var hurt_time : float = 0.5
+@export var default_invincible_time : float = 0.2
 
-onready var current_gun : Gun = get_node(first_gun)
-onready var ground_collider := $GroundPhysicsCollider
-onready var jump_collider := $JumpPhysicsCollider
-onready var bounce_casts := $UnderCasts
-onready var debug_line := $DebugLine
-onready var center_point := $Center
-onready var back_point := $Back
+@onready var current_gun : Gun = get_node(first_gun)
+@onready var ground_collider := $GroundPhysicsCollider
+@onready var jump_collider := $JumpPhysicsCollider
+@onready var bounce_casts := $UnderCasts
+@onready var debug_line := $DebugLine
+@onready var center_point := $Center
+@onready var back_point := $Back
 
-var velocity := Vector2.ZERO #this is simply where we start out when initializing
+#var velocity := Vector2.ZERO #this is simply where we start out when initializing
 var jump_held : bool = false #modified by states when jump is held or not, for jump buffering
 var dash_completed : float = 0.0 #helps keeps track of how much dash time is left, checked by states
 var jump_buffer_timer : float = 0.0 #checked by state to see if a jump has been buffered
@@ -72,12 +72,15 @@ func _process(_delta) -> void:
 	
 func _physics_process(_delta):
 	state_manager.physics_process(_delta)
+	move_and_slide()
 	
 	#coyote and jump buffer countdowns
 	if coyote_time > 0.0:
 		coyote_time -= _delta
 	if jump_buffer_timer > 0.0:
 		jump_buffer_timer -= _delta
+	
+	
 	
 #player functions
 
@@ -95,18 +98,12 @@ func jump_process(_delta:float) -> void:
 		velocity.y = velocity.y/2
 		jump_held = true
 	else:
-		velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity*_delta)
-	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
-	#global_position.y += (velocity.y*_delta)
-	pass
+		velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity)
 
 #fall
 func fall(_delta:float) -> void:
 	#accelerates downwards, no jumps allowed unless there is coyote time
-	velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
-	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
-	#global_position.y += (velocity.y*_delta)
-	pass
+	velocity.y = move_toward(velocity.y, terminal_velo, gravity)
 
 #move (used by many states)
 func move(_direction, _delta:float) -> void:
@@ -119,14 +116,18 @@ func move(_direction, _delta:float) -> void:
 	
 	if is_grounded() and sign(_direction)!=sign(velocity.x):
 		#simulated friction for grounded movement
-		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2*_delta)
+		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2)
 	else:
 		#less reverse movement in air
 		if _direction == 0:
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*_delta*.2)
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.2)
 		else:
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2*_delta)
-	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2)
+	
+	#set_velocity(Vector2(velocity.x, 0.0))
+	#set_up_direction(Vector2.UP)
+	#move_and_slide()
+	#velocity.x = velocity.x
 	#global_position.x += velocity.x*_delta
 
 #dash
@@ -171,8 +172,11 @@ func switch_gun_held() -> void:
 #idle
 func idle(_delta:float) -> void:
 	#anything that needs to happen when idle
-	velocity.x = move_toward(velocity.x, max_speed*0, acceleration*_delta)
-	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
+	velocity.x = move_toward(velocity.x, max_speed*0, acceleration)
+#	set_velocity(Vector2(velocity.x, 0.0))
+#	set_up_direction(Vector2.UP)
+#	move_and_slide()
+#	velocity.x = velocity.x
 	#global_position.x += velocity.x*_delta
 
 #stomp functions
@@ -184,15 +188,15 @@ func stomp() -> void:
 	stomped_node_reference.bounce_parent()
 func stomp_process(_delta) -> void:
 	#carries and reduces y velocity similarly to jump process
-	velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity*_delta)
-	velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
+	velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity)
+
 func check_stomp(_delta) -> bool:
 	#as long as the player is falling, they will stomp on a stompable field; rays are extended to the player velocity
 	#the player body will move to the cast intersection in the physics tick
 	#TODO: Add some invicibility and remove velocity truncation
 	if velocity.y > 0:
 		for cast in bounce_casts.get_children():
-			cast.cast_to = Vector2.DOWN*velocity*_delta+Vector2.DOWN
+			cast.target_position = Vector2.DOWN*velocity+Vector2.DOWN
 			cast.force_raycast_update()
 			if cast.is_colliding() && cast.get_collision_normal() == Vector2.UP:
 				#velocity.y = (cast.get_collision_point() - cast.global_position - Vector2.DOWN).y
@@ -239,11 +243,17 @@ func hurt() -> void:
 	is_hurt = false
 func hurt_process(_delta:float) -> void:
 	#simulates fall and move
-	velocity.x = move_toward(velocity.x, max_speed*0, acceleration*_delta)
-	velocity.x = move_and_slide(Vector2(velocity.x, 0.0), Vector2.UP).x
+	velocity.x = move_toward(velocity.x, max_speed*0, acceleration)
+	set_velocity(Vector2(velocity.x, 0.0))
+	set_up_direction(Vector2.UP)
+	move_and_slide()
+	velocity.x = velocity.x
 	if !is_grounded():
-		velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
-		velocity.y = move_and_slide(Vector2(0.0, velocity.y), Vector2.UP).y
+		velocity.y = move_toward(velocity.y, terminal_velo, gravity)
+		set_velocity(Vector2(0.0, velocity.y))
+		set_up_direction(Vector2.UP)
+		move_and_slide()
+		velocity.y = velocity.y
 
 func is_grounded() -> bool:
 	#uses kinematicbody function to determine ground contact

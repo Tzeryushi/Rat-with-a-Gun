@@ -1,23 +1,23 @@
 class_name PlayerStompState
 extends PlayerState
 
-export var a_dash_node : NodePath
-export var fall_node : NodePath
-export var idle_node : NodePath
-export var move_node : NodePath
-export var shoot_node: NodePath
-export var hurt_node : NodePath
+@export var a_dash_node : NodePath
+@export var fall_node : NodePath
+@export var idle_node : NodePath
+@export var move_node : NodePath
+@export var shoot_node: NodePath
+@export var hurt_node : NodePath
 
-onready var a_dash_state : BaseState = get_node(a_dash_node)
-onready var fall_state : BaseState = get_node(fall_node)
-onready var idle_state : BaseState = get_node(idle_node)
-onready var move_state : BaseState = get_node(move_node)
-onready var shoot_state : BaseState = get_node(shoot_node)
-onready var hurt_state : BaseState = get_node(hurt_node)
+@onready var a_dash_state : BaseState = get_node(a_dash_node)
+@onready var fall_state : BaseState = get_node(fall_node)
+@onready var idle_state : BaseState = get_node(idle_node)
+@onready var move_state : BaseState = get_node(move_node)
+@onready var shoot_state : BaseState = get_node(shoot_node)
+@onready var hurt_state : BaseState = get_node(hurt_node)
 
 func on_enter() -> void:
 	#switch to stomp animation
-	.on_enter()
+	super.on_enter()
 	#introduce stomp velocity
 	actor.stomp()
 	actor.switch_gun_held()
