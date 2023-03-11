@@ -9,7 +9,7 @@ extends Actor
 @export var jump_power : float = 1400.0
 @export var jump_cancel_power: float = 2000
 @export var jump_gravity : float = 40
-@export var stomp_power : float = 500
+@export var stomp_power : float = 1500
 @export var gravity : float = 50.0
 @export var terminal_velo : float = 1500.0
 @export var dash_multiplier : float = 3.0
@@ -17,11 +17,14 @@ extends Actor
 @export var jump_buffer_tolerance : float = 0.1
 @export var coyote_time_tolerance : float = 0.15
 @export var hurt_time : float = 0.5
+@export var hurt_bounceback_force : float = 800
 @export var default_invincible_time : float = 0.2
 
 @onready var current_gun : Gun = get_node(first_gun)
 @onready var ground_collider := $GroundPhysicsCollider
 @onready var jump_collider := $JumpPhysicsCollider
+@onready var ground_hurtbox := $Hurtbox/GroundHurtbox
+@onready var jump_hurtbox := $Hurtbox/JumpHurtbox
 @onready var bounce_casts := $UnderCasts
 @onready var debug_line := $DebugLine
 @onready var center_point := $Center
@@ -39,9 +42,20 @@ var invincible_timer : float = 0.0
 var is_hurt : bool = false
 var last_hurt_direction : Vector2 = Vector2.ZERO #impulse direction from last painful collision
 
-signal health_changed(new_value, difference)
-signal shot_fired
+#player signals
+signal health_changed(new_value:int, old_value:int)
+signal invicibility_started(time:float)
+signal invincibility_finished
 signal jumped
+
+#gun signals (passed through)
+signal bullet_fired(bullet:Bullet)
+signal bullets_in_clip_updated(bullets:int)
+signal clip_emptied
+signal firing_started(time:float)
+signal firing_finished
+signal reload_started(time:float)
+signal reload_finished
 
 #player node accepts input, sends to state manager to get result
 #states will decide if player defined functions for actions will be triggered
@@ -151,8 +165,6 @@ func shoot() -> void:
 		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
 	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/2.5
 	
-	emit_signal("shot_fired")
-	
 	#getting the bullet and storing it in the scene, outside of the player
 	#todo: store this in a specialized container node!
 	#todo: set up bullet lifetime calculations
@@ -195,7 +207,7 @@ func check_stomp(_delta) -> bool:
 	#TODO: Add some invicibility and remove velocity truncation
 	if velocity.y > 0:
 		for cast in bounce_casts.get_children():
-			cast.target_position = Vector2.DOWN*velocity+Vector2.DOWN
+			cast.target_position = Vector2.DOWN*(velocity*_delta)
 			cast.force_raycast_update()
 			if cast.is_colliding() && cast.get_collision_normal() == Vector2.UP:
 				#velocity.y = (cast.get_collision_point() - cast.global_position - Vector2.DOWN).y
@@ -210,29 +222,25 @@ func switch_hitboxes(value:Globals.PLAYERSTATE) -> void:
 			#ground hitbox active
 			ground_collider.disabled = false
 			jump_collider.disabled = true
+			ground_hurtbox.disabled = false
+			jump_hurtbox.disabled = true
 		1:
 			#aerial hitbox active
 			ground_collider.disabled = true
 			jump_collider.disabled = false
+			ground_hurtbox.disabled = true
+			jump_hurtbox.disabled = false
 
 func hurt() -> void:
-	#uses vector from the last collision
-	velocity = last_hurt_direction*200
+	#uses vector from the last collision to determine direction bounce when hurt
+	velocity = Vector2(sign(last_hurt_direction.x)*.71, -.71)*hurt_bounceback_force
 	set_invincible_time(default_invincible_time)
 	is_hurt = false
 func hurt_process(_delta:float) -> void:
-	#simulates fall and move
-	velocity.x = move_toward(velocity.x, max_speed*0, acceleration)
-	set_velocity(Vector2(velocity.x, 0.0))
-	set_up_direction(Vector2.UP)
-	move_and_slide()
-	velocity.x = velocity.x
+	#simulates fall and move while in hurt state (no inputs)
+	velocity.x = move_toward(velocity.x, max_speed*0, acceleration/2)
 	if !is_grounded():
 		velocity.y = move_toward(velocity.y, terminal_velo, gravity)
-		set_velocity(Vector2(0.0, velocity.y))
-		set_up_direction(Vector2.UP)
-		move_and_slide()
-		velocity.y = velocity.y
 
 func is_grounded() -> bool:
 	#uses kinematicbody function to determine ground contact
@@ -311,9 +319,7 @@ func sprite_rotations() -> void:
 
 func change_health(value:int) -> void:
 	#in the future, this will send out signals to update GUI and visual functions
-	health = health + value
-	emit_signal("health_changed", health, value)
-	print(health)
+	set_health(health + value)
 
 func get_mouse_direction() -> Vector2:
 	#these specific transforms to get mouse screen position due to the viewport altering worldspace resolution
@@ -324,14 +330,34 @@ func get_mouse_direction() -> Vector2:
 	shot_direction_vector = shot_direction_vector/shot_direction_vector.length()
 	return shot_direction_vector.normalized()
 
+func set_health(value:int) -> void:
+	emit_signal("health_changed", value, health)
+	health = value
+
 #incoming signals
 
-#
+#hurtbox signals
 func _on_Hurtbox_body_entered(body):
-	if body is Actor:
+	if body is Actor and !is_invincible():
 		change_health(-body.get_actor_damage())
 		last_hurt_direction = (center_point.global_position - body.global_position).normalized()
 		is_hurt = true
 func _on_Hurtbox_area_entered(area):
 	if area is Actor:
 		change_health(-area.get_actor_damage())
+
+#gun signals
+func _on_gun_bullet_fired(bullet):
+	bullet_fired.emit(bullet)
+func _on_gun_bullets_in_clip_updated(bullets):
+	bullets_in_clip_updated.emit(bullets)
+func _on_gun_clip_emptied():
+	clip_emptied.emit()
+func _on_gun_firing_started(time):
+	firing_started.emit(time)
+func _on_gun_firing_finished():
+	firing_finished.emit()
+func _on_gun_reload_started(time):
+	reload_started.emit(time)
+func _on_gun_reload_finished():
+	reload_finished.emit()

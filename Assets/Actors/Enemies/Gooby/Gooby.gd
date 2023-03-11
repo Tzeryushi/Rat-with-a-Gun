@@ -27,3 +27,8 @@ func be_bounced_on() -> void:
 
 func destruct() -> void:
 	queue_free()
+
+func set_health(value:int) -> void:
+	health = value
+	if health <= 0:
+		destruct()

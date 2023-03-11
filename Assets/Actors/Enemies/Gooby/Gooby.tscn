@@ -1,41 +1,41 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://ddb5bbyjfa17x"]
 
-[ext_resource path="res://Assets/Actors/Enemies/Gooby/Gooby.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Attributes/BounceField.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/Actors/StateManager.gd" type="Script" id=3]
+[ext_resource type="Script" path="res://Assets/Actors/Enemies/Gooby/Gooby.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://1gnelaggvl6n" path="res://Assets/Attributes/BounceField.tscn" id="2"]
+[ext_resource type="Script" path="res://Assets/Actors/StateManager.gd" id="3"]
 
-[sub_resource type="RectangleShape2D" id=2]
-size = Vector2( 7.5, 3 )
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(76, 20)
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 7.0
+[sub_resource type="CircleShape2D" id="1"]
+radius = 45.0
 
 [node name="Gooby" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 collision_mask = 16
-script = ExtResource( 1 )
+script = ExtResource("1")
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 enemy = true
 
-[node name="BounceField" parent="." instance=ExtResource( 2 )]
+[node name="BounceField" parent="." instance=ExtResource("2")]
+position = Vector2(0, 5)
 stomp_strength = 0.9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BounceField"]
-position = Vector2( 0, -12 )
-shape = SubResource( 2 )
+position = Vector2(0, -87)
+shape = SubResource("2")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-position = Vector2( -2.84217e-14, 1.19209e-07 )
-scale = Vector2( 1.6, 1.4 )
-color = Color( 0.32549, 0.580392, 0.407843, 1 )
-polygon = PackedVector2Array( -3, -9, 3.97364e-07, -10, 3, -9, 5, -5, 3, -1, 0, 0, -3, -1, -5, -5 )
+scale = Vector2(10.6, 9.275)
+color = Color(0.32549, 0.580392, 0.407843, 1)
+polygon = PackedVector2Array(-3, -9, 3.97364e-07, -10, 3, -9, 5, -5, 3, -1, 0, 0, -3, -1, -5, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -7 )
-shape = SubResource( 1 )
+position = Vector2(0, -46)
+shape = SubResource("1")
 
 [node name="StateManager" type="Node" parent="."]
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="Animations" type="AnimatedSprite2D" parent="."]

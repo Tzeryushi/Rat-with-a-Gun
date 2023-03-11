@@ -55,4 +55,6 @@ func set_velocity(speed:float) -> void:
 
 
 func _on_Bullet_body_entered(_body):
+	if _body is Actor and _body.is_in_group("enemy"):
+		_body.health = _body.health - _damage
 	destroy()

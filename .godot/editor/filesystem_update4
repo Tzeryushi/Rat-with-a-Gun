@@ -18,3 +18,8 @@ res://Assets/Actors/Player/PlayerJumpState.gd
 res://Assets/Actors/Player/PlayerMoveState.gd
 res://Assets/Actors/Player/PlayerShootState.gd
 res://Assets/Actors/Player/PlayerStompState.gd
+res://Assets/Actors/Enemies/Gooby/Gooby.tscn
+res://Assets/Attributes/BounceField.tscn
+res://Assets/Actors/Actor.gd
+res://Assets/Actors/Enemies/Gooby/Gooby.gd
+res://Scenes/DebugVals.gd

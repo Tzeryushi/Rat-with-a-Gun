@@ -5,7 +5,7 @@ extends CharacterBody2D #can be changed later
 @export var state_manager_node : NodePath
 
 #actor attributes
-@export var health : int = 2
+@export var health : int = 2: get = get_health, set = set_health
 @export var base_power : int = 1
 @export var defense : int = 0
 @export var enemy : bool = false
@@ -36,3 +36,9 @@ func be_bounced_on() -> void:
 func get_actor_damage() -> int:
 	#will be overridden
 	return base_power
+
+func get_health() -> int:
+	return health
+
+func set_health(value:int) -> void:
+	health = value

@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://d2a640kxl8k78"]
+[gd_scene load_steps=13 format=3 uid="uid://d2a640kxl8k78"]
 
 [ext_resource type="Texture2D" uid="uid://d2xehtegfkwrx" path="res://TempAssets/tempblock.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://2ub2640sbc03" path="res://TempAssets/industrial.v1.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://vt8hbs1jo2r4" path="res://Assets/Actors/Player/TheRat.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://Assets/Actors/Enemies/Gooby/Gooby.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://ddb5bbyjfa17x" path="res://Assets/Actors/Enemies/Gooby/Gooby.tscn" id="5"]
+[ext_resource type="Script" path="res://Scenes/DebugVals.gd" id="5_wbdo3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_00s4l"]
 texture = ExtResource("3")
@@ -2495,21 +2496,68 @@ position = Vector2(481, 190)
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Gooby" parent="Enemies" instance=ExtResource("5")]
-position = Vector2(59, 161)
+position = Vector2(876, -75)
 
 [node name="Gooby2" parent="Enemies" instance=ExtResource("5")]
-position = Vector2(88, 135)
+position = Vector2(1244, -366)
 
 [node name="Gooby3" parent="Enemies" instance=ExtResource("5")]
-position = Vector2(93, 206)
+position = Vector2(884, -974)
 
 [node name="Gooby4" parent="Enemies" instance=ExtResource("5")]
-position = Vector2(80, 275)
+position = Vector2(3370, -27)
 
 [node name="Gooby5" parent="Enemies" instance=ExtResource("5")]
-position = Vector2(72, 56)
+position = Vector2(2280, -417)
 
 [node name="TestMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_wjart")
 format = 2
 layer_0/tile_data = PackedInt32Array(262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262149, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262163, 0, 0, 524290, 0, 0, 524291, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 327698, 65536, 0, 393234, 65536, 1, 458770, 65536, 0, 524306, 65536, 0, 589842, 65536, 1, 655378, 65536, 1, 655377, 0, 0, 655376, 65536, 1, 655375, 65536, 1, 655374, 0, 1, 655373, 0, 1, 655372, 0, 1, 524307, 0, 1, 524308, 65536, 1, 524309, 0, 1, 524310, 65536, 1, 524311, 0, 0, 524312, 0, 1, 262164, 0, 1, 262165, 0, 0, 524313, 65536, 0, 524314, 65536, 1, 524315, 65536, 0, 524316, 0, 0, -196583, 65536, 1, -196582, 65536, 1, -196581, 65536, 0, -196580, 65536, 0, -196579, 65536, 0, -196578, 65536, 0, -196577, 0, 1, -131043, 0, 1, -65507, 65536, 0, 29, 65536, 0, 655385, 0, 1, 655386, 65536, 1, 655387, 0, 1, 655388, 65536, 1, 655389, 65536, 0, 655390, 65536, 1, 655391, 65536, 1, 655392, 0, 1, 851996, 65536, 1, 851997, 0, 1, 851998, 0, 0, 851999, 65536, 0, 852000, 0, 1, 852001, 65536, 0, 852002, 0, 1, 852003, 65536, 0, 852004, 65536, 0, 262179, 0, 0, 327716, 0, 1, 327717, 0, 1, 393254, 0, 1, 196647, 0, 1, 196648, 0, 1, 131113, 0, 0, 131114, 0, 0, 65579, 65536, 0, 65580, 0, 0, 45, 65536, 0, 46, 0, 1, -65489, 0, 1, 196649, 0, 0, 196650, 0, 1, 196651, 0, 0, 196652, 65536, 1, 196653, 65536, 0, 196654, 0, 1, 196655, 65536, 1, 196656, 0, 1, -196605, 0, 0, -196604, 65536, 0, -196603, 0, 1, -196602, 0, 0, -327675, 0, 0, -262139, 65536, 1, -131067, 0, 1, -65531, 0, 0)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="DebugHUD" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="DebugVals" type="VBoxContainer" parent="HUD/DebugHUD"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 254.0
+grow_vertical = 2
+script = ExtResource("5_wbdo3")
+
+[node name="DEBUG" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=red]DEBUG"
+fit_content = true
+
+[node name="Health" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Health:"
+fit_content = true
+
+[node name="Clip" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Clip:"
+fit_content = true
+
+[node name="ReloadTime" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Reload:"
+fit_content = true
+
+[node name="FireTime" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Firerate:"
+fit_content = true

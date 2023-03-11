@@ -23,7 +23,10 @@ var _bullets_in_clip : int = _clip_size
 
 signal reload_started(time:float)
 signal reload_finished
-signal bullet_fired
+signal firing_started(time:float)
+signal firing_finished
+signal bullets_in_clip_updated(bullets:int)
+signal bullet_fired(bullet:Bullet)
 signal clip_emptied
 
 #prototype to be inherited by other guns, structures are referenced by PlayerRat class
@@ -44,10 +47,10 @@ func fire() -> Bullet:
 	if (_bullets_in_clip < 1):
 		clip_emptied.emit()
 		reload()
-	bullet_fired.emit()
 	var new_bullet = _bullet_scene.instantiate()
 	#new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
 	new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
+	bullet_fired.emit(new_bullet)
 	return new_bullet
 
 func reload() -> void:
@@ -56,8 +59,8 @@ func reload() -> void:
 	#by design this does not directly interact with checks to shoot, but does affect is_shot_ready
 	
 	#TODO: update to not use base variables
-	reload_started.emit(_reload_time)
 	_reloading = true
+	reload_started.emit(_reload_time)
 	print("reloading...")
 	await get_tree().create_timer(_reload_time).timeout
 	_reloading = false
@@ -67,8 +70,10 @@ func reload() -> void:
 
 func _fire_rate_timer() -> void:
 	_fire_restricted = true
+	firing_started.emit(_firing_speed)
 	await get_tree().create_timer(_firing_speed).timeout
 	_fire_restricted = false
+	firing_finished.emit()
 
 func switch_held() -> void:
 	#switches to "hand" position in air
@@ -111,6 +116,17 @@ func get_muzzle_reach() -> float:
 
 func get_gun_rotation() -> Vector2:
 	return Vector2(cos(gun_sprite.rotation), sin(gun_sprite.rotation))
+
+func get_bullets_in_clip() -> int:
+	return _bullets_in_clip
+
+func set_bullets_in_clip(value:int) -> void:
+	if value > 0:
+		_bullets_in_clip = value
+	elif !_reloading:
+		_bullets_in_clip = 0
+		reload()
+	
 
 func is_held() -> bool:
 	return _held
