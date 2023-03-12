@@ -2553,11 +2553,32 @@ fit_content = true
 [node name="ReloadTime" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[wave]Reload:"
+text = "[wave][color=green]Loaded"
 fit_content = true
+
+[node name="Timer" type="Timer" parent="HUD/DebugHUD/DebugVals/ReloadTime"]
+one_shot = true
 
 [node name="FireTime" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[wave]Firerate:"
+text = "[wave][color=green]Fireable"
 fit_content = true
+
+[node name="Timer" type="Timer" parent="HUD/DebugHUD/DebugVals/FireTime"]
+one_shot = true
+
+[node name="Invincible" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave][color=red]Invincible: NO"
+fit_content = true
+
+[connection signal="bullets_in_clip_updated" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_bullets_in_clip_updated"]
+[connection signal="firing_finished" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_firing_finished"]
+[connection signal="firing_started" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_firing_started"]
+[connection signal="health_changed" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_health_changed"]
+[connection signal="invincibility_finished" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_invincibility_finished"]
+[connection signal="invincibility_started" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_invincibility_started"]
+[connection signal="reload_finished" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_reload_finished"]
+[connection signal="reload_started" from="Player" to="HUD/DebugHUD/DebugVals" method="_on_player_reload_started"]

@@ -34,6 +34,9 @@ signal clip_emptied
 
 #back position and held position are designated by the position nodes, and inform the sprite's position in various states
 
+func _ready():
+	bullets_in_clip_updated.emit(_bullets_in_clip)
+
 func _process(_delta):
 	#will potentially handle gun rotation here in the future
 	pass
@@ -43,10 +46,9 @@ func fire() -> Bullet:
 	#this will remove a bullet from the clip and start the firing speed timer
 	_fire_rate_timer()
 	#TODO: update conditional with clip check
-	_bullets_in_clip += -1
+	set_bullets_in_clip(_bullets_in_clip-1)
 	if (_bullets_in_clip < 1):
 		clip_emptied.emit()
-		reload()
 	var new_bullet = _bullet_scene.instantiate()
 	#new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
 	new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
@@ -61,11 +63,9 @@ func reload() -> void:
 	#TODO: update to not use base variables
 	_reloading = true
 	reload_started.emit(_reload_time)
-	print("reloading...")
 	await get_tree().create_timer(_reload_time).timeout
 	_reloading = false
-	print("done!")
-	_bullets_in_clip = _clip_size
+	set_bullets_in_clip(_clip_size)
 	reload_finished.emit()
 
 func _fire_rate_timer() -> void:
@@ -125,11 +125,13 @@ func set_bullets_in_clip(value:int) -> void:
 		_bullets_in_clip = value
 	elif !_reloading:
 		_bullets_in_clip = 0
-		reload()
-	
+	bullets_in_clip_updated.emit(value)
 
 func is_held() -> bool:
 	return _held
+
+func is_reloading() -> bool:
+	return _reloading
 
 func is_shot_ready() -> bool:
 	#returns true when gun can shoot

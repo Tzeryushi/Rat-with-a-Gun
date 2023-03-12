@@ -44,7 +44,7 @@ var last_hurt_direction : Vector2 = Vector2.ZERO #impulse direction from last pa
 
 #player signals
 signal health_changed(new_value:int, old_value:int)
-signal invicibility_started(time:float)
+signal invincibility_started
 signal invincibility_finished
 signal jumped
 
@@ -69,6 +69,7 @@ signal reload_finished
 
 func _ready() -> void:
 	state_manager.init_state(self)
+	health_changed.emit(health, health)
 
 func _unhandled_input(_event) -> void:
 	state_manager.input(_event)
@@ -79,7 +80,7 @@ func _process(_delta) -> void:
 	#temporary invincible timer check
 	if invincible_timer > 0.0:
 		invincible_timer -= _delta
-		if invincible_timer >= 0.0:
+		if invincible_timer <= 0.0:
 			set_invincible(false)
 			
 	sprite_rotations()
@@ -155,6 +156,9 @@ func shoot() -> void:
 	#shoot utilizes gun system to provide acceleration to player
 	#if is_grounded():
 		#return
+	if current_gun.get_bullets_in_clip() <= 0 and !current_gun.is_reloading():
+		current_gun.reload()
+		return
 	#getting the vector from the center of the player
 	var shot_direction_vector = get_mouse_direction()
 	var shot_power = shot_direction_vector*current_gun.get_knockback()
@@ -272,10 +276,14 @@ func can_coyote_jump() -> bool:
 #invincibility functions
 func set_invincible(state:bool=true) -> void:
 	invincible = state
+	if invincible:
+		invincibility_started.emit()
+	else:
+		invincibility_finished.emit()
 func set_invincible_time(time:float) -> void:
-	invincible_timer = time
-	if invincible_timer > 0.0:
+	if !invincible_timer > 0.0:
 		set_invincible(true)
+	invincible_timer = time
 func is_invincible() -> bool:
 	return invincible
 func start_default_invincible() -> void:
