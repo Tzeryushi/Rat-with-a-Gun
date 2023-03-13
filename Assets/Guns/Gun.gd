@@ -8,7 +8,7 @@ extends Node2D
 @export var _clip_size : int = 6
 @export var _spread : float = 1.0
 @export var _hold_length : float = 10
-@export var _bullet_speed : float = 10
+@export var _bullet_speed : float = 1000
 @export var _bullet_scene : PackedScene
 
 @onready var gun_sprite := $GunSprite

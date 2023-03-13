@@ -31,6 +31,7 @@ extends Actor
 @onready var back_point := $Back
 
 #var velocity := Vector2.ZERO #this is simply where we start out when initializing
+var move_direction : int = 0 #keeps track of the last direction from move() input
 var jump_held : bool = false #modified by states when jump is held or not, for jump buffering
 var dash_completed : float = 0.0 #helps keeps track of how much dash time is left, checked by states
 var jump_buffer_timer : float = 0.0 #checked by state to see if a jump has been buffered
@@ -123,7 +124,7 @@ func fall(_delta:float) -> void:
 #move (used by many states)
 func move(_direction, _delta:float) -> void:
 	#move accelerates the player towards input direction up to max speed
-	
+	move_direction = _direction
 	#flipping our player sprite
 	#this might require some changes if animations are standardized, until then we utilize sprite scale
 	if (_direction >= 1 or _direction <= -1) and is_grounded():
@@ -197,6 +198,8 @@ func idle(_delta:float) -> void:
 #stomp functions
 func stomp() -> void:
 	#when an enemy actor is stomped upon, execute
+	if (move_direction >= 1 or move_direction <= -1):
+		animations.scale.x = sign(move_direction)*abs(animations.scale.x)
 	var stomp_multiplier = stomped_node_reference.get_stomp_strength()
 	velocity.y = -stomp_power*stomp_multiplier
 	
@@ -238,6 +241,7 @@ func switch_hitboxes(value:Globals.PLAYERSTATE) -> void:
 func hurt() -> void:
 	#uses vector from the last collision to determine direction bounce when hurt
 	velocity = Vector2(sign(last_hurt_direction.x)*.71, -.71)*hurt_bounceback_force
+	animations.scale.x = -sign(velocity.x)*abs(animations.scale.x)
 	set_invincible_time(default_invincible_time)
 	is_hurt = false
 func hurt_process(_delta:float) -> void:
