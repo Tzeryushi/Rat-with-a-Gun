@@ -82,9 +82,27 @@ animations = [{
 collision_layer = 0
 script = ExtResource("2")
 first_gun = NodePath("BaseGun")
+acceleration = null
+max_speed = null
+jump_power = null
+jump_cancel_power = null
+jump_gravity = null
+stomp_power = null
+gravity = null
+terminal_velo = null
+dash_multiplier = null
+dash_time = null
+jump_buffer_tolerance = null
+coyote_time_tolerance = null
+hurt_time = null
+hurt_bounceback_force = null
+default_invincible_time = null
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 health = 4
+base_power = null
+defense = null
+enemy = null
 
 [node name="Hurtbox" type="Area2D" parent="."]
 visible = false

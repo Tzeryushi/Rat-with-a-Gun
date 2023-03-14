@@ -10,7 +10,7 @@ func _process(_delta):
 	if !$FireTime/Timer.is_stopped():
 		$FireTime.text = "[color=red]Not Fireable: " + str(snapped($FireTime/Timer.time_left, 0.001))
 
-func _on_player_health_changed(new_value, old_value):
+func _on_player_health_changed(new_value, _old_value):
 	$Health.text = "Health: [color=green]" + str(new_value)
 
 func _on_player_bullets_in_clip_updated(bullets):

@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://cv11mcm5xjsal"]
+
+[ext_resource type="Script" path="res://Assets/Particles/MuzzleFlareGlock.gd" id="1_8yr4t"]
+[ext_resource type="Texture2D" uid="uid://b7l7h8cuvb2gi" path="res://TempAssets/chip2.png" id="2_my1iy"]
+
+[sub_resource type="Gradient" id="Gradient_t2rox"]
+offsets = PackedFloat32Array(0.172932, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j507o"]
+gradient = SubResource("Gradient_t2rox")
+
+[sub_resource type="Curve" id="Curve_efljl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0306748), -3.22109, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_udo3a"]
+curve = SubResource("Curve_efljl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pi10t"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+spread = 7.5
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 91.56
+initial_velocity_max = 232.39
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_udo3a")
+color = Color(0.945098, 0.894118, 0.682353, 1)
+color_ramp = SubResource("GradientTexture1D_j507o")
+hue_variation_min = 0.01
+hue_variation_max = 0.37
+
+[node name="MuzzleFlareGlock" type="Node2D"]
+script = ExtResource("1_8yr4t")
+
+[node name="MuzzleFlare" type="GPUParticles2D" parent="."]
+z_index = -1
+position = Vector2(28, 0)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_pi10t")
+texture = ExtResource("2_my1iy")
+lifetime = 0.1
+one_shot = true
+explosiveness = 1.0
+local_coords = true

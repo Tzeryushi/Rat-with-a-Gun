@@ -6,6 +6,9 @@ res://Assets/Guns/BaseGun.tscn
 res://Assets/Guns/Bullet.tscn
 res://Assets/Actors/Enemies/Gooby/Gooby.tscn
 res://Assets/Attributes/BounceField.tscn
-res://Assets/Actors/Player/Rat.gd
+res://Assets/Particles/ParticleAnimation.gd
+res://Assets/Particles/MuzzleFlareGlock.tscn
+res://Assets/Particles/MuzzleFlareGlock.gd
 res://Assets/Guns/Gun.gd
-res://Assets/Actors/Player/TheRat.gdshader
+res://Scenes/DebugVals.gd
+res://Assets/Actors/Player/Rat.gd

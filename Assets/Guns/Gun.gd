@@ -10,6 +10,7 @@ extends Node2D
 @export var _hold_length : float = 10
 @export var _bullet_speed : float = 1000
 @export var _bullet_scene : PackedScene
+@export var _flare_scene : PackedScene
 
 @onready var gun_sprite := $GunSprite
 @onready var back_position := $BackPosition
@@ -28,6 +29,7 @@ signal firing_finished
 signal bullets_in_clip_updated(bullets:int)
 signal bullet_fired(bullet:Bullet)
 signal clip_emptied
+signal flare_fired
 
 #prototype to be inherited by other guns, structures are referenced by PlayerRat class
 #initial internal data should be protected, effects and stat alterations will be returned with getter functions
@@ -49,9 +51,14 @@ func fire() -> Bullet:
 	set_bullets_in_clip(_bullets_in_clip-1)
 	if (_bullets_in_clip < 1):
 		clip_emptied.emit()
-	var new_bullet = _bullet_scene.instantiate()
+	var new_bullet : Bullet = _bullet_scene.instantiate()
 	#new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
 	new_bullet.spawn(global_position+get_gun_rotation()*get_muzzle_reach(), _damage, _bullet_speed)
+	
+	#firing particles
+	_emit_flare()
+	
+	#emit signal and return bullet ref
 	bullet_fired.emit(new_bullet)
 	return new_bullet
 
@@ -74,6 +81,14 @@ func _fire_rate_timer() -> void:
 	await get_tree().create_timer(_firing_speed).timeout
 	_fire_restricted = false
 	firing_finished.emit()
+
+func _emit_flare() -> void:
+	var flare_particles : ParticleAnimation = _flare_scene.instantiate()
+	add_child(flare_particles)
+	flare_particles.position = Vector2.RIGHT*get_muzzle_reach()
+	flare_particles.play()
+	await flare_particles.finished
+	flare_particles.queue_free()
 
 func switch_held() -> void:
 	#switches to "hand" position in air
@@ -115,7 +130,7 @@ func get_muzzle_reach() -> float:
 	return ((Vector2.RIGHT*_hold_length+muzzle_position.position-held_position.position)*scale).length()
 
 func get_gun_rotation() -> Vector2:
-	return Vector2(cos(gun_sprite.rotation), sin(gun_sprite.rotation))
+	return Vector2(cos(rotation), sin(rotation))
 
 func get_bullets_in_clip() -> int:
 	return _bullets_in_clip

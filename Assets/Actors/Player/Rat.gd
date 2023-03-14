@@ -305,13 +305,13 @@ func sprite_rotations() -> void:
 	#calculation rotations when gun is held (midair)
 	if current_gun.is_held():
 		var current_angle = get_mouse_direction().angle()
-		current_gun.gun_sprite.rotation = current_angle
+		current_gun.rotation = current_angle
 		if sign(animations.scale.x) > 0:
 			animations.rotation = current_angle
 		else:
 			animations.rotation = current_angle - PI
 	else:
-		current_gun.gun_sprite.rotation = Vector2.RIGHT.angle()
+		current_gun.rotation = Vector2.RIGHT.angle()
 		animations.rotation = Vector2.RIGHT.angle()
 	
 	#gross gunsprite flipping solution that requires checking player sprite data
