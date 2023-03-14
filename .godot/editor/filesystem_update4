@@ -8,3 +8,4 @@ res://Assets/Actors/Enemies/Gooby/Gooby.tscn
 res://Assets/Attributes/BounceField.tscn
 res://Assets/Actors/Player/Rat.gd
 res://Assets/Guns/Gun.gd
+res://Assets/Actors/Player/TheRat.gdshader

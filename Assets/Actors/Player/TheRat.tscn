@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://vt8hbs1jo2r4"]
+[gd_scene load_steps=22 format=3 uid="uid://vt8hbs1jo2r4"]
 
 [ext_resource type="Texture2D" uid="uid://dk3ko3qmdsfh8" path="res://TempAssets/2.PNG" id="1"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/Rat.gd" id="2"]
+[ext_resource type="Shader" path="res://Assets/Actors/Player/TheRat.gdshader" id="2_lkamf"]
 [ext_resource type="Script" path="res://Assets/Actors/StateManager.gd" id="3"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerMoveState.gd" id="4"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerJumpState.gd" id="5"]
@@ -27,6 +28,12 @@ size = Vector2(20, 68)
 
 [sub_resource type="CircleShape2D" id="34"]
 radius = 44.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xwk03"]
+shader = ExtResource("2_lkamf")
+shader_parameter/deformation = Vector2(0, 0)
+shader_parameter/sideWaysDeformationFactor = 5.0
+shader_parameter/knockbackFactor = 0.4
 
 [sub_resource type="SpriteFrames" id="28"]
 animations = [{
@@ -110,6 +117,7 @@ shape = SubResource("34")
 disabled = true
 
 [node name="Animations" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_xwk03")
 position = Vector2(0, -43)
 scale = Vector2(0.063, 0.063)
 sprite_frames = SubResource("28")
