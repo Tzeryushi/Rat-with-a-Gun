@@ -2490,24 +2490,6 @@ layer_0/tile_data = PackedInt32Array(65535, 5, 0, 0, 5, 0, 8, 5, 0, 9, 5, 0, 10,
 
 [node name="Player" parent="." instance=ExtResource("4")]
 position = Vector2(481, 190)
-acceleration = null
-max_speed = null
-jump_power = null
-jump_cancel_power = null
-jump_gravity = null
-stomp_power = null
-gravity = null
-terminal_velo = null
-dash_multiplier = null
-dash_time = null
-jump_buffer_tolerance = null
-coyote_time_tolerance = null
-hurt_time = null
-hurt_bounceback_force = null
-default_invincible_time = null
-base_power = null
-defense = null
-enemy = null
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
