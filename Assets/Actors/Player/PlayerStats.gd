@@ -16,6 +16,7 @@ func increase_combo() -> void:
 	if resources.combo == 0:
 		start_combo()
 	resources.combo += 1
+	combo_timer.start()
 	Events.combo_changed.emit(resources.combo, combo_timer.time_left)
 
 #triggers when a combo starts from scratch
@@ -29,12 +30,15 @@ func pause_combo_timer(state:bool) -> void:
 
 #resets combo and distributes gold based on total
 func end_combo() -> void:
+	combo_timer.stop()
 	#for each 5 in the combo, get 50 gold + an additional 10 gold for each 5 past 5 (10, 30, 60, 100, 150)
-	resources.gold += int((resources.combo/5 + pow(5*(resources.combo/5-1),2) + 5*(resources.combo/5-1))
+	if resources.combo >= 5:
+		resources.gold += int((resources.combo*10 + pow(5*(resources.combo/5-1),2) + 5*(resources.combo/5-1))
 		*player_gold_multiplier*combo_gold_multiplier)
 	Events.gold_changed.emit(resources.gold)
 	resources.combo = 0
-	Events.combo_changed.emit(resources.combo)
+	print(combo_timer.time_left)
+	Events.combo_changed.emit(resources.combo, combo_timer.time_left)
 
 func get_combo() -> int:
 	return resources.combo

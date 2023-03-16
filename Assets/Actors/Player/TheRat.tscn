@@ -332,6 +332,7 @@ script = ExtResource("16_jkg4t")
 resources = ExtResource("17_1bjjx")
 
 [node name="ComboTimer" type="Timer" parent="PlayerStats"]
+one_shot = true
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
@@ -342,3 +343,4 @@ resources = ExtResource("17_1bjjx")
 [connection signal="firing_started" from="BaseGun" to="." method="_on_gun_firing_started"]
 [connection signal="reload_finished" from="BaseGun" to="." method="_on_gun_reload_finished"]
 [connection signal="reload_started" from="BaseGun" to="." method="_on_gun_reload_started"]
+[connection signal="timeout" from="PlayerStats/ComboTimer" to="PlayerStats" method="end_combo"]

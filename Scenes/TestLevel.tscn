@@ -2544,6 +2544,27 @@ bbcode_enabled = true
 text = "[wave]Health:"
 fit_content = true
 
+[node name="Combo" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Combo: 0"
+fit_content = true
+
+[node name="ComboTimer" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Combo Time Left: 0"
+fit_content = true
+
+[node name="Timer" type="Timer" parent="HUD/DebugHUD/DebugVals/ComboTimer"]
+one_shot = true
+
+[node name="Gold" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Gold: [color=orange]0"
+fit_content = true
+
 [node name="Clip" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
 layout_mode = 2
 bbcode_enabled = true
