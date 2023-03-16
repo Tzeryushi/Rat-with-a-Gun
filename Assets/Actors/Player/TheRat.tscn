@@ -88,6 +88,13 @@ animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 health = 4
 
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource("16_jkg4t")
+resources = ExtResource("17_1bjjx")
+
+[node name="ComboTimer" type="Timer" parent="PlayerStats"]
+one_shot = true
+
 [node name="Hurtbox" type="Area2D" parent="."]
 visible = false
 collision_layer = 0
@@ -327,13 +334,7 @@ position = Vector2(0, -45)
 [node name="Back" type="Marker2D" parent="."]
 position = Vector2(0, -35)
 
-[node name="PlayerStats" type="Node" parent="."]
-script = ExtResource("16_jkg4t")
-resources = ExtResource("17_1bjjx")
-
-[node name="ComboTimer" type="Timer" parent="PlayerStats"]
-one_shot = true
-
+[connection signal="timeout" from="PlayerStats/ComboTimer" to="PlayerStats" method="end_combo"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
 [connection signal="bullet_fired" from="BaseGun" to="." method="_on_gun_bullet_fired"]
@@ -343,4 +344,3 @@ one_shot = true
 [connection signal="firing_started" from="BaseGun" to="." method="_on_gun_firing_started"]
 [connection signal="reload_finished" from="BaseGun" to="." method="_on_gun_reload_finished"]
 [connection signal="reload_started" from="BaseGun" to="." method="_on_gun_reload_started"]
-[connection signal="timeout" from="PlayerStats/ComboTimer" to="PlayerStats" method="end_combo"]

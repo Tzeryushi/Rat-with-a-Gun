@@ -50,3 +50,7 @@ func get_move_direction() -> int:
 			value = 1
 	move_last = value
 	return value
+
+func check_reload() -> void:
+	if Input.is_action_just_pressed("reload"):
+		actor.current_gun.reload()

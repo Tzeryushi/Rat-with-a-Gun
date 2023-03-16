@@ -21,6 +21,9 @@ func on_enter() -> void:
 	actor.switch_gun_back()
 
 func input(_event:InputEvent) -> BaseState:
+	#check if reloading
+	check_reload()
+	
 	#cycle to other states
 	if Input.is_action_just_pressed("jump"): return jump_state
 	elif Input.is_action_just_pressed("dash"): return g_dash_state

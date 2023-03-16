@@ -31,6 +31,9 @@ func on_exit() -> void:
 	actor.jump_held = false
 
 func input(_event:InputEvent) -> BaseState:
+	#check if reloading
+	check_reload()
+	
 	#cycle to aerial dash
 	if Input.is_action_just_pressed("dash"):
 		return a_dash_state

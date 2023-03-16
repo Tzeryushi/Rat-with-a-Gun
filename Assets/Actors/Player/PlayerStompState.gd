@@ -23,6 +23,9 @@ func on_enter() -> void:
 	actor.switch_gun_held()
 
 func input(_event:InputEvent) -> BaseState:
+	#check if reloading
+	check_reload()
+	
 	#cycle to aerial dash
 	if Input.is_action_just_pressed("dash"):
 		return a_dash_state
