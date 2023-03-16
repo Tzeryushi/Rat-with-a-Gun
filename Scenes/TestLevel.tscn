@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d2xehtegfkwrx" path="res://TempAssets/tempblock.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://2ub2640sbc03" path="res://TempAssets/industrial.v1.png" id="3"]
-[ext_resource type="PackedScene" uid="uid://vt8hbs1jo2r4" path="res://Assets/Actors/Player/TheRat.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dcqev65agksul" path="res://Assets/Actors/Player/TheRat.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://ddb5bbyjfa17x" path="res://Assets/Actors/Enemies/Gooby/Gooby.tscn" id="5"]
 [ext_resource type="Script" path="res://Scenes/DebugVals.gd" id="5_wbdo3"]
 

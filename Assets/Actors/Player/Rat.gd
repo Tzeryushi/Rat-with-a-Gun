@@ -351,12 +351,14 @@ func set_health(value:int) -> void:
 #hurtbox signals
 func _on_Hurtbox_body_entered(body):
 	if body is Actor and !is_invincible():
-		change_health(-body.get_actor_damage())
+		change_health(-body.get_actor_damage()+defense)
 		last_hurt_direction = (center_point.global_position - body.global_position).normalized()
 		is_hurt = true
 func _on_Hurtbox_area_entered(area):
 	if area is Actor:
-		change_health(-area.get_actor_damage())
+		change_health(-area.get_actor_damage()+defense)
+		last_hurt_direction = (center_point.global_position - area.global_position).normalized()
+		is_hurt = true
 
 #gun signals
 func _on_gun_bullet_fired(bullet):

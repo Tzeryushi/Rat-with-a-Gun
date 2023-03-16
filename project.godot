@@ -19,6 +19,7 @@ config/icon="res://TempAssets/RatWAGun.png"
 [autoload]
 
 Globals="*res://Assets/GLOBALS.gd"
+Events="*res://Assets/Events.gd"
 
 [display]
 

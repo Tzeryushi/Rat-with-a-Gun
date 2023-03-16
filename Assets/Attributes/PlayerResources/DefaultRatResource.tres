@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="RatResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Assets/Attributes/PlayerResources/RatResource.gd" id="1_sc4rl"]
+
+[resource]
+script = ExtResource("1_sc4rl")
+gold = 0
+combo = 0

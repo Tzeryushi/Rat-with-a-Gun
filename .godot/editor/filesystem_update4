@@ -35,3 +35,10 @@ res://Assets/Actors/Player/PlayerShootState.gd
 res://Assets/Actors/Player/PlayerState.gd
 res://Assets/Actors/Player/PlayerStompState.gd
 res://Assets/Actors/StateManager.gd
+res://Assets/Score/PlayerStats.gd
+res://Assets/OmniSignals.gd
+res://Assets/Events.gd
+res://Assets/Attributes/RatResource.gd
+res://Assets/Actors/Player/Resources.gd
+res://Assets/Attributes/PlayerResources/RatResource.gd
+res://Assets/Actors/Player/PlayerStats.gd

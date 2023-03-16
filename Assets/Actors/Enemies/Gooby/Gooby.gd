@@ -26,6 +26,7 @@ func be_bounced_on() -> void:
 	destruct()
 
 func destruct() -> void:
+	Events.combo_up.emit()
 	queue_free()
 
 func set_health(value:int) -> void:

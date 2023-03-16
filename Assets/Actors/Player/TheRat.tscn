@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://vt8hbs1jo2r4"]
+[gd_scene load_steps=24 format=3 uid="uid://dcqev65agksul"]
 
 [ext_resource type="Texture2D" uid="uid://dk3ko3qmdsfh8" path="res://TempAssets/2.PNG" id="1"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/Rat.gd" id="2"]
@@ -15,6 +15,8 @@
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerStompState.gd" id="12"]
 [ext_resource type="PackedScene" uid="uid://b7m87fv7olha4" path="res://Assets/Guns/BaseGun.tscn" id="13"]
 [ext_resource type="Texture2D" uid="uid://cmx2ljbd5y2u" path="res://TempAssets/3.PNG" id="14"]
+[ext_resource type="Script" path="res://Assets/Actors/Player/PlayerStats.gd" id="16_jkg4t"]
+[ext_resource type="Resource" path="res://Assets/Attributes/PlayerResources/DefaultRatResource.tres" id="17_1bjjx"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qaswj"]
 radius = 19.0
@@ -82,27 +84,9 @@ animations = [{
 collision_layer = 0
 script = ExtResource("2")
 first_gun = NodePath("BaseGun")
-acceleration = null
-max_speed = null
-jump_power = null
-jump_cancel_power = null
-jump_gravity = null
-stomp_power = null
-gravity = null
-terminal_velo = null
-dash_multiplier = null
-dash_time = null
-jump_buffer_tolerance = null
-coyote_time_tolerance = null
-hurt_time = null
-hurt_bounceback_force = null
-default_invincible_time = null
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 health = 4
-base_power = null
-defense = null
-enemy = null
 
 [node name="Hurtbox" type="Area2D" parent="."]
 visible = false
@@ -342,6 +326,12 @@ position = Vector2(0, -45)
 
 [node name="Back" type="Marker2D" parent="."]
 position = Vector2(0, -35)
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource("16_jkg4t")
+resources = ExtResource("17_1bjjx")
+
+[node name="ComboTimer" type="Timer" parent="PlayerStats"]
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
