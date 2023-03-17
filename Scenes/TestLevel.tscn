@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://d2a640kxl8k78"]
+[gd_scene load_steps=14 format=3 uid="uid://d2a640kxl8k78"]
 
 [ext_resource type="Texture2D" uid="uid://d2xehtegfkwrx" path="res://TempAssets/tempblock.png" id="1"]
+[ext_resource type="Script" path="res://Scenes/Levels/TestLevel.gd" id="1_g8leq"]
 [ext_resource type="Texture2D" uid="uid://2ub2640sbc03" path="res://TempAssets/industrial.v1.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://dcqev65agksul" path="res://Assets/Actors/Player/TheRat.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://ddb5bbyjfa17x" path="res://Assets/Actors/Enemies/Gooby/Gooby.tscn" id="5"]
@@ -2476,6 +2477,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_opldn")
 
 [node name="TestLevel" type="Node2D"]
+script = ExtResource("1_g8leq")
 
 [node name="PlayArea" type="Polygon2D" parent="."]
 z_index = -10

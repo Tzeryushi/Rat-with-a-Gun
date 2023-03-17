@@ -37,7 +37,6 @@ func end_combo() -> void:
 		*player_gold_multiplier*combo_gold_multiplier)
 	Events.gold_changed.emit(resources.gold)
 	resources.combo = 0
-	print(combo_timer.time_left)
 	Events.combo_changed.emit(resources.combo, combo_timer.time_left)
 
 func get_combo() -> int:

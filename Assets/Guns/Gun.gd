@@ -30,6 +30,7 @@ signal bullets_in_clip_updated(bullets:int)
 signal bullet_fired(bullet:Bullet)
 signal clip_emptied
 signal flare_fired
+signal reloaded_when_clip_full
 
 #prototype to be inherited by other guns, structures are referenced by PlayerRat class
 #initial internal data should be protected, effects and stat alterations will be returned with getter functions
@@ -57,6 +58,7 @@ func fire() -> Bullet:
 	
 	#firing particles
 	_emit_flare()
+	Shake.shake(8, 0.2)
 	
 	#emit signal and return bullet ref
 	bullet_fired.emit(new_bullet)
@@ -66,7 +68,11 @@ func reload() -> void:
 	#begins reload, yields until reload time passes
 	#emits signal upon beginning and end to interface with UI
 	#by design this does not directly interact with checks to shoot, but does affect is_shot_ready
-	
+	if _reloading:
+		return
+	if is_clip_full():
+		reloaded_when_clip_full.emit()
+		return
 	#TODO: update to not use base variables
 	_reloading = true
 	reload_started.emit(_reload_time)
@@ -152,3 +158,8 @@ func is_shot_ready() -> bool:
 	#returns true when gun can shoot
 	#this is limited by reload, loaded bullets, and firing speed
 	return !(_fire_restricted or _reloading)
+
+#returns if the clip is full, should be total clip size
+func is_clip_full() -> bool:
+	#this will need updating when clip size can change
+	return _clip_size == get_bullets_in_clip()

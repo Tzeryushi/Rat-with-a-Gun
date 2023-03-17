@@ -42,3 +42,5 @@ res://Assets/Attributes/RatResource.gd
 res://Assets/Actors/Player/Resources.gd
 res://Assets/Attributes/PlayerResources/RatResource.gd
 res://Assets/Actors/Player/PlayerStats.gd
+res://Tools/Shake.gd
+res://Scenes/Levels/TestLevel.gd

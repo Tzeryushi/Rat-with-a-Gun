@@ -20,6 +20,7 @@ config/icon="res://TempAssets/RatWAGun.png"
 
 Globals="*res://Assets/GLOBALS.gd"
 Events="*res://Assets/Events.gd"
+Shake="*res://Tools/Shake.gd"
 
 [display]
 
