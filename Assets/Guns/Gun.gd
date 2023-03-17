@@ -58,7 +58,7 @@ func fire() -> Bullet:
 	
 	#firing particles
 	_emit_flare()
-	Shake.shake(8, 0.2)
+	Shake.shake(3, 0.2)
 	
 	#emit signal and return bullet ref
 	bullet_fired.emit(new_bullet)
