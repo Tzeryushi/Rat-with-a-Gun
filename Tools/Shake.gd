@@ -9,7 +9,8 @@ func _ready() -> void:
 	randomize()
 	noise = FastNoiseLite.new()
 	noise.seed = randi()
-	noise.fractal_octaves = 4
+	noise.fractal_octaves = 5
+	noise.frequency = 0.15
 
 func _process(delta) -> void:
 	if !shake_camera:
@@ -27,11 +28,11 @@ func _process(delta) -> void:
 	var time = Time.get_unix_time_from_system()
 	var time_msecs = (time - int(time))*1000.0
 	
-	shake_camera.offset = Vector2(sin(time_msecs * 0.03), sin(time_msecs * 0.07)) * shake_intensity * 0.5
+	#shake_camera.offset = Vector2(sin(time_msecs * 0.03), sin(time_msecs * 0.07)) * shake_intensity * 0.5
 	
-	#var noise_x : float = noise.get_noise_1d(time_msecs*0.1)
-	#var noise_y : float = noise.get_noise_1d(time_msecs*0.1+100)
-	#shake_camera.offset = Vector2(noise_x, noise_y) * shake_intensity * 2.0
+	var noise_x : float = noise.get_noise_1d(time_msecs*0.1)
+	var noise_y : float = noise.get_noise_1d(time_msecs*0.1+100)
+	shake_camera.offset = Vector2(noise_x, noise_y) * shake_intensity * 2.0
 
 #swaps the camera, currently will continue shaking
 func set_camera(camera:Camera2D) -> void:
