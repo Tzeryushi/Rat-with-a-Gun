@@ -2,7 +2,7 @@ class_name PlayerState
 extends BaseState
 
 @export var animation_type : String #this is used when entering a state
-@export var hurtbox_state : Globals.PLAYERSTATE
+@export var state_type : Globals.PLAYERSTATE
 
 var actor: PlayerRat
 var move_last : int = 0
@@ -12,11 +12,12 @@ func on_enter() -> void:
 	#this will be overwritten by inheritors, will need to be referenced if needed
 	#print(self)
 	actor.animations.play(animation_type)
-	actor.switch_hitboxes(hurtbox_state)
+	actor.switch_hitboxes(state_type)
 	pass
 
 func on_exit() -> void:
 	#execute when when is exited into another state
+	actor.last_player_state = state_type
 	pass
 
 func input(_event:InputEvent) -> BaseState:

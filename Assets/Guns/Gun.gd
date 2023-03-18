@@ -74,7 +74,6 @@ func reload() -> void:
 		return
 	if is_clip_full():
 		reloaded_when_clip_full.emit()
-		return
 	#TODO: update to not use base variables
 	_reloading = true
 	reload_started.emit(_reload_time)

@@ -19,6 +19,8 @@ func on_enter() -> void:
 	#switch to move animation
 	super()
 	actor.switch_gun_back()
+	if Globals.is_aerial_state(actor.last_player_state):
+		actor.animate_dust_puff()
 
 func input(_event:InputEvent) -> BaseState:
 	#check if reloading

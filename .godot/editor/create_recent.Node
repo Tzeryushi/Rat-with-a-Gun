@@ -1,8 +1,8 @@
+GPUParticles2D
 RayCast2D
 Node2D
 Timer
 Node
-GPUParticles2D
 RichTextLabel
 CanvasLayer
 VBoxContainer

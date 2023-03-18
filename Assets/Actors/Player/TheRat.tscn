@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dcqev65agksul"]
+[gd_scene load_steps=25 format=3 uid="uid://dcqev65agksul"]
 
 [ext_resource type="Texture2D" uid="uid://dk3ko3qmdsfh8" path="res://TempAssets/2.PNG" id="1"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/Rat.gd" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerJumpState.gd" id="5"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerFallState.gd" id="6"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerIdleState.gd" id="7"]
+[ext_resource type="PackedScene" uid="uid://p5k4qkftp6q8" path="res://Assets/Particles/LandingPuff.tscn" id="7_6vij8"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerShootState.gd" id="8"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerGDashState.gd" id="9"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerADashState.gd" id="10"]
@@ -84,6 +85,7 @@ animations = [{
 collision_layer = 0
 script = ExtResource("2")
 first_gun = NodePath("BaseGun")
+dust_puff_scene = ExtResource("7_6vij8")
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 health = 4
@@ -146,7 +148,7 @@ idle_node = NodePath("../PlayerIdleState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
 animation_type = "move"
-hurtbox_state = 6
+state_type = 6
 
 [node name="PlayerJumpState" type="Node" parent="StateManager"]
 script = ExtResource("5")
@@ -157,7 +159,7 @@ move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
 animation_type = "jump"
-hurtbox_state = 1
+state_type = 1
 
 [node name="PlayerFallState" type="Node" parent="StateManager"]
 script = ExtResource("6")
@@ -169,7 +171,7 @@ shoot_node = NodePath("../PlayerShootState")
 bounce_node = NodePath("../PlayerStompState")
 hurt_node = NodePath("../PlayerHurtState")
 animation_type = "fall"
-hurtbox_state = 2
+state_type = 4
 
 [node name="PlayerIdleState" type="Node" parent="StateManager"]
 script = ExtResource("7")
@@ -180,7 +182,6 @@ move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
 animation_type = "idle"
-hurtbox_state = 3
 
 [node name="PlayerShootState" type="Node" parent="StateManager"]
 script = ExtResource("8")
@@ -191,7 +192,7 @@ idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath(".")
 hurt_node = NodePath("../PlayerHurtState")
-hurtbox_state = 2
+state_type = 2
 
 [node name="PlayerGDashState" type="Node" parent="StateManager"]
 script = ExtResource("9")
@@ -200,7 +201,7 @@ jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
-hurtbox_state = 9
+state_type = 9
 
 [node name="PlayerADashState" type="Node" parent="StateManager"]
 script = ExtResource("10")
@@ -210,7 +211,7 @@ jump_node = NodePath("../PlayerJumpState")
 idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
-hurtbox_state = 12
+state_type = 12
 
 [node name="PlayerStompState" type="Node" parent="StateManager"]
 script = ExtResource("12")
@@ -220,7 +221,7 @@ idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 hurt_node = NodePath("../PlayerHurtState")
-hurtbox_state = 7
+state_type = 7
 
 [node name="PlayerHurtState" type="Node" parent="StateManager"]
 script = ExtResource("11")
@@ -232,7 +233,7 @@ idle_node = NodePath("../PlayerIdleState")
 move_node = NodePath("../PlayerMoveState")
 shoot_node = NodePath("../PlayerShootState")
 stomp_node = NodePath("../PlayerStompState")
-hurtbox_state = 10
+state_type = 10
 
 [node name="BaseGun" parent="." instance=ExtResource("13")]
 position = Vector2(0, -43)

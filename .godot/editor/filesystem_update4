@@ -14,3 +14,9 @@ res://Assets/Actors/Player/PlayerIdleState.gd
 res://Assets/Actors/Player/PlayerGDashState.gd
 res://Assets/Actors/Player/PlayerShootState.gd
 res://Assets/Events.gd
+res://Assets/Particles/LandingPuff.tscn
+res://Assets/Particles/LandingPuff.gd
+res://Assets/Actors/Player/PlayerState.gd
+res://Assets/Actors/StateManager.gd
+res://Assets/GLOBALS.gd
+res://Assets/Particles/MuzzleFlareGlock.tscn

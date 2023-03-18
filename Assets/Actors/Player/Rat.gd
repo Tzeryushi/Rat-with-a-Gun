@@ -19,6 +19,7 @@ extends Actor
 @export var hurt_time : float = 0.5
 @export var hurt_bounceback_force : float = 800
 @export var default_invincible_time : float = 0.2
+@export var dust_puff_scene : PackedScene
 
 @onready var current_gun : Gun = get_node(first_gun)
 @onready var ground_collider := $GroundPhysicsCollider
@@ -43,6 +44,7 @@ var invincible : bool = false #to help future proof this, only interact using th
 var invincible_timer : float = 0.0
 var is_hurt : bool = false
 var last_hurt_direction : Vector2 = Vector2.ZERO #impulse direction from last painful collision
+var last_player_state : Globals.PLAYERSTATE #holds the last state type, set when exiting from a state
 
 #player signals
 signal health_changed(new_value:int, old_value:int)
@@ -98,7 +100,6 @@ func _physics_process(_delta):
 		jump_buffer_timer -= _delta
 	
 	
-	
 #player functions
 
 #jump
@@ -107,6 +108,8 @@ func jump() -> void:
 	#velocity applied until max is reached
 	velocity.y = -jump_power
 	emit_signal("jumped")
+	animate_dust_puff()
+	
 func jump_process(_delta:float) -> void:
 	#quickly decreases upwards velocity until it is 0
 	#velocity.y = move_toward(velocity.y, terminal_velo, gravity*_delta)
@@ -226,19 +229,20 @@ func check_stomp(_delta) -> bool:
 
 func switch_hitboxes(value:Globals.PLAYERSTATE) -> void:
 	#switches which hitboxes player uses, basis of animation
-	match value%3:
-		0:
-			#ground hitbox active
-			ground_collider.disabled = false
-			jump_collider.disabled = true
-			ground_hurtbox.disabled = false
-			jump_hurtbox.disabled = true
-		1:
-			#aerial hitbox active
-			ground_collider.disabled = true
-			jump_collider.disabled = false
-			ground_hurtbox.disabled = true
-			jump_hurtbox.disabled = false
+	if Globals.is_aerial_state(value):
+		print("val")
+		#aerial hitbox active
+		ground_collider.disabled = true
+		jump_collider.disabled = false
+		ground_hurtbox.disabled = true
+		jump_hurtbox.disabled = false
+	else:
+		#ground hitbox active
+		ground_collider.disabled = false
+		jump_collider.disabled = true
+		ground_hurtbox.disabled = false
+		jump_hurtbox.disabled = true
+			
 
 func hurt() -> void:
 	#uses vector from the last collision to determine direction bounce when hurt
@@ -355,6 +359,14 @@ func change_health(value:int) -> void:
 func set_health(value:int) -> void:
 	emit_signal("health_changed", value, health)
 	health = value
+
+#visual functions
+func animate_dust_puff() -> void:
+	var dust_particles : ParticleAnimation = dust_puff_scene.instantiate()
+	add_child(dust_particles)
+	dust_particles.play()
+	await dust_particles.finished
+	dust_particles.queue_free()
 
 #incoming signals
 
