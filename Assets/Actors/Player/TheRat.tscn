@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://dcqev65agksul"]
+[gd_scene load_steps=26 format=3 uid="uid://dcqev65agksul"]
 
 [ext_resource type="Texture2D" uid="uid://dk3ko3qmdsfh8" path="res://TempAssets/2.PNG" id="1"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/Rat.gd" id="2"]
 [ext_resource type="Shader" path="res://Assets/Actors/Player/TheRat.gdshader" id="2_lkamf"]
 [ext_resource type="Script" path="res://Assets/Actors/StateManager.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://vbyu06s85g51" path="res://Assets/Particles/JumpPuff.tscn" id="3_704gu"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerMoveState.gd" id="4"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerJumpState.gd" id="5"]
 [ext_resource type="Script" path="res://Assets/Actors/Player/PlayerFallState.gd" id="6"]
@@ -85,7 +86,8 @@ animations = [{
 collision_layer = 0
 script = ExtResource("2")
 first_gun = NodePath("BaseGun")
-dust_puff_scene = ExtResource("7_6vij8")
+landing_dust_puff_scene = ExtResource("7_6vij8")
+jumping_dust_puff_scene = ExtResource("3_704gu")
 animation_node = NodePath("Animations")
 state_manager_node = NodePath("StateManager")
 health = 4

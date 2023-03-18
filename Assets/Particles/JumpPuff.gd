@@ -1,7 +1,7 @@
 extends ParticleAnimation
 
-@onready var dust_1 := $Dust/Dust1
-@onready var dust_2 := $Dust/Dust2
+@onready var dust_1 := $Dust1
+@onready var dust_2 := $Dust2
 
 func _process(_delta) -> void:
 	if !dust_1.emitting and !dust_2.emitting:

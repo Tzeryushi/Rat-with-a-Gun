@@ -19,7 +19,8 @@ extends Actor
 @export var hurt_time : float = 0.5
 @export var hurt_bounceback_force : float = 800
 @export var default_invincible_time : float = 0.2
-@export var dust_puff_scene : PackedScene
+@export var landing_dust_puff_scene : PackedScene
+@export var jumping_dust_puff_scene : PackedScene
 
 @onready var current_gun : Gun = get_node(first_gun)
 @onready var ground_collider := $GroundPhysicsCollider
@@ -108,7 +109,7 @@ func jump() -> void:
 	#velocity applied until max is reached
 	velocity.y = -jump_power
 	emit_signal("jumped")
-	animate_dust_puff()
+	animate_jump_puff()
 	
 func jump_process(_delta:float) -> void:
 	#quickly decreases upwards velocity until it is 0
@@ -361,8 +362,14 @@ func set_health(value:int) -> void:
 	health = value
 
 #visual functions
-func animate_dust_puff() -> void:
-	var dust_particles : ParticleAnimation = dust_puff_scene.instantiate()
+func animate_land_puff() -> void:
+	var dust_particles : ParticleAnimation = landing_dust_puff_scene.instantiate()
+	add_child(dust_particles)
+	dust_particles.play()
+	await dust_particles.finished
+	dust_particles.queue_free()
+func animate_jump_puff() -> void:
+	var dust_particles : ParticleAnimation = jumping_dust_puff_scene.instantiate()
 	add_child(dust_particles)
 	dust_particles.play()
 	await dust_particles.finished

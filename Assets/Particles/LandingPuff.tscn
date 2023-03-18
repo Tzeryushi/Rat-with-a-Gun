@@ -6,14 +6,14 @@
 [sub_resource type="Gradient" id="Gradient_0cxqi"]
 colors = PackedColorArray(1, 1, 1, 1, 0.622881, 0.622881, 0.622881, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_j1bgf"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_iu2u4"]
 gradient = SubResource("Gradient_0cxqi")
 
 [sub_resource type="Curve" id="Curve_htm08"]
 _data = [Vector2(0.0519187, 0.797546), 0.0, 0.0, 0, 0, Vector2(0.902935, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_qd01r"]
+[sub_resource type="CurveTexture" id="CurveTexture_63hpn"]
 curve = SubResource("Curve_htm08")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lwhva"]
@@ -28,8 +28,8 @@ angular_velocity_max = 174.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 angle_max = 360.0
-scale_curve = SubResource("CurveTexture_qd01r")
-color_ramp = SubResource("GradientTexture1D_j1bgf")
+scale_curve = SubResource("CurveTexture_63hpn")
+color_ramp = SubResource("GradientTexture1D_iu2u4")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4wnc6"]
 particle_flag_disable_z = true
@@ -43,28 +43,32 @@ angular_velocity_max = 174.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 angle_max = 360.0
-scale_curve = SubResource("CurveTexture_qd01r")
-color_ramp = SubResource("GradientTexture1D_j1bgf")
+scale_curve = SubResource("CurveTexture_63hpn")
+color_ramp = SubResource("GradientTexture1D_iu2u4")
 
 [node name="LandingPuff" type="Node2D"]
 script = ExtResource("1_8k52o")
 
-[node name="Dust1" type="GPUParticles2D" parent="."]
-position = Vector2(0, 4)
+[node name="Dust" type="CanvasGroup" parent="."]
+modulate = Color(1, 1, 1, 0.776471)
+fit_margin = 1000.0
+
+[node name="Dust1" type="GPUParticles2D" parent="Dust"]
+position = Vector2(0, -9)
 scale = Vector2(0.5, 0.5)
 emitting = false
+amount = 2
 process_material = SubResource("ParticleProcessMaterial_lwhva")
 texture = ExtResource("1_hbxci")
-lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 
-[node name="Dust2" type="GPUParticles2D" parent="."]
-position = Vector2(0, 4)
+[node name="Dust2" type="GPUParticles2D" parent="Dust"]
+position = Vector2(0, -9)
 scale = Vector2(0.5, 0.5)
 emitting = false
+amount = 2
 process_material = SubResource("ParticleProcessMaterial_4wnc6")
 texture = ExtResource("1_hbxci")
-lifetime = 1.5
 one_shot = true
 explosiveness = 1.0

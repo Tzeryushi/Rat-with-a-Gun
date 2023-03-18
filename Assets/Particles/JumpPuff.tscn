@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://vbyu06s85g51"]
+
+[ext_resource type="Script" path="res://Assets/Particles/JumpPuff.gd" id="1_ep61g"]
+[ext_resource type="Texture2D" uid="uid://b5u0kwu2bqyhu" path="res://TempAssets/smoke (4).PNG" id="2_sh7bo"]
+
+[sub_resource type="Gradient" id="Gradient_1pf16"]
+colors = PackedColorArray(1, 1, 1, 1, 0.622881, 0.622881, 0.622881, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j1bgf"]
+gradient = SubResource("Gradient_1pf16")
+
+[sub_resource type="Curve" id="Curve_fmlpv"]
+_data = [Vector2(0.0519187, 0.797546), 0.0, 0.0, 0, 0, Vector2(0.902935, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qd01r"]
+curve = SubResource("Curve_fmlpv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uuu72"]
+particle_flag_disable_z = true
+direction = Vector3(10, -1, 0)
+spread = 9.0
+gravity = Vector3(0, -4, 0)
+initial_velocity_min = 8.34
+initial_velocity_max = 191.67
+angular_velocity_min = -174.0
+angular_velocity_max = 174.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_max = 360.0
+scale_curve = SubResource("CurveTexture_qd01r")
+color_ramp = SubResource("GradientTexture1D_j1bgf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71qgb"]
+particle_flag_disable_z = true
+direction = Vector3(-10, -1, 0)
+spread = 9.0
+gravity = Vector3(0, -4, 0)
+initial_velocity_min = 8.34
+initial_velocity_max = 191.67
+angular_velocity_min = -174.0
+angular_velocity_max = 174.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_max = 360.0
+scale_curve = SubResource("CurveTexture_qd01r")
+color_ramp = SubResource("GradientTexture1D_j1bgf")
+
+[node name="JumpPuff" type="Node2D"]
+script = ExtResource("1_ep61g")
+
+[node name="Dust1" type="GPUParticles2D" parent="."]
+position = Vector2(0, 4)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_uuu72")
+texture = ExtResource("2_sh7bo")
+lifetime = 1.1
+one_shot = true
+explosiveness = 1.0
+
+[node name="Dust2" type="GPUParticles2D" parent="."]
+position = Vector2(0, 4)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_71qgb")
+texture = ExtResource("2_sh7bo")
+lifetime = 1.1
+one_shot = true
+explosiveness = 1.0

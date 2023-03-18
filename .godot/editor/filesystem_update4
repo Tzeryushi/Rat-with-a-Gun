@@ -20,3 +20,5 @@ res://Assets/Actors/Player/PlayerState.gd
 res://Assets/Actors/StateManager.gd
 res://Assets/GLOBALS.gd
 res://Assets/Particles/MuzzleFlareGlock.tscn
+res://Assets/Particles/JumpPuff.tscn
+res://Assets/Particles/JumpPuff.gd
