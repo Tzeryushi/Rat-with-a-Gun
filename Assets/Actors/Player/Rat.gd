@@ -169,7 +169,9 @@ func shoot() -> void:
 	var shot_direction_vector = get_mouse_direction()
 	var shot_power = shot_direction_vector*current_gun.get_knockback()
 	#resetting upward velocities to prevent rocketing and provide proper impulse when falling
-	if shot_power.y > 0:
+	#when the gun's y velocity would be higher than the current velocity, we override
+	#otherwise, we add the impulse to the current velo
+	if velocity.y+shot_power.y > 0:
 		velocity.y = -(shot_direction_vector*current_gun.get_knockback()).y
 	elif shot_power.y < 0:
 		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
@@ -231,7 +233,6 @@ func check_stomp(_delta) -> bool:
 func switch_hitboxes(value:Globals.PLAYERSTATE) -> void:
 	#switches which hitboxes player uses, basis of animation
 	if Globals.is_aerial_state(value):
-		print("val")
 		#aerial hitbox active
 		ground_collider.disabled = true
 		jump_collider.disabled = false

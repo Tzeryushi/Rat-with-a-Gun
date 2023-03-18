@@ -10,7 +10,7 @@ colors = PackedColorArray(1, 1, 1, 1, 0.622881, 0.622881, 0.622881, 1)
 gradient = SubResource("Gradient_0cxqi")
 
 [sub_resource type="Curve" id="Curve_htm08"]
-_data = [Vector2(0.0519187, 0.797546), 0.0, 0.0, 0, 0, Vector2(0.902935, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0.0609481, 0.509202), 0.0, 0.0, 0, 0, Vector2(0.902935, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_63hpn"]
@@ -55,7 +55,7 @@ fit_margin = 1000.0
 
 [node name="Dust1" type="GPUParticles2D" parent="Dust"]
 position = Vector2(0, -9)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.75, 0.75)
 emitting = false
 amount = 2
 process_material = SubResource("ParticleProcessMaterial_lwhva")
@@ -65,7 +65,7 @@ explosiveness = 1.0
 
 [node name="Dust2" type="GPUParticles2D" parent="Dust"]
 position = Vector2(0, -9)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.75, 0.75)
 emitting = false
 amount = 2
 process_material = SubResource("ParticleProcessMaterial_4wnc6")

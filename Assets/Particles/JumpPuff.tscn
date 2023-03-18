@@ -16,7 +16,7 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_qd01r"]
 curve = SubResource("Curve_fmlpv")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uuu72"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wdkya"]
 particle_flag_disable_z = true
 direction = Vector3(10, -1, 0)
 spread = 9.0
@@ -31,7 +31,7 @@ angle_max = 360.0
 scale_curve = SubResource("CurveTexture_qd01r")
 color_ramp = SubResource("GradientTexture1D_j1bgf")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71qgb"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_54m84"]
 particle_flag_disable_z = true
 direction = Vector3(-10, -1, 0)
 spread = 9.0
@@ -51,10 +51,10 @@ script = ExtResource("1_ep61g")
 
 [node name="Dust1" type="GPUParticles2D" parent="."]
 position = Vector2(0, 4)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.65, 0.65)
 emitting = false
 amount = 5
-process_material = SubResource("ParticleProcessMaterial_uuu72")
+process_material = SubResource("ParticleProcessMaterial_wdkya")
 texture = ExtResource("2_sh7bo")
 lifetime = 1.1
 one_shot = true
@@ -62,10 +62,10 @@ explosiveness = 1.0
 
 [node name="Dust2" type="GPUParticles2D" parent="."]
 position = Vector2(0, 4)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.65, 0.65)
 emitting = false
 amount = 5
-process_material = SubResource("ParticleProcessMaterial_71qgb")
+process_material = SubResource("ParticleProcessMaterial_54m84")
 texture = ExtResource("2_sh7bo")
 lifetime = 1.1
 one_shot = true
