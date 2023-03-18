@@ -7,4 +7,10 @@ res://Assets/Guns/Bullet.tscn
 res://Assets/Actors/Enemies/Gooby/Gooby.tscn
 res://Assets/Attributes/BounceField.tscn
 res://Scenes/Levels/BaseLevel.tscn
+res://Assets/Actors/Player/Rat.gd
 res://Assets/Guns/Gun.gd
+res://Assets/Actors/Player/PlayerMoveState.gd
+res://Assets/Actors/Player/PlayerIdleState.gd
+res://Assets/Actors/Player/PlayerGDashState.gd
+res://Assets/Actors/Player/PlayerShootState.gd
+res://Assets/Events.gd

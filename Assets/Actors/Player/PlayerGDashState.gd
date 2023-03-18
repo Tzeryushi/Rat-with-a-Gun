@@ -20,7 +20,8 @@ func on_enter() -> void:
 
 func input(_event:InputEvent) -> BaseState:
 	#cycle to jump or shoot
-	if Input.is_action_just_pressed("jump"): return jump_state
+	if Input.is_action_just_pressed("jump") and actor.has_jump_space():
+		return jump_state
 	if Input.is_action_just_pressed("shoot") and actor.is_shot_ready():
 		return shoot_state
 	

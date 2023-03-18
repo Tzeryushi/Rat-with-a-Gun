@@ -25,7 +25,8 @@ func input(_event:InputEvent) -> BaseState:
 	check_reload()
 	
 	#cycle to other states
-	if Input.is_action_just_pressed("jump"): return jump_state
+	if Input.is_action_just_pressed("jump") and actor.has_jump_space():
+		return jump_state
 	elif Input.is_action_just_pressed("dash"): return g_dash_state
 	#elif Input.is_action_just_pressed("shoot"): return shoot_state
 	return null

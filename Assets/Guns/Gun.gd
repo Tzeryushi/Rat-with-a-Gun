@@ -2,11 +2,13 @@ class_name Gun
 extends Node2D
 
 @export var _damage : int = 1
-@export var _knockback : float = 100
+@export var _knockback : float = 1200
 @export var _firing_speed : float = 0.5
 @export var _reload_time : float = 1
 @export var _clip_size : int = 6
 @export var _spread : float = 1.0
+@export var _shake_strength : float = 4.0
+@export var _shake_length : float = 0.2
 @export var _hold_length : float = 10
 @export var _bullet_speed : float = 1000
 @export var _bullet_scene : PackedScene
@@ -58,7 +60,7 @@ func fire() -> Bullet:
 	
 	#firing particles
 	_emit_flare()
-	Shake.shake(3, 0.2)
+	Shake.shake(_shake_strength, _shake_length)
 	
 	#emit signal and return bullet ref
 	bullet_fired.emit(new_bullet)
@@ -140,13 +142,15 @@ func get_gun_rotation() -> Vector2:
 
 func get_bullets_in_clip() -> int:
 	return _bullets_in_clip
-
 func set_bullets_in_clip(value:int) -> void:
 	if value > 0:
 		_bullets_in_clip = value
 	elif !_reloading:
 		_bullets_in_clip = 0
 	bullets_in_clip_updated.emit(value)
+func add_bullet_to_clip() -> void:
+	if get_bullets_in_clip() < _clip_size:
+		set_bullets_in_clip(get_bullets_in_clip()+1)
 
 func is_held() -> bool:
 	return _held

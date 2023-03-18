@@ -26,7 +26,7 @@ height = 76.0
 radius = 42.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fipi7"]
-size = Vector2(20, 68)
+size = Vector2(29, 68)
 
 [sub_resource type="CircleShape2D" id="34"]
 radius = 44.0
@@ -114,7 +114,7 @@ shape = SubResource("CircleShape2D_soomv")
 
 [node name="GroundPhysicsCollider" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, -10)
+position = Vector2(-2.82347e-05, -14.5)
 rotation = 1.57079
 shape = SubResource("RectangleShape2D_fipi7")
 
@@ -236,7 +236,7 @@ hurtbox_state = 10
 
 [node name="BaseGun" parent="." instance=ExtResource("13")]
 position = Vector2(0, -43)
-_knockback = 1000.0
+_knockback = 1150.0
 _firing_speed = 0.2
 _reload_time = 2.0
 
@@ -313,6 +313,20 @@ position = Vector2(-8, -1)
 target_position = Vector2(0, 5)
 collision_mask = 8
 collide_with_areas = true
+
+[node name="OverCasts" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="OverCasts"]
+position = Vector2(0, -27)
+target_position = Vector2(0, -63)
+
+[node name="RayCast2D2" type="RayCast2D" parent="OverCasts"]
+position = Vector2(34, -27)
+target_position = Vector2(0, -63)
+
+[node name="RayCast2D3" type="RayCast2D" parent="OverCasts"]
+position = Vector2(-34, -27)
+target_position = Vector2(0, -63)
 
 [node name="DebugLine" type="Line2D" parent="."]
 z_index = -1

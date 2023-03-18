@@ -26,6 +26,7 @@ extends Actor
 @onready var ground_hurtbox := $Hurtbox/GroundHurtbox
 @onready var jump_hurtbox := $Hurtbox/JumpHurtbox
 @onready var bounce_casts := $UnderCasts
+@onready var jump_space_casts := $OverCasts
 @onready var debug_line := $DebugLine
 @onready var center_point := $Center
 @onready var back_point := $Back
@@ -136,7 +137,7 @@ func move(_direction, _delta:float) -> void:
 	else:
 		#less reverse movement in air
 		if _direction == 0:
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.2)
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.1)
 		else:
 			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2)
 	
@@ -168,7 +169,7 @@ func shoot() -> void:
 		velocity.y = -(shot_direction_vector*current_gun.get_knockback()).y
 	elif shot_power.y < 0:
 		velocity.y -= (shot_direction_vector*current_gun.get_knockback()).y
-	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x/2.5
+	velocity.x -= (shot_direction_vector*current_gun.get_knockback()).x
 	
 	#getting the bullet and storing it in the scene, outside of the player
 	#todo: store this in a specialized container node!
@@ -204,6 +205,7 @@ func stomp() -> void:
 	velocity.y = -stomp_power*stomp_multiplier
 	
 	stomped_node_reference.bounce_parent()
+	add_to_gun_clip()
 func stomp_process(_delta) -> void:
 	#carries and reduces y velocity similarly to jump process
 	velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity)
@@ -276,6 +278,12 @@ func is_jump_buffered() -> bool:
 	
 func can_coyote_jump() -> bool:
 	return coyote_time > 0.0
+func has_jump_space() -> bool:
+	#if there is space to jump, true
+	for cast in jump_space_casts.get_children():
+		if cast.is_colliding() and cast.get_collision_normal() == Vector2.DOWN:
+			return false
+	return true
 
 #invincibility functions
 func set_invincible(state:bool=true) -> void:
@@ -328,11 +336,6 @@ func sprite_rotations() -> void:
 	debug_line.clear_points()
 	debug_line.add_point(center_point.position)
 	debug_line.add_point(get_viewport().get_mouse_position() - get_global_transform_with_canvas().origin)
-
-func change_health(value:int) -> void:
-	#in the future, this will send out signals to update GUI and visual functions
-	set_health(health + value)
-
 func get_mouse_direction() -> Vector2:
 	#these specific transforms to get mouse screen position due to the viewport altering worldspace resolution
 	#this is a pain point! consider revision or connect it to the viewport!
@@ -342,6 +345,13 @@ func get_mouse_direction() -> Vector2:
 	shot_direction_vector = shot_direction_vector/shot_direction_vector.length()
 	return shot_direction_vector.normalized()
 
+func add_to_gun_clip() -> void:
+	#adds to clip and updates clip graphic
+	current_gun.add_bullet_to_clip()
+
+func change_health(value:int) -> void:
+	#in the future, this will send out signals to update GUI and visual functions
+	set_health(health + value)
 func set_health(value:int) -> void:
 	emit_signal("health_changed", value, health)
 	health = value
