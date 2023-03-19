@@ -31,5 +31,6 @@ shape = SubResource("1")
 width = 24.0
 width_curve = SubResource("Curve_4c32y")
 script = ExtResource("2_snqpp")
+trail_length = 10
 
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]

@@ -1,10 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://jhyktqbfg3ch"]
+[gd_scene load_steps=8 format=3 uid="uid://jhyktqbfg3ch"]
 
 [ext_resource type="Texture2D" uid="uid://b20hk2imh4lrv" path="res://TempAssets/needle.png" id="1_6h4uf"]
 [ext_resource type="Script" path="res://Assets/Particles/BulletSpark.gd" id="1_jevqj"]
 
+[sub_resource type="Curve" id="Curve_1jwbf"]
+max_value = 100.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_msdqo"]
+curve = SubResource("Curve_1jwbf")
+
 [sub_resource type="Curve" id="Curve_nyjj7"]
-_data = [Vector2(0.148984, 0.386503), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.858896), 0.0, 0.0, 0, 0, Vector2(0.893905, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_xr2yn"]
@@ -16,10 +24,13 @@ particle_flag_disable_z = true
 direction = Vector3(0, -10, 0)
 spread = 180.0
 gravity = Vector3(0, 98, 0)
-initial_velocity_min = 150.0
-initial_velocity_max = 300.0
+initial_velocity_min = 300.0
+initial_velocity_max = 600.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
+damping_min = 80.0
+damping_max = 80.0
+damping_curve = SubResource("CurveTexture_msdqo")
 scale_curve = SubResource("CurveTexture_xr2yn")
 
 [node name="BulletSpark" type="Node2D"]

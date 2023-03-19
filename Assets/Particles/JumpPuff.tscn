@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://vbyu06s85g51"]
+[gd_scene load_steps=13 format=3 uid="uid://vbyu06s85g51"]
 
 [ext_resource type="Script" path="res://Assets/Particles/JumpPuff.gd" id="1_ep61g"]
 [ext_resource type="Texture2D" uid="uid://b5u0kwu2bqyhu" path="res://TempAssets/smoke (4).PNG" id="2_sh7bo"]
+[ext_resource type="Texture2D" uid="uid://b2vebsqf5fa4f" path="res://TempAssets/smoke (3).PNG" id="3_x3p1x"]
 
 [sub_resource type="Gradient" id="Gradient_1pf16"]
 colors = PackedColorArray(1, 1, 1, 1, 0.622881, 0.622881, 0.622881, 1)
@@ -53,6 +54,19 @@ angle_max = 360.0
 scale_curve = SubResource("CurveTexture_qd01r")
 color_ramp = SubResource("GradientTexture1D_sxnce")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_py71u"]
+emission_shape = 1
+emission_sphere_radius = 24.46
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -360.0
+scale_min = 0.2
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_qd01r")
+color = Color(0.933333, 0.933333, 0.933333, 1)
+
 [node name="JumpPuff" type="Node2D"]
 script = ExtResource("1_ep61g")
 
@@ -66,6 +80,7 @@ texture = ExtResource("2_sh7bo")
 lifetime = 1.1
 one_shot = true
 explosiveness = 1.0
+visibility_rect = Rect2(-4000, -4000, 8000, 8000)
 
 [node name="Dust2" type="GPUParticles2D" parent="."]
 position = Vector2(0, 4)
@@ -77,3 +92,14 @@ texture = ExtResource("2_sh7bo")
 lifetime = 1.1
 one_shot = true
 explosiveness = 1.0
+visibility_rect = Rect2(-4000, -4000, 8000, 8000)
+
+[node name="Dust3" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_py71u")
+texture = ExtResource("3_x3p1x")
+one_shot = true
+explosiveness = 0.87
+randomness = 0.65
+visibility_rect = Rect2(-4000, -4000, 8000, 8000)

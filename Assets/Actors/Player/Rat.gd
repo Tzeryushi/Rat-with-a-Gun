@@ -212,6 +212,7 @@ func stomp() -> void:
 	
 	stomped_node_reference.bounce_parent()
 	add_to_gun_clip()
+	animate_jump_puff()
 func stomp_process(_delta) -> void:
 	#carries and reduces y velocity similarly to jump process
 	velocity.y = move_toward(velocity.y, terminal_velo, jump_gravity)
