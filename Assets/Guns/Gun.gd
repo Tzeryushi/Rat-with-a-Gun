@@ -13,6 +13,7 @@ extends Node2D
 @export var _bullet_speed : float = 1000
 @export var _bullet_scene : PackedScene
 @export var _flare_scene : PackedScene
+@export var _smoke_scene : PackedScene
 
 @onready var gun_sprite := $GunSprite
 @onready var back_position := $BackPosition
@@ -60,6 +61,7 @@ func fire() -> Bullet:
 	
 	#firing particles
 	_emit_flare()
+	_emit_dust()
 	Shake.shake(_shake_strength, _shake_length)
 	
 	#emit signal and return bullet ref
@@ -96,6 +98,14 @@ func _emit_flare() -> void:
 	flare_particles.play()
 	await flare_particles.finished
 	flare_particles.queue_free()
+
+func _emit_dust() -> void:
+	var smoke_particles : ParticleAnimation = _smoke_scene.instantiate()
+	add_child(smoke_particles)
+	smoke_particles.position = Vector2.RIGHT*get_muzzle_reach()
+	smoke_particles.play()
+	await smoke_particles.finished
+	smoke_particles.queue_free()
 
 func switch_held() -> void:
 	#switches to "hand" position in air

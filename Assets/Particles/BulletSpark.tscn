@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://jhyktqbfg3ch"]
+
+[ext_resource type="Texture2D" uid="uid://b20hk2imh4lrv" path="res://TempAssets/needle.png" id="1_6h4uf"]
+[ext_resource type="Script" path="res://Assets/Particles/BulletSpark.gd" id="1_jevqj"]
+
+[sub_resource type="Curve" id="Curve_nyjj7"]
+_data = [Vector2(0.148984, 0.386503), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xr2yn"]
+curve = SubResource("Curve_nyjj7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6mqos"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, -10, 0)
+spread = 180.0
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_xr2yn")
+
+[node name="BulletSpark" type="Node2D"]
+script = ExtResource("1_jevqj")
+
+[node name="Sparks" type="GPUParticles2D" parent="."]
+rotation = -1.57079
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_6mqos")
+texture = ExtResource("1_6h4uf")
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-4000, -4000, 8000, 8000)

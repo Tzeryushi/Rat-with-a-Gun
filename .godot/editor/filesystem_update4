@@ -22,3 +22,9 @@ res://Assets/GLOBALS.gd
 res://Assets/Particles/MuzzleFlareGlock.tscn
 res://Assets/Particles/JumpPuff.tscn
 res://Assets/Particles/JumpPuff.gd
+res://Assets/Particles/ShootPuff.tscn
+res://Assets/Particles/ShootPuff.gd
+res://Assets/Attributes/VisualResources/SmokeTrail.gd
+res://Assets/Guns/Bullet.gd
+res://Assets/Particles/BulletSpark.tscn
+res://Assets/Particles/BulletSpark.gd

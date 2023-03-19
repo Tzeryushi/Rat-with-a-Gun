@@ -242,6 +242,7 @@ position = Vector2(0, -43)
 _knockback = 1150.0
 _firing_speed = 0.2
 _reload_time = 2.0
+_bullet_speed = 1300.0
 
 [node name="UnderCasts" type="Node2D" parent="."]
 

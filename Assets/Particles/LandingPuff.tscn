@@ -49,11 +49,8 @@ color_ramp = SubResource("GradientTexture1D_iu2u4")
 [node name="LandingPuff" type="Node2D"]
 script = ExtResource("1_8k52o")
 
-[node name="Dust" type="CanvasGroup" parent="."]
-modulate = Color(1, 1, 1, 0.776471)
-fit_margin = 1000.0
-
-[node name="Dust1" type="GPUParticles2D" parent="Dust"]
+[node name="Dust1" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.780392)
 position = Vector2(0, -9)
 scale = Vector2(0.75, 0.75)
 emitting = false
@@ -63,7 +60,8 @@ texture = ExtResource("1_hbxci")
 one_shot = true
 explosiveness = 1.0
 
-[node name="Dust2" type="GPUParticles2D" parent="Dust"]
+[node name="Dust2" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.780392)
 position = Vector2(0, -9)
 scale = Vector2(0.75, 0.75)
 emitting = false

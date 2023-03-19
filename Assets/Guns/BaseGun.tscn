@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7m87fv7olha4"]
+[gd_scene load_steps=7 format=3 uid="uid://b7m87fv7olha4"]
 
 [ext_resource type="Script" path="res://Assets/Guns/Gun.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://d15yytkcst3dt" path="res://Assets/Guns/Bullet.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://cv11mcm5xjsal" path="res://Assets/Particles/MuzzleFlareGlock.tscn" id="3_8wqei"]
 [ext_resource type="Texture2D" uid="uid://vecgebt1vcb" path="res://TempAssets/Paint Layer 4.PNG" id="3_sd3mp"]
+[ext_resource type="PackedScene" uid="uid://gc5aeqpqhk50" path="res://Assets/Particles/ShootPuff.tscn" id="4_cb1gn"]
 
 [sub_resource type="SpriteFrames" id="2"]
 animations = [{
@@ -20,6 +21,7 @@ animations = [{
 script = ExtResource("1")
 _bullet_scene = ExtResource("3")
 _flare_scene = ExtResource("3_8wqei")
+_smoke_scene = ExtResource("4_cb1gn")
 
 [node name="GunSprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

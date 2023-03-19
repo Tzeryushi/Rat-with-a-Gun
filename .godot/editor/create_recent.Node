@@ -1,5 +1,7 @@
-CanvasGroup
+CPUParticles2D
 GPUParticles2D
+Line2D
+CanvasGroup
 RayCast2D
 Node2D
 Timer
