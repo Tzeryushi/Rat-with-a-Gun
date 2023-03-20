@@ -135,13 +135,15 @@ func move(_direction, _delta:float) -> void:
 	if (_direction >= 1 or _direction <= -1) and is_grounded():
 		animations.scale.x = sign(_direction)*abs(animations.scale.x)
 	
-	if is_grounded() and sign(_direction)!=sign(velocity.x):
+	if is_grounded() or (_direction!=0 and sign(_direction)!=sign(velocity.x)):
 		#simulated friction for grounded movement
 		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2)
 	else:
 		#less reverse movement in air
-		if _direction == 0:
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.1)
+		if _direction == 0 and abs(velocity.x)<max_speed:
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.2)
+		elif (sign(velocity.x)<0 and velocity.x < -max_speed) or (sign(velocity.x)>0 and velocity.x > max_speed):
+			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.8)
 		else:
 			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2)
 	
