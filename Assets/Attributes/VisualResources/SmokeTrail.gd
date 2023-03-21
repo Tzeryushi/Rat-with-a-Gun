@@ -5,7 +5,7 @@ extends Line2D
 
 var hit : bool = false
 
-func _process(delta) -> void:
+func _process(_delta) -> void:
 	global_position = Vector2.ZERO
 	global_rotation = 0
 	if hit:
