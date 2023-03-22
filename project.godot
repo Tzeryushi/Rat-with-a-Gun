@@ -91,6 +91,8 @@ reload={
 2d_physics/layer_3="Pain"
 2d_physics/layer_4="Stomp"
 2d_physics/layer_5="Player Bullets"
+2d_physics/layer_6="Pass-Through"
+2d_physics/layer_7="MapEffects"
 
 [physics]
 

@@ -270,8 +270,6 @@ func is_grounded() -> bool:
 	var value = is_on_floor()
 	if !value and was_grounded:
 		coyote_time = coyote_time_tolerance
-	if was_grounded != value:
-		print("switch")
 	was_grounded = value
 	return value
 func is_moving_up() -> bool:

@@ -13,6 +13,8 @@ texture_region_size = Vector2i(64, 64)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_1/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k1pnp"]
 texture = ExtResource("3_orvna")
@@ -20,6 +22,8 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_1/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jq02i"]
 texture = ExtResource("4_ofav7")
@@ -27,6 +31,8 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_1/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0nsgb"]
 texture = ExtResource("5_vv7eq")
@@ -34,13 +40,17 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -10.5, -32, -11)
-0:0/0/physics_layer_0/polygon_0/one_way = true
-0:0/0/physics_layer_0/polygon_0/one_way_margin = 10.0
+0:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_1/angular_velocity = 0.0
+0:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/0/physics_layer_1/polygon_0/one_way = true
+0:0/0/physics_layer_1/polygon_0/one_way_margin = 10.0
 
 [sub_resource type="TileSet" id="TileSet_50ode"]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
+physics_layer_1/collision_layer = 32
+physics_layer_1/collision_mask = 32
 sources/0 = SubResource("TileSetAtlasSource_x367k")
 sources/1 = SubResource("TileSetAtlasSource_k1pnp")
 sources/2 = SubResource("TileSetAtlasSource_jq02i")
@@ -52,4 +62,10 @@ script = ExtResource("1_mu6yb")
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_50ode")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 262144, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0, 0, 524288, 0, 0, 589824, 0, 0, 589825, 0, 0, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 10, 0, 0, 65546, 0, 0, 131082, 0, 0, 196618, 0, 0, 262154, 0, 0, 327690, 0, 0, 393226, 0, 0, 458762, 0, 0, 524298, 0, 0, 1, 0, 0, 2, 0, 0, 9, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 393218, 3, 0, 393219, 3, 0, 393220, 3, 0)
+layer_0/name = "Base Layer"
+
+[node name="Entrance" type="Node2D" parent="TileMap"]
+position = Vector2(45, 0)
+
+[node name="Exit" type="Node2D" parent="TileMap"]
+position = Vector2(19, 0)

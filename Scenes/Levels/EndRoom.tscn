@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://djlfpwhrmuofw"]
+
+[ext_resource type="PackedScene" uid="uid://cxs0i16btffpr" path="res://Scenes/Levels/Room.tscn" id="1_tnw8s"]
+[ext_resource type="Script" path="res://Scenes/Levels/EndRoom.gd" id="2_rvxnu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gt8ro"]
+size = Vector2(100, 100)
+
+[node name="Room" instance=ExtResource("1_tnw8s")]
+script = ExtResource("2_rvxnu")
+
+[node name="TileMap" parent="." index="0"]
+layer_0/tile_data = PackedInt32Array(65536, 0, 0, 65537, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 65550, 0, 0, 131072, 0, 0, 196608, 0, 0, 262144, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0, 0, 524288, 0, 0, 524302, 0, 0, 524289, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589836, 0, 0, 589835, 0, 0, 589828, 0, 0, 589837, 0, 0, 14, 0, 0, 65551, 0, 0, 131087, 0, 0, 196623, 0, 0, 262159, 0, 0, 327695, 0, 0, 393231, 0, 0, 458767, 0, 0, 524303, 0, 0, 589838, 0, 0, 655364, 0, 0, 655371, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 327687, 2, 0, 327688, 2, 0, 262152, 2, 0, 262151, 2, 0)
+
+[node name="Entrance" parent="TileMap" index="0"]
+position = Vector2(355, 680)
+
+[node name="Exit" parent="TileMap" index="1"]
+position = Vector2(3, 0)
+
+[node name="ExitPortal" type="Area2D" parent="." index="1"]
+collision_layer = 64
+collision_mask = 64
+
+[node name="ExitCollision" type="CollisionShape2D" parent="ExitPortal" index="0"]
+position = Vector2(513, 322)
+shape = SubResource("RectangleShape2D_gt8ro")
+
+[connection signal="body_entered" from="ExitPortal" to="." method="_on_exit_portal_entered"]
