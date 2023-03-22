@@ -5,13 +5,14 @@ extends Actor
 @export var first_gun : NodePath
 
 @export var acceleration : float = 30.0
-@export var max_speed : float = 600.0
+@export var max_movement_speed : float = 600.0
 @export var jump_power : float = 1400.0
 @export var jump_cancel_power: float = 2000
 @export var jump_gravity : float = 40
 @export var stomp_power : float = 1500
 @export var gravity : float = 50.0
 @export var terminal_velo : float = 1500.0
+@export var max_horizontal_speed : float = 2500.00
 @export var dash_multiplier : float = 3.0
 @export var dash_time : float = 0.5
 @export var jump_buffer_tolerance : float = 0.1
@@ -137,15 +138,17 @@ func move(_direction, _delta:float) -> void:
 	
 	if is_grounded() or (_direction!=0 and sign(_direction)!=sign(velocity.x)):
 		#simulated friction for grounded movement
-		velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2)
+		velocity.x = move_toward(velocity.x, max_movement_speed*_direction, acceleration*2)
 	else:
 		#less reverse movement in air
-		if _direction == 0 and abs(velocity.x)<max_speed:
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.2)
-		elif (sign(velocity.x)<0 and velocity.x < -max_speed) or (sign(velocity.x)>0 and velocity.x > max_speed):
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*.8)
+		if _direction == 0 and abs(velocity.x)<max_movement_speed:
+			velocity.x = move_toward(velocity.x, max_movement_speed*_direction, acceleration*.2)
+		elif (sign(velocity.x)<0 and velocity.x < -max_movement_speed) or (sign(velocity.x)>0 and velocity.x > max_movement_speed):
+			velocity.x = move_toward(velocity.x, max_movement_speed*_direction, acceleration*.8)
 		else:
-			velocity.x = move_toward(velocity.x, max_speed*_direction, acceleration*2)
+			velocity.x = move_toward(velocity.x, max_movement_speed*_direction, acceleration*2)
+	
+	velocity.x = min(velocity.x, max_horizontal_speed)
 	
 	#set_velocity(Vector2(velocity.x, 0.0))
 	#set_up_direction(Vector2.UP)
@@ -197,7 +200,7 @@ func switch_gun_held() -> void:
 #idle
 func idle(_delta:float) -> void:
 	#anything that needs to happen when idle
-	velocity.x = move_toward(velocity.x, max_speed*0, acceleration)
+	velocity.x = move_toward(velocity.x, max_movement_speed*0, acceleration)
 #	set_velocity(Vector2(velocity.x, 0.0))
 #	set_up_direction(Vector2.UP)
 #	move_and_slide()
@@ -257,7 +260,7 @@ func hurt() -> void:
 	is_hurt = false
 func hurt_process(_delta:float) -> void:
 	#simulates fall and move while in hurt state (no inputs)
-	velocity.x = move_toward(velocity.x, max_speed*0, acceleration/2)
+	velocity.x = move_toward(velocity.x, max_movement_speed*0, acceleration/2)
 	if !is_grounded():
 		velocity.y = move_toward(velocity.y, terminal_velo, gravity)
 
@@ -267,6 +270,8 @@ func is_grounded() -> bool:
 	var value = is_on_floor()
 	if !value and was_grounded:
 		coyote_time = coyote_time_tolerance
+	if was_grounded != value:
+		print("switch")
 	was_grounded = value
 	return value
 func is_moving_up() -> bool:

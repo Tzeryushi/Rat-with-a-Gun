@@ -9,5 +9,6 @@ res://Assets/Particles/ShootPuff.tscn
 res://Assets/Particles/BulletSpark.tscn
 res://Assets/Particles/JumpPuff.tscn
 res://Assets/Actors/Player/Rat.gd
-res://Assets/Attributes/VisualResources/SmokeTrail.gd
-res://Scenes/Levels/TestLevel.gd
+res://Scenes/Levels/Room.tscn
+res://Scenes/Levels/Room.gd
+res://Assets/Actors/Player/PlayerIdleState.gd
