@@ -5,14 +5,16 @@ extends BaseScene
 @export var end_room_scene : PackedScene
 @export var start_room_scene : PackedScene
 
-@onready var map_container := $MapContainer
+@export var player_node : NodePath
+@export var debug_node : NodePath
 
+@onready var map_container := $MapContainer
+@onready var player : PlayerRat = get_node(player_node)
+@onready var debug : DebugContainer = get_node(debug_node)
 
 func _ready() -> void:
+	debug.connect_to_player(player)
 	populate_level()
-
-func _process(_delta) -> void:
-	$CanvasLayer/Label.text = str(Engine.get_frames_per_second())
 
 #win should be called upon reaching the end of a level
 func _win() -> void:

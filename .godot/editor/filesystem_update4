@@ -24,3 +24,4 @@ res://Scenes/Levels/StartRoom.gd
 res://Scenes/Levels/StartRoom.tscn
 res://Scenes/Levels/EndRoom.gd
 res://Scenes/Levels/EndRoom.tscn
+res://Scenes/DebugVals.gd
