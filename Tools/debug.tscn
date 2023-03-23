@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc6rqb4je4ck1"]
+
+[ext_resource type="Script" path="res://Scenes/DebugVals.gd" id="1_pl5hj"]
+
+[node name="DebugVals" type="VBoxContainer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 254.0
+grow_vertical = 2
+script = ExtResource("1_pl5hj")
+
+[node name="DEBUG" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=red]DEBUG"
+fit_content = true
+
+[node name="Health" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Health:"
+fit_content = true
+
+[node name="Combo" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Combo: 0"
+fit_content = true
+
+[node name="ComboTimer" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Combo Time Left: 0"
+fit_content = true
+
+[node name="Timer" type="Timer" parent="ComboTimer"]
+one_shot = true
+
+[node name="Gold" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Gold: [color=orange]0"
+fit_content = true
+
+[node name="Clip" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]Clip:"
+fit_content = true
+
+[node name="ReloadTime" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave][color=green]Loaded"
+fit_content = true
+
+[node name="Timer" type="Timer" parent="ReloadTime"]
+one_shot = true
+
+[node name="FireTime" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave][color=green]Fireable"
+fit_content = true
+
+[node name="Timer" type="Timer" parent="FireTime"]
+one_shot = true
+
+[node name="Invincible" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave][color=red]Invincible: NO"
+fit_content = true
+
+[node name="FrameRate" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave][color=purple]Frame Rate: "
+fit_content = true

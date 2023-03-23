@@ -197,6 +197,12 @@ bbcode_enabled = true
 text = "[wave][color=red]Invincible: NO"
 fit_content = true
 
+[node name="FrameRate" type="RichTextLabel" parent="HUD/DebugHUD/DebugVals"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave][color=purple]Frame Rate: "
+fit_content = true
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_ompc5")
 format = 2

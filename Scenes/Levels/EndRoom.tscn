@@ -19,8 +19,9 @@ position = Vector2(355, 680)
 position = Vector2(3, 0)
 
 [node name="ExitPortal" type="Area2D" parent="." index="1"]
-collision_layer = 64
+collision_layer = 0
 collision_mask = 64
+monitoring = false
 
 [node name="ExitCollision" type="CollisionShape2D" parent="ExitPortal" index="0"]
 position = Vector2(513, 322)

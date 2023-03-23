@@ -83,8 +83,8 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-collision_layer = 0
-collision_mask = 97
+collision_layer = 64
+collision_mask = 33
 script = ExtResource("2")
 first_gun = NodePath("BaseGun")
 landing_dust_puff_scene = ExtResource("7_6vij8")

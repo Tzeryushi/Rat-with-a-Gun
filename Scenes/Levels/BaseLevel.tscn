@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://boiws0memv7n0" path="res://Scenes/Levels/TestLevel/Rooms/test_room_5.tscn" id="6_7m00q"]
 [ext_resource type="PackedScene" uid="uid://djlfpwhrmuofw" path="res://Scenes/Levels/EndRoom.tscn" id="7_715g3"]
 [ext_resource type="PackedScene" uid="uid://b3kl4620u66k5" path="res://Scenes/Levels/StartRoom.tscn" id="8_v3rct"]
-[ext_resource type="Script" path="res://Scenes/DebugVals.gd" id="10_0e7d4"]
+[ext_resource type="PackedScene" uid="uid://dc6rqb4je4ck1" path="res://Tools/debug.tscn" id="10_5do5o"]
 
 [node name="BaseLevel" type="Node2D"]
 script = ExtResource("1_a25ot")
@@ -22,7 +22,6 @@ debug_node = NodePath("CanvasLayer/DebugHUD/DebugVals")
 [node name="MapContainer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("3_bp332")]
-collision_layer = 64
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(0.8, 0.8)
@@ -36,79 +35,8 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
 
-[node name="DebugVals" type="VBoxContainer" parent="CanvasLayer/DebugHUD"]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 254.0
-grow_vertical = 2
-script = ExtResource("10_0e7d4")
-
-[node name="DEBUG" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[color=red]DEBUG"
-fit_content = true
-
-[node name="Health" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave]Health:"
-fit_content = true
-
-[node name="Combo" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave]Combo: 0"
-fit_content = true
-
-[node name="ComboTimer" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave]Combo Time Left: 0"
-fit_content = true
-
-[node name="Timer" type="Timer" parent="CanvasLayer/DebugHUD/DebugVals/ComboTimer"]
-one_shot = true
-
-[node name="Gold" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave]Gold: [color=orange]0"
-fit_content = true
-
-[node name="Clip" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave]Clip:"
-fit_content = true
-
-[node name="ReloadTime" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave][color=green]Loaded"
-fit_content = true
-
-[node name="Timer" type="Timer" parent="CanvasLayer/DebugHUD/DebugVals/ReloadTime"]
-one_shot = true
-
-[node name="FireTime" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave][color=green]Fireable"
-fit_content = true
-
-[node name="Timer" type="Timer" parent="CanvasLayer/DebugHUD/DebugVals/FireTime"]
-one_shot = true
-
-[node name="Invincible" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave][color=red]Invincible: NO"
-fit_content = true
-
-[node name="FrameRate" type="RichTextLabel" parent="CanvasLayer/DebugHUD/DebugVals"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[wave][color=purple]Frame Rate: "
-fit_content = true
+[node name="DebugVals" parent="CanvasLayer/DebugHUD" instance=ExtResource("10_5do5o")]
+layout_mode = 0
+anchors_preset = 0
+anchor_bottom = 0.0
+grow_vertical = 1
