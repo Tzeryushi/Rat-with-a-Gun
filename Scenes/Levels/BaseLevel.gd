@@ -22,6 +22,7 @@ func _ready() -> void:
 	debug.connect_to_player(player)
 	debug.visible = false
 	populate_level()
+	Shake.set_camera($Player/Camera2D)
 
 func _input(_event) -> void:
 	if Input.is_action_just_pressed("debug"):

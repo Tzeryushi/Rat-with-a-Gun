@@ -23,6 +23,7 @@ func _bob_up() -> void:
 
 func be_bounced_on() -> void:
 	super.be_bounced_on()
+	Shake.shake(10,0.3)
 	destruct()
 
 func destruct() -> void:

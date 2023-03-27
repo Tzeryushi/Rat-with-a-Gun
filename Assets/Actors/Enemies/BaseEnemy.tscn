@@ -1,3 +1,31 @@
-[gd_scene format=3 uid="uid://cl3ipnldujt4t"]
+[gd_scene load_steps=6 format=3 uid="uid://cl3ipnldujt4t"]
 
-[node name="BaseEnemy" type="Node2D"]
+[ext_resource type="Script" path="res://Assets/Actors/Enemies/BaseEnemy.gd" id="1_tohaf"]
+[ext_resource type="PackedScene" uid="uid://1gnelaggvl6n" path="res://Assets/Attributes/BounceField.tscn" id="2_qbwhn"]
+[ext_resource type="Script" path="res://Assets/Actors/StateManager.gd" id="3_q7x56"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgch2"]
+size = Vector2(76, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o6b8h"]
+radius = 45.0
+
+[node name="BaseEnemy" type="CharacterBody2D"]
+script = ExtResource("1_tohaf")
+
+[node name="BounceField" parent="." instance=ExtResource("2_qbwhn")]
+position = Vector2(0, 5)
+stomp_strength = 0.9
+
+[node name="BounceCollision" type="CollisionShape2D" parent="BounceField"]
+position = Vector2(0, -87)
+shape = SubResource("RectangleShape2D_vgch2")
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -46)
+shape = SubResource("CircleShape2D_o6b8h")
+
+[node name="StateManager" type="Node" parent="."]
+script = ExtResource("3_q7x56")
+
+[node name="Animations" type="AnimatedSprite2D" parent="."]
