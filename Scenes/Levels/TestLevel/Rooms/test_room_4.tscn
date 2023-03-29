@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7co0w3a1kwoh"]
+[gd_scene load_steps=3 format=3 uid="uid://c7co0w3a1kwoh"]
 
 [ext_resource type="PackedScene" uid="uid://cxs0i16btffpr" path="res://Scenes/Levels/Room.tscn" id="1_arfpr"]
+[ext_resource type="PackedScene" uid="uid://dsqp5q3vfehfn" path="res://Scenes/Levels/SpawnPoint.tscn" id="2_a2ag0"]
 
 [node name="TestRoom4" instance=ExtResource("1_arfpr")]
 
@@ -12,3 +13,12 @@ position = Vector2(419, 806)
 
 [node name="Exit" parent="TileMap" index="1"]
 position = Vector2(-868, 155)
+
+[node name="Spawn1" parent="EnemySpawnPoints" index="0" instance=ExtResource("2_a2ag0")]
+position = Vector2(-658, 545)
+
+[node name="Spawn2" parent="EnemySpawnPoints" index="1" instance=ExtResource("2_a2ag0")]
+position = Vector2(-169, 546)
+
+[node name="Spawn3" parent="EnemySpawnPoints" index="2" instance=ExtResource("2_a2ag0")]
+position = Vector2(327, 557)

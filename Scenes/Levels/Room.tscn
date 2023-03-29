@@ -69,3 +69,5 @@ position = Vector2(45, 0)
 
 [node name="Exit" type="Node2D" parent="TileMap"]
 position = Vector2(19, 0)
+
+[node name="EnemySpawnPoints" type="Node2D" parent="."]

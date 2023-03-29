@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://drwolf7sxbn3f"]
+[gd_scene load_steps=3 format=3 uid="uid://drwolf7sxbn3f"]
 
 [ext_resource type="PackedScene" uid="uid://cxs0i16btffpr" path="res://Scenes/Levels/Room.tscn" id="1_6y4tn"]
+[ext_resource type="PackedScene" uid="uid://dsqp5q3vfehfn" path="res://Scenes/Levels/SpawnPoint.tscn" id="2_4coqk"]
 
 [node name="Room" instance=ExtResource("1_6y4tn")]
 
@@ -12,3 +13,12 @@ position = Vector2(168, 865)
 
 [node name="Exit" parent="TileMap" index="1"]
 position = Vector2(292, 36)
+
+[node name="Spawn1" parent="EnemySpawnPoints" index="0" instance=ExtResource("2_4coqk")]
+position = Vector2(154, 251)
+
+[node name="Spawn2" parent="EnemySpawnPoints" index="1" instance=ExtResource("2_4coqk")]
+position = Vector2(141, 742)
+
+[node name="Spawn3" parent="EnemySpawnPoints" index="2" instance=ExtResource("2_4coqk")]
+position = Vector2(632, 407)

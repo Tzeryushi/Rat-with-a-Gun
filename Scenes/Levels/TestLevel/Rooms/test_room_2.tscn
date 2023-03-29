@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cg3t4ruelbji5"]
+[gd_scene load_steps=3 format=3 uid="uid://cg3t4ruelbji5"]
 
 [ext_resource type="PackedScene" uid="uid://cxs0i16btffpr" path="res://Scenes/Levels/Room.tscn" id="1_uyiwp"]
+[ext_resource type="PackedScene" uid="uid://dsqp5q3vfehfn" path="res://Scenes/Levels/SpawnPoint.tscn" id="2_swv56"]
 
 [node name="TestRoom2" instance=ExtResource("1_uyiwp")]
 
@@ -12,3 +13,30 @@ position = Vector2(1505, 1184)
 
 [node name="Exit" parent="TileMap" index="1"]
 position = Vector2(292, -50)
+
+[node name="Spawn1" parent="EnemySpawnPoints" index="0" instance=ExtResource("2_swv56")]
+position = Vector2(25, 201)
+
+[node name="Spawn2" parent="EnemySpawnPoints" index="1" instance=ExtResource("2_swv56")]
+position = Vector2(42, 912)
+
+[node name="Spawn3" parent="EnemySpawnPoints" index="2" instance=ExtResource("2_swv56")]
+position = Vector2(711, 637)
+
+[node name="Spawn4" parent="EnemySpawnPoints" index="3" instance=ExtResource("2_swv56")]
+position = Vector2(1424, 273)
+
+[node name="Spawn5" parent="EnemySpawnPoints" index="4" instance=ExtResource("2_swv56")]
+position = Vector2(1337, 984)
+
+[node name="Spawn6" parent="EnemySpawnPoints" index="5" instance=ExtResource("2_swv56")]
+position = Vector2(376, 288)
+
+[node name="Spawn7" parent="EnemySpawnPoints" index="6" instance=ExtResource("2_swv56")]
+position = Vector2(1000, 927)
+
+[node name="Spawn8" parent="EnemySpawnPoints" index="7" instance=ExtResource("2_swv56")]
+position = Vector2(1792, 787)
+
+[node name="Spawn9" parent="EnemySpawnPoints" index="8" instance=ExtResource("2_swv56")]
+position = Vector2(1527, 571)

@@ -28,6 +28,7 @@ func connect_to_player(_player:PlayerRat) -> void:
 	player.reload_finished.connect(_on_player_reload_finished)
 	player.reload_started.connect(_on_player_reload_started)
 	_player_connected = true
+	$Health.text = "Health: [color=green]" + str(_player.health)
 
 func disconnect_player() -> void:
 	player.bullets_in_clip_updated.disconnect(_on_player_bullets_in_clip_updated)

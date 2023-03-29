@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cug6m76g3af5u"]
+[gd_scene load_steps=12 format=3 uid="uid://cug6m76g3af5u"]
 
 [ext_resource type="Script" path="res://Scenes/Levels/BaseLevel.gd" id="1_a25ot"]
 [ext_resource type="PackedScene" uid="uid://drwolf7sxbn3f" path="res://Scenes/Levels/TestLevel/Rooms/testRoom1.tscn" id="2_dls2x"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://boiws0memv7n0" path="res://Scenes/Levels/TestLevel/Rooms/test_room_5.tscn" id="6_7m00q"]
 [ext_resource type="PackedScene" uid="uid://djlfpwhrmuofw" path="res://Scenes/Levels/EndRoom.tscn" id="7_715g3"]
 [ext_resource type="PackedScene" uid="uid://b3kl4620u66k5" path="res://Scenes/Levels/StartRoom.tscn" id="8_v3rct"]
+[ext_resource type="PackedScene" uid="uid://cl3ipnldujt4t" path="res://Assets/Actors/Enemies/BaseEnemy.tscn" id="9_jbv8q"]
 [ext_resource type="PackedScene" uid="uid://dc6rqb4je4ck1" path="res://Tools/debug.tscn" id="10_5do5o"]
 
 [node name="BaseLevel" type="Node2D"]
@@ -16,10 +17,13 @@ script = ExtResource("1_a25ot")
 room_scenes = Array[PackedScene]([ExtResource("2_dls2x"), ExtResource("3_lh3e6"), ExtResource("4_c3n8b"), ExtResource("5_7cptx"), ExtResource("6_7m00q")])
 end_room_scene = ExtResource("7_715g3")
 start_room_scene = ExtResource("8_v3rct")
+test_enemy_scene = ExtResource("9_jbv8q")
 player_node = NodePath("Player")
 debug_node = NodePath("CanvasLayer/DebugHUD/DebugVals")
 
 [node name="MapContainer" type="Node2D" parent="."]
+
+[node name="EnemyContainer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("3_bp332")]
 
