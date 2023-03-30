@@ -21,3 +21,4 @@ res://Scenes/TestLevel.tscn
 res://Scenes/DebugVals.gd
 res://Assets/Actors/Enemies/Gooby/Gooby.gd
 res://Assets/Guns/Bullet.tscn
+res://Assets/Particles/LandingPuff.tscn

@@ -1,6 +1,6 @@
 extends BaseScene
 
-@export var total_rooms : int = 1 #decides how tall a level is, may elect for height instead
+@export var total_rooms : int = 3 #decides how tall a level is, may elect for height instead
 @export var room_scenes : Array[PackedScene]
 @export var end_room_scene : PackedScene
 @export var start_room_scene : PackedScene
@@ -87,10 +87,7 @@ func populate_level() -> void:
 		if room is Room:
 			for point in room.get_enemy_spawn_points():
 				point.spawn_triggered.connect(on_spawn_point_triggered)
-	
-	#check any spawns that may have already collided
-	
-	
+
 	level_loaded.emit()
 
 #wipes the loaded level scenes, careful of player position!
@@ -98,7 +95,11 @@ func clear_level() -> void:
 	player.position.y = -20000
 	for room in map_container.get_children():
 		if room is Room:
+			for point in room.get_enemy_spawn_points():
+				point.spawn_triggered.disconnect(on_spawn_point_triggered)
 			room.queue_free()
+	for enemy in enemy_container.get_children():
+		enemy.queue_free()
 	level_cleared.emit()
 
 #spawn an enemy when a point calls for it

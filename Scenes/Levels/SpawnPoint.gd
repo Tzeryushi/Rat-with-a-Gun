@@ -4,7 +4,7 @@ extends Node2D
 #stores information like spawn radius, which allows/disallows enemies of certain sizes to spawn
 
 @export var spawn_radius : float = 50.0
-@export var spawn_detection_radius : float = 1250.0
+@export var spawn_detection_radius : float = 2050.0
 
 @onready var detection_node := $SpawnDetection/SpawnDetectionRadius
 

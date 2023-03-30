@@ -18,7 +18,7 @@ position = Vector2(292, 36)
 position = Vector2(154, 251)
 
 [node name="Spawn2" parent="EnemySpawnPoints" index="1" instance=ExtResource("2_4coqk")]
-position = Vector2(141, 742)
+position = Vector2(104, 780)
 
 [node name="Spawn3" parent="EnemySpawnPoints" index="2" instance=ExtResource("2_4coqk")]
 position = Vector2(632, 407)
